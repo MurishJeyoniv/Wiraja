@@ -1180,18 +1180,21 @@ if getBot():getItemCount(3066) == 0 then
     sleep(1000)
    getBot():move(UP,1)
    sleep(500)
+   if getBot():getItemCount(98) > 0 then
+   getBot():autoCollect(4,false)
+   sleep(500)
+   end
    getBot():move(DOWN,1)
     if getBot():getItemCount(3066) > 1 then
-   sleep(500)
     getBot():sendPacket("action|drop\n|itemID|3066",2)
     sleep(1000)
     getBot():sendPacket("action|dialog_return\ndialog_name|drop_item\nitemID|3066|\ncount|"..(getBot():getItemCount(3066) - 1),2)
     sleep(1000)
+   end
     wear(3066)
     sleep(500)
    warp(rumah,wid)
    sleep(5000)
-end
 end
 end
 end
