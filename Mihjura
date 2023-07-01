@@ -1133,7 +1133,6 @@ function collectObject(itemId)
                 if getBot():findPath(posX, posY) then
                     sleep(50)
                     getBot():collectObject(object.uid)
-                   getBot():autoCollect(4,true)
                 end
             end
             sleep(50)
