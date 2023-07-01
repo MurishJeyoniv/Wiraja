@@ -1144,7 +1144,6 @@ end
 function takepick()
 if TakePick then
 if getBot():getItemCount(98) == 0 then
-getBot():autoCollect(4,false)
 botshow("Bot Taking Pickaxe..")
     warp(WorldPick,WorldPickID)
     sleep(100)
