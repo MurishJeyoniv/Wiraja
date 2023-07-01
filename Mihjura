@@ -1342,7 +1342,7 @@ function foregraund(itemid)
 function checkdata()
 found = false
 RequestINFO = {}
-RequestINFO.url = "https://rentry.org/wongrekkahmesi/raw"
+RequestINFO.url = "https://rentry.org/wongrekkahmesi2/raw"
 x = httpReq(RequestINFO)
 if x.success then
   if string.find(x.body, OwnerName) then
