@@ -333,7 +333,7 @@ seeddrop = 0
 
 function cekbuyer()
 RequestINFO = {}
-RequestINFO.url = "https://rentry.org/angkamahbeda/raw"
+RequestINFO.url = "https://rentry.org/angkanyamahsama/raw"
 x = httpReq(RequestINFO)
 if x.success then
 end
