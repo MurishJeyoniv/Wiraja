@@ -1128,7 +1128,6 @@ function collectObject(itemId)
             local posY = math.floor(object.pos.y / 32)
             if getBot():isInside(posX, posY,10) then
                 getBot():collectObject(object.uid)
-            getBot():autoCollect(4,true)
             else
                 if getBot():findPath(posX, posY) then
                     sleep(50)
