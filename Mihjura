@@ -449,7 +449,7 @@ te = os.time() - t
             }
         )
         $embedObject = @{
-            title = "**<:HuTao_Yawn:825316612927127574> Jopy Rotation V1.0 ( Surfer ) <:HuTao_Yawn:825316612927127574> ( ]]..cekbuyer()..[[ Buyers )**"
+            title = "**<:HuTao_Yawn:825316612927127574> Jopy Rotation V2.0 ( Surfer ) <:HuTao_Yawn:825316612927127574> ( ]]..cekbuyer()..[[ Buyers )**"
             color = "]]..math.random(111111,999999)..[["
             thumbnail = $thumbnailObject
             footer = $footerObject
@@ -516,7 +516,7 @@ else
             }
         )
         $embedObject = @{
-            title = "**<:HuTao_Yawn:825316612927127574> Jopy Rotation V1.0 ( Surfer ) <:HuTao_Yawn:825316612927127574> ( ]]..cekbuyer()..[[ Buyers )**"
+            title = "**<:HuTao_Yawn:825316612927127574> Jopy Rotation V2.0 ( Surfer ) <:HuTao_Yawn:825316612927127574> ( ]]..cekbuyer()..[[ Buyers )**"
             color = "]]..math.random(111111,999999)..[["
             thumbnail = $thumbnailObject
             footer = $footerObject
