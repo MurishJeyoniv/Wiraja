@@ -193,28 +193,33 @@ end
 end
 
 
-PassBotList = BotList[getBot():getLocal().name:upper()].PassBotList
-BotListChange = BotList[getBot():getLocal().name:upper()].BotListChange
-JoinMeetWorld = BotList[getBot():getLocal().name:upper()].JoinMeetWorld
-UseWebhookStatus = BotList[getBot():getLocal().name:upper()].UseWebhookStatus
-WorldSavePackID = BotList[getBot():getLocal().name:upper()].WorldSavePackID
-WorldSavePack = BotList[getBot():getLocal().name:upper()].WorldSavePack
-seedid = BotList[getBot():getLocal().name:upper()].seedid
-WorldSaveSeed = BotList[getBot():getLocal().name:upper()].WorldSaveSeed
-WorldSaveSeedID = BotList[getBot():getLocal().name:upper()].WorldSaveSeedID
-WorldList = BotList[getBot():getLocal().name:upper()].WorldList
-slot = BotList[getBot():getLocal().name:upper()].slot
-wid = BotList[getBot():getLocal().name:upper()].wid
-loop = BotList[getBot():getLocal().name:upper()].loop
-start = BotList[getBot():getLocal().name:upper()].startfrom
-stop = #BotList[getBot():getLocal().name:upper()].WorldList
-WhStatus = BotList[getBot():getLocal().name:upper()].WhStatus
-MessageID = BotList[getBot():getLocal().name:upper()].MessageID
-ChangeBotWhenMaxLevel = BotList[getBot():getLocal().name:upper()].ChangeBotWhenMaxLevel
-maxlevel = BotList[getBot():getLocal().name:upper()].maxlevel
-posX = BotList[getBot():getLocal().name:upper()].posX
-posY = BotList[getBot():getLocal().name:upper()].posY
-Guest = BotList[getBot():getLocal().name:upper()].Guest
+local fullName = getBot():getLocal().name:upper()
+local searchPattern = "(%w+)_"
+
+local searchName = string.match(fullName, searchPattern)
+
+PassBotList = BotList[searchName].PassBotList
+BotListChange = BotList[searchName].BotListChange
+JoinMeetWorld = BotList[searchName].JoinMeetWorld
+UseWebhookStatus = BotList[searchName].UseWebhookStatus
+WorldSavePackID = BotList[searchName].WorldSavePackID
+WorldSavePack = BotList[searchName].WorldSavePack
+seedid = BotList[searchName].seedid
+WorldSaveSeed = BotList[searchName].WorldSaveSeed
+WorldSaveSeedID = BotList[searchName].WorldSaveSeedID
+WorldList = BotList[searchName].WorldList
+slot = BotList[searchName].slot
+wid = BotList[searchName].wid
+loop = BotList[searchName].loop
+start = BotList[searchName].startfrom
+stop = #BotList[searchName].WorldList
+WhStatus = BotList[searchName].WhStatus
+MessageID = BotList[searchName].MessageID
+ChangeBotWhenMaxLevel = BotList[searchName].ChangeBotWhenMaxLevel
+maxlevel = BotList[searchName].maxlevel
+posX = BotList[searchName].posX
+posY = BotList[searchName].posY
+Guest = BotList[searchName].Guest
 
 blockid = seedid-1
 posXBreak = posX-1
