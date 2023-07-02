@@ -198,6 +198,10 @@ local searchPattern = "(%w+)_"
 
 local searchName = string.match(fullName, searchPattern)
 
+if searchName == nil then
+  searchName = fullName
+end
+
 PassBotList = BotList[searchName].PassBotList
 BotListChange = BotList[searchName].BotListChange
 JoinMeetWorld = BotList[searchName].JoinMeetWorld
