@@ -595,7 +595,7 @@ function soilmode()
             end
             while getBot():getTile(tile.x, tile.y).fg == (seedid + 3) and getBot():getTile(tile.x, tile.y).flags ~= 0 do
               punch(0,1)
-              sleep(delayharvest)
+              sleep(delayharvest + 200)
               reconnect(posX - 1, posY - 1)
             end
           end
@@ -613,7 +613,7 @@ function soilmode()
             end
             while getBot():getTile(tile.x, tile.y).fg == (seedid + 3) and getBot():getTile(tile.x, tile.y).flags ~= 0 do
               punch(0,1)
-              sleep(delayharvest)
+              sleep(delayharvest + 200)
               reconnect(posX - 1, posY - 1)
             end
           end
