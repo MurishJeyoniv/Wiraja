@@ -1235,15 +1235,16 @@ botshow("Bot Taking Pickaxe..")
     while getBot():getItemCount(98) == 0 do
  collectObject(98)
     getBot():move(LEFT,1)
-    sleep(1000)
+    sleep(2000)
    getBot():move(UP,1)
-   sleep(500)
+   sleep(1000)
    getBot():move(DOWN,1)
+    sleep(1000)
    if getBot():getItemCount(98) > 0 then
    getBot():autoCollect(4,false)
    sleep(2000)
    end
-    while getBot():getItemCount(98) > 1 do
+   if getBot():getItemCount(98) > 1 then
     getBot():sendPacket("action|drop\n|itemID|98",2)
     sleep(1000)
     getBot():sendPacket("action|dialog_return\ndialog_name|drop_item\nitemID|98|\ncount|"..(getBot():getItemCount(98) - 1),2)
@@ -1842,6 +1843,7 @@ if not checknya then
 checkdata()
 end
 if checknya then
+sleep(5000)
 takepick()
 takehose()
 warp(world,wid)
