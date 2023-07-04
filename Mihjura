@@ -241,7 +241,6 @@ end
 
 PassBotList = BotList[searchName].PassBotList
 BotListChange = BotList[searchName].BotListChange
-JoinMeetWorld = BotList[searchName].JoinMeetWorld
 UseWebhookStatus = BotList[searchName].UseWebhookStatus
 WorldSavePackID = BotList[searchName].WorldSavePackID
 WorldSavePack = BotList[searchName].WorldSavePack
