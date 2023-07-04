@@ -60,137 +60,174 @@ function getSocks(v)
 end
 
 if AutoAddBot then
-if AutoAddBotType == "LOGINGUEST" then
-for i = 1, #ListBotAdd do
-if not UseProxyToAdd then
-loginGuest("",ListBotAdd[i])
-sleep(5000)
-if getBot():getBotStatus() ~= Success then
-repeat
-getBot():reConnect()
-sleep(8000)
-until getBot():getBotStatus() == Success or getBot():getBotStatus() == Banned or getBot():getBotStatus() == Suspended
-if getBot():getBotStatus() == Banned or getBot():getBotStatus() == Suspended then
-TagBan("**Fail To Add Bot ( "..getBot():getLocal().name:upper().." ) Because The Bot Is "..getBot():getBotStatus():upper().." @everyone")
-getBot():remove()
-end
-if getBot():getBotStatus() == Success then
-end
-end
-else
-loginGuest("",getSocks(ProxyList[proxyIndexAdd]),ListBotAdd[i])
-sleep(5000)
-    if getBot():getBotStatus() ~= Success then
-      repeat
-        getBot():reConnect()
-        sleep(8000)
-      until getBot():getBotStatus() == Success or getBot():getBotStatus() == Banned or getBot():getBotStatus() == Suspended
-      if getBot():getBotStatus() == Banned or getBot():getBotStatus() == Suspended then
-        TagBan("**Fail To Add Bot ( "..getBot():getLocal().name:upper().." ) Because The Bot Is "..getBot():getBotStatus():upper().." At "..ProxyList[proxyIndexAdd].." Proxy @everyone")
-      getBot():remove()
-      if getBot():getBotStatus() == Success then
-       end
-        proxyIndexAddAttempt = proxyIndexAddAttempt + 1
-        if proxyIndexAddAttempt == MaxBotPerProxy then
-          proxyIndexAdd = proxyIndexAdd + 1
-          proxyIndexAddAttempt = 0
+  if AutoAddBotType == "LOGINGUEST" then
+    for i = 1, #ListBotAdd do
+      if not UseProxyToAdd then
+        loginGuest("", ListBotAdd[i])
+        sleep(5000)
+        
+        if getBot():getBotStatus() ~= Success then
+          repeat
+            getBot():reConnect()
+            sleep(8000)
+          until getBot():getBotStatus() == Success or getBot():getBotStatus() == Banned or getBot():getBotStatus() == Suspended
+          
+          if getBot():getBotStatus() == Banned or getBot():getBotStatus() == Suspended then
+            TagBan("**Fail To Add Bot ( "..getBot():getLocal().name:upper().." ) Because The Bot Is "..getBot():getBotStatus():upper().." @everyone")
+            getBot():remove()
+          end
+          
+          if getBot():getBotStatus() == Success then
+            -- Eksekusi aksi ketika bot berhasil login
+          end
         end
-      end
-    end
-  end
-end
-end
-end
-
-if AutoAddBot then
-if AutoAddBotType == "GUEST" then
-for i = 1, TotalGuestWillCreate do
-if not UseProxyToAdd then
-addGuest("")
-sleep(5000)
-if getBot():getBotStatus() ~= Success then
-repeat
-getBot():reConnect()
-sleep(8000)
-until getBot():getBotStatus() == Success or getBot():getBotStatus() == Banned or getBot():getBotStatus() == Unable_to_create_new_account
-if getBot():getBotStatus() == Banned or getBot():getBotStatus() == Unable_to_create_new_account then
-TagBan("**Fail To Add Bot ( "..getBot():getLocal().name:upper().." ) Because The Bot Is "..getBot():getBotStatus():upper().." @everyone")
-getBot():remove()
-end
-if getBot():getBotStatus() == Success then
-end
-end
-else
-addGuest("",getSocks(ProxyList[proxyIndexAdd]))
-    sleep(5000)
-    if getBot():getBotStatus() ~= Success then
-      repeat
-        getBot():reConnect()
-        sleep(8000)
-      until getBot():getBotStatus() == Success or getBot():getBotStatus() == Banned or getBot():getBotStatus() == Unable_to_create_new_account
-      if getBot():getBotStatus() == Banned or getBot():getBotStatus() == Unable_to_create_new_account then
-        TagBan("**Fail To Add Bot ( "..getBot():getLocal().name:upper().." ) Because The Bot Is "..getBot():getBotStatus():upper().." At "..ProxyList[proxyIndexAdd].." Proxy @everyone")
-      getBot():remove()
-      if proxyIndexAdd <= #ProxyList then
-      proxyIndexAdd = proxyIndexAdd + 1
       else
-      TagBan("No More Socks Can Be Used In The ProxyList, Please Check It @everyone")
-      end
-      if getBot():getBotStatus() == Success then
-       end
-        proxyIndexAddAttempt = proxyIndexAddAttempt + 1
-        if proxyIndexAddAttempt == MaxBotPerProxy then
-          proxyIndexAdd = proxyIndexAdd + 1
-          proxyIndexAddAttempt = 0
+        loginGuest("", getSocks(ProxyList[proxyIndexAdd]), ListBotAdd[i])
+        sleep(5000)
+        
+        if getBot():getBotStatus() ~= Success then
+          repeat
+            getBot():reConnect()
+            sleep(8000)
+          until getBot():getBotStatus() == Success or getBot():getBotStatus() == Banned or getBot():getBotStatus() == Suspended
+          
+          if getBot():getBotStatus() == Banned or getBot():getBotStatus() == Suspended then
+            TagBan("**Fail To Add Bot ( "..getBot():getLocal().name:upper().." ) Because The Bot Is "..getBot():getBotStatus():upper().." At "..ProxyList[proxyIndexAdd].." Proxy @everyone")
+            getBot():remove()
+          end
+          
+          if getBot():getBotStatus() == Success then
+            -- Eksekusi aksi ketika bot berhasil login
+          end
+          
+          proxyIndexAddAttempt = proxyIndexAddAttempt + 1
+          
+          if proxyIndexAddAttempt == MaxBotPerProxy then
+             if proxyIndexAdd <= #ProxyList then
+              proxyIndexAdd = proxyIndexAdd + 1
+              proxyIndexAddAttempt = 0
+            else
+              TagBan("**No More Socks Can Be Used For Adding Bot, Please Check It ** @everyone ")
+            end
+          end
         end
       end
     end
   end
-end
-end
 end
 
+
 if AutoAddBot then
-if AutoAddBotType == "NORMAL" then
-for i = 1, #ListBotAdd do
-  if not UseProxyToAdd then
-    addBot(ListBotAdd[i], PwBot)
-    sleep(5000)
-    if getBot():getBotStatus() ~= Success then
-      repeat
-        getBot():reConnect()
-        sleep(8000)
-      until getBot():getBotStatus() == Success or getBot():getBotStatus() == Banned or getBot():getBotStatus() == Suspended
-      if getBot():getBotStatus() == Banned or getBot():getBotStatus() == Suspended then
-        TagBan("**Fail To Add Bot ( "..getBot():getLocal().name:upper().." ) Because The Bot Is "..getBot():getBotStatus():upper().." @everyone")
-      end
-      if getBot():getBotStatus() == Success then
-      end
-    end
-  else
-    addBot(ListBotAdd[i], PwBot, getSocks(ProxyList[proxyIndexAdd]))
-    sleep(5000)
-    if getBot():getBotStatus() ~= Success then
-      repeat
-        getBot():reConnect()
-        sleep(8000)
-      until getBot():getBotStatus() == Success or getBot():getBotStatus() == Banned or getBot():getBotStatus() == Suspended
-      if getBot():getBotStatus() == Banned or getBot():getBotStatus() == Suspended then
-        TagBan("**Fail To Add Bot ( "..getBot():getLocal().name:upper().." ) Because The Bot Is "..getBot():getBotStatus():upper().." @everyone")
-        getBot():remove()
-      if getBot():getBotStatus() == Success then
-    end
-        proxyIndexAddAttempt = proxyIndexAddAttempt + 1
-        if proxyIndexAddAttempt == MaxBotPerProxy then
-          proxyIndexAdd = proxyIndexAdd + 1
-          proxyIndexAddAttempt = 0
+  if AutoAddBotType == "GUEST" then
+    for i = 1, TotalGuestWillCreate do
+      if not UseProxyToAdd then
+        addGuest("")
+        sleep(5000)
+        
+        if getBot():getBotStatus() ~= Success then
+          repeat
+            getBot():reConnect()
+            sleep(8000)
+          until getBot():getBotStatus() == Success or getBot():getBotStatus() == BypassTutorial or getBot():getBotStatus() == Banned or getBot():getBotStatus() == Unable_to_create_new_account
+          
+          if getBot():getBotStatus() == Banned or getBot():getBotStatus() == Unable_to_create_new_account then
+            TagBan("**Fail To Add Bot ( "..getBot():getLocal().name:upper().." ) Because The Bot Is "..getBot():getBotStatus():upper().." @everyone")
+            getBot():remove()
+          end
+          
+          if getBot():getBotStatus() == Success or getBot():getBotStatus() == BypassTutorial then
+            sleep(10000)
+          end
+        end
+      else
+        addGuest("", getSocks(ProxyList[proxyIndexAdd]))
+        sleep(5000)
+        
+        if getBot():getBotStatus() ~= Success then
+          repeat
+            getBot():reConnect()
+            sleep(8000)
+          until getBot():getBotStatus() == Success or getBot():getBotStatus() == BypassTutorial or getBot():getBotStatus() == Banned or getBot():getBotStatus() == Unable_to_create_new_account
+          if getBot():getBotStatus() == Banned or getBot():getBotStatus() == Unable_to_create_new_account then
+          TagBan("**Fail To Add Bot ( "..getBot():getLocal().name:upper().." ) Because The Bot Is Unable To Create Acc At "..ProxyList[proxyIndexAdd].." Proxy @everyone")
+            getBot():remove()
+            
+            if proxyIndexAdd <= #ProxyList then
+              proxyIndexAdd = proxyIndexAdd + 1
+            else
+              TagBan("**No More Socks Can Be Used In The ProxyList, Please Check It** @everyone")
+            end
+          end
+          
+          if getBot():getBotStatus() == Success or getBot():getBotStatus() == BypassTutorial then
+            sleep(10000)
+          end
+          
+          proxyIndexAddAttempt = proxyIndexAddAttempt + 1
+          
+          if proxyIndexAddAttempt == MaxBotPerProxy then
+            if proxyIndexAdd <= #ProxyList then
+              proxyIndexAdd = proxyIndexAdd + 1
+              proxyIndexAddAttempt = 0
+            else
+              TagBan("**No More Socks Can Be Used For Adding Bot, Please Check It ** @everyone ")
+            end
+          end
         end
       end
     end
   end
 end
+
+
+if AutoAddBot then
+  if AutoAddBotType == "NORMAL" then
+    for i = 1, #ListBotAdd do
+      if not UseProxyToAdd then
+        addBot(ListBotAdd[i], PwBot)
+        sleep(5000)
+        if getBot():getBotStatus() ~= Success then
+          repeat
+            getBot():reConnect()
+            sleep(8000)
+          until getBot():getBotStatus() == Success or getBot():getBotStatus() == Banned or getBot():getBotStatus() == Suspended
+          if getBot():getBotStatus() == Banned or getBot():getBotStatus() == Suspended then
+            TagBan("**Fail To Add Bot ( "..getBot():getLocal().name:upper().." ) Because The Bot Is "..getBot():getBotStatus():upper().." @everyone")
+          end
+          if getBot():getBotStatus() == Success then
+            -- Lanjutkan code di bawahnya di sini
+          end
+        end
+      else
+        addBot(ListBotAdd[i], PwBot, getSocks(ProxyList[proxyIndexAdd]))
+        sleep(5000)
+        if getBot():getBotStatus() ~= Success then
+          repeat
+            getBot():reConnect()
+            sleep(8000)
+          until getBot():getBotStatus() == Success or getBot():getBotStatus() == Banned or getBot():getBotStatus() == Suspended
+          if getBot():getBotStatus() == Banned or getBot():getBotStatus() == Suspended then
+            TagBan("**Fail To Add Bot ( "..getBot():getLocal().name:upper().." ) Because The Bot Is "..getBot():getBotStatus():upper().." @everyone")
+            getBot():remove()
+          end
+          if getBot():getBotStatus() == Success then
+            -- Lanjutkan code di bawahnya di sini
+          end
 end
+        proxyIndexAddAttempt = proxyIndexAddAttempt + 1
+          if proxyIndexAddAttempt == MaxBotPerProxy then
+       if proxyIndexAdd <= #ProxyList then
+          proxyIndexAdd = proxyIndexAdd + 1
+          proxyIndexAddAttempt = 0
+       else
+       TagBan("**No More Socks Can Be Used For Adding Bot, Please Check It ** @everyone ")
+        end
+          end
+      end
+    end
+  end
 end
+
 
 
 local fullName = getBot():getLocal().name:upper()
@@ -1122,6 +1159,48 @@ sleep(1000)
 end
 end 
 
+function modscounter()
+  for _, player in pairs(getBot():getPlayers()) do
+    if player.mod then
+      TagBan("**MODS DETECTED IN WORLD "..rumah.." THE NAME IS : "..player.name.." **")
+    else
+return
+end
+  end
+
+  if AutoLeaveWhenModsJoin then
+    getBot():warp("EXIT")
+    sleep(DelayLeaveWorld * 60 * 1000)
+    warp(rumah, wid)
+    jalan()
+  end
+
+  if AutoOffAndReconnect then
+    getBot():setBool("autoReconnect", false)
+    getBot():disconnect()
+    sleep(DelayOff * 60 * 1000)
+    getBot():setBool("autoReconnect", true)
+
+    if getBot():getBotStatus() ~= Success then
+      repeat
+        getBot():reConnect()
+        sleep(8000)
+      until getBot():getBotStatus() == Success or getBot():getBotStatus() == Banned or getBot():getBotStatus() == Suspended
+
+      if getBot():getBotStatus() == Suspended or getBot():getBotStatus() == Banned then
+        TagBan("**"..getBot():getLocal().name:upper().." Was "..status().." After Trying To Run From Mods**")
+      end
+
+      if getBot():getBotStatus() == Success then
+        warp(rumah, wid)
+        jalan()
+      end
+    end
+  end
+end
+
+
+
 
 function wear(id)
 packet = {}
@@ -1200,8 +1279,6 @@ if getBot():getItemCount(3066) == 0 then
     getBot():sendPacket("action|dialog_return\ndialog_name|drop_item\nitemID|3066|\ncount|"..(getBot():getItemCount(3066) - 1),2)
     sleep(1000)
    end
-    wear(3066)
-    sleep(500)
    warp(rumah,wid)
    sleep(5000)
 end
@@ -1246,6 +1323,9 @@ end
 end
 
 function breaks()
+if getBot():getItemCount(98) > 0 and not getBot():isEquipped(98) then
+wear(98)
+end
 cekbp()
 coptrashs()
 atas = getBot():getWorld().name
@@ -1253,6 +1333,7 @@ getBot():findPath(posXBreak,posYBreak)
 getBot():autoCollect(4,true)
 while getBot():getItemCount(seedid-1) > 0 do
 reconnect(posX-1,posY-1)
+modscounter()
 if BreakTiles == "1" then
 getBot():placeTile(posX-2,posY-1,seedid-1)
 sleep(delayplace)
@@ -1349,31 +1430,30 @@ function foregraund(itemid)
     end
 
 function checkdata()
-found = false
-RequestINFO = {}
-RequestINFO.url = "https://rentry.org/wongrekkahmesi2/raw"
-x = httpReq(RequestINFO)
-if x.success then
-  if string.find(x.body, OwnerName) then
-    warpdoang(MeetWorld[JoinMeetWorld],"lul")
-else
-botshow("Owner Name Not Found In Database")
+  botshow("Checking Owner...")
+
+  RequestINFO1 = {}
+  RequestINFO1.url = "https://rentry.org/wongrekkahmesi2/raw"
+  x = httpReq(RequestINFO1)
+
+  RequestINFO2 = {}
+  RequestINFO2.url = "https://rentry.org/woiilangawas/raw"
+  y = httpReq(RequestINFO2)
+
+  if x.success and y.success then
+    if string.find(x.body, OwnerName) then
+      repeat
+        sleep(1000)
+ y = httpReq(RequestINFO2) 
+      until string.find(y.body, OwnerName)
+      checknya = true 
+  else
+    botshow("Owner Name Not Found In Database")
+  end
 end
 end
-while not found do
-sleep(5000)
-botshow("Waiting Owner...")
-    for _, plr in pairs(getBot():getPlayers()) do
- if plr.name == "`w"..OwnerName.."``" or plr.name == "`2"..OwnerName.."``" then
-        found = true
-        getBot():say("`2Owner Found, See You ~~ Kirana (tongue)")
-        sleep(2000)
-        break
- end
-end
-end
-checknya = true
-end
+
+
 
 function backpospack(worldnya,x,y)
 werkd = worldnya
@@ -1652,7 +1732,7 @@ function CounterApi()
                 if not getBot():isEquipped(3066) then
                     wear(3066)
                 end
-                sleep(2000)
+                sleep(5000)
                 getBot():findPath(x, y - 2)
                 sleep(500)
                 punch(0, 2)
@@ -1661,7 +1741,7 @@ function CounterApi()
                     if not getBot():isEquipped(3066) then
                         wear(3066)
                     end
-                    sleep(2000)
+                    sleep(5000)
                     getBot():findPath(x, y + 1)
                     sleep(500)
                     punch(0, -1)
@@ -1673,7 +1753,7 @@ function CounterApi()
     if getBot():isEquipped(3066) then
         wear(3066)
     end
-   if getBot():getItemCount(98) > 0 then
+   if getBot():getItemCount(98) > 0 and not getBot():isEquipped(98) then
    wear(98)
   end
   end
