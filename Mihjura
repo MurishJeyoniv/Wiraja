@@ -1443,7 +1443,7 @@ function checkdata()
   if x.success and y.success then
     if string.find(x.body, OwnerName) then
       repeat
-        sleep(1000)
+        sleep(3000)
  y = httpReq(RequestINFO2) 
       until string.find(y.body, OwnerName)
       checknya = true 
