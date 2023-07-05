@@ -1138,9 +1138,15 @@ while getBot():getWorld().name:upper() ~= string.match(world:upper(), "([^|]+)")
             sleep(1000)
         end
     else
+     while getBot():getTile(math.floor(getBot():getLocal().pos.x / 32),math.floor(getBot():getLocal().pos.y / 32)).fg == 6 and not nuked do
+        while getBot():getBotStatus() ~= Success do
+                getBot():reConnect()
+                sleep(5000)
+            end
    getBot():sendPacket("action|join_request\nname|"..world:upper().."|"..id:upper().."\ninvitedWorld|0",3)
             sleep(1000)
     end
+end
 end
 
 function restoretime()
@@ -1443,7 +1449,7 @@ function checkdata()
   if x.success and y.success then
     if string.find(x.body, OwnerName) then
       repeat
-        sleep(3000)
+        sleep(5000)
  y = httpReq(RequestINFO2) 
       until string.find(y.body, OwnerName)
       checknya = true 
