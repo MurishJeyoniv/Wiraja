@@ -305,41 +305,6 @@ function tre()
       return readytree
     end
 
-function findPath(x,y)
-    local px = math.floor(getBot():getLocal().pos.x/32)
-    local py = math.floor(getBot():getLocal().pos.y/32)
-    local posX = x - px
-    local posY = y - py
-    if posY > 6 then
-        for i = 0, math.floor(posY/4)do
-            py = py + 4
-            sleep(100)
-            getBot():findPath(px,py)
-        end
-    elseif posY <-6 then
-        for i = 1,  math.floor(posY/-4) do
-            py = py - 4
-            sleep(100)
-            getBot():findPath(px,py)
-        end
-    end
-    if posX > 6 then
-        for i = 1, math.floor(posX/4)do
-            px = px + 4
-            sleep(100)
-            getBot():findPath(px,py)
-        end
-    elseif posX <-6 then
-        for i = 1,  math.floor(posX/-4) do
-            px = px - 4
-            sleep(100)
-            getBot():findPath(px,py)
-        end
-    end
-    sleep(50)
-    getBot():findPath(x,y)
-    Sleep(50)
-end
 
 function totaltree()
   local readytree = 0
@@ -623,7 +588,7 @@ function soilmode()
       getBot():autoCollect(4, true)
       for _, tile in pairs(getBot():getTiles()) do
         if getBot():getTile(tile.x, tile.y - 1).fg == seedid and getBot():canHarvest(tile.x, tile.y - 1) and getBot():getItemCount(seedid - 1) < 165 then
-            getBot():findPath(tile.x, tile.y - 1)
+            findPath(tile.x, tile.y - 1)
             while getBot():getTile(tile.x, tile.y - 1).fg == seedid and getBot():canHarvest(tile.x, tile.y - 1) do
               reconnect(posX - 1, posY - 1)
               getBot():hitTile(tile.x, tile.y - 1)
@@ -641,7 +606,7 @@ function soilmode()
       for _, tile in pairs(getBot():getTiles()) do
         if getBot():getTile(tile.x, tile.y - 1).fg == seedid and getBot():canHarvest(tile.x, tile.y - 1) and getBot():getItemCount(seedid - 1) < 165 then
           if not blacklistTiles or check(tile.x, tile.y) then
-            getBot():findPath(tile.x, tile.y - 1)
+            findPath(tile.x, tile.y - 1)
             while getBot():getTile(tile.x, tile.y - 1).fg == seedid and getBot():canHarvest(tile.x, tile.y - 1) do
               reconnect(posX - 1, posY - 1)
               getBot():hitTile(tile.x, tile.y - 1)
@@ -688,7 +653,7 @@ if ChangeBotWhenMaxLevel then
             warp(WorldSaveSeed,WorldSaveSeedID)
             for _, tile in pairs(getBot():getTiles()) do
             if tile.fg == IDPatokanSeed then
-            getBot():findPath(tile.x+1,tile.y)
+            findPath(tile.x+1,tile.y)
             sleep(500)
      end
   end
@@ -823,7 +788,7 @@ function antiToxic()
         while scanBlock(778) > 0 do
             for _,tile in pairs(getBot():getTiles()) do
                 if tile.fg == 778 and getBot():getTile(tile.x,tile.y -1).flags==0 then
-                    getBot():findPath(tile.x,tile.y-2)
+                    findPath(tile.x,tile.y-2)
                     while getBot():getTile(math.floor(getBot():getLocal().pos.x/32), math.floor(getBot():getLocal().pos.y/32) +2).fg == 778 do
                         punch(0,  2)
                         sleep(160)
@@ -832,7 +797,7 @@ function antiToxic()
             end
             for _,tile in pairs(getBot():getTiles())do
                 if tile.fg == 778 and getBot():getTile(tile.x+1,tile.y).flags==0 then
-                    getBot():findPath(tile.x,tile.y)
+                    findPath(tile.x,tile.y)
                     while getBot():getTile(math.floor(getBot():getLocal().pos.x/32)+1, math.floor(getBot():getLocal().pos.y/32)).fg == 778 do
                         punch(1, 0)
                         sleep(160)
@@ -970,7 +935,7 @@ werkd = rumah
             until getBot():getTile(math.floor(getBot():getLocal().pos.x / 32),math.floor(getBot():getLocal().pos.y / 32)).fg ~= 6
             if x and y and getBot():getBotStatus() == Success and getBot():getWorld().name:upper() == werkd:upper() then
                 repeat
-                    getBot():findPath(x,y)
+                    findPath(x,y)
                     sleep(400)
                 until math.floor(getBot():getLocal().pos.x / 32) == x or math.floor(getBot():getLocal().pos.y / 32) == y
             end
@@ -1062,6 +1027,41 @@ end
 end
 end
 
+function findPath(x,y)
+    local px = math.floor(getBot():getLocal().pos.x/32)
+    local py = math.floor(getBot():getLocal().pos.y/32)
+    local posX = x - px
+    local posY = y - py
+    if posY > 6 then
+        for i = 0, math.floor(posY/4)do
+            py = py + 4
+            sleep(100)
+            getBot():findPath(px,py)
+        end
+    elseif posY <-6 then
+        for i = 1,  math.floor(posY/-4) do
+            py = py - 4
+            sleep(100)
+            getBot():findPath(px,py)
+        end
+    end
+    if posX > 6 then
+        for i = 1, math.floor(posX/4)do
+            px = px + 4
+            sleep(100)
+            getBot():findPath(px,py)
+        end
+    elseif posX <-6 then
+        for i = 1,  math.floor(posX/-4) do
+            px = px - 4
+            sleep(100)
+            getBot():findPath(px,py)
+        end
+    end
+    sleep(50)
+    getBot():findPath(x,y)
+    sleep(50)
+end
 
 function harvest()
 antiToxic()
@@ -1071,7 +1071,7 @@ getBot():autoCollect(4,true)
 for _, tile in pairs(getBot():getTiles()) do
 if getBot():getTile(tile.x,tile.y-1).fg == seedid and getBot():canHarvest(tile.x,tile.y-1) and getBot():getItemCount(seedid-1) < 165 then
 if not blacklistTiles or check(tile.x,tile.y) then
-getBot():findPath(tile.x,tile.y-1)
+findPath(tile.x,tile.y-1)
 while getBot():getTile(tile.x,tile.y - 1).fg == seedid and getBot():canHarvest(tile.x,tile.y-1) do
 reconnect(tile.x,tile.y-1)
 getBot():hitTile(tile.x,tile.y-1)
@@ -1091,7 +1091,7 @@ addBot(GrowidTakeGems,PasswordGrowid)
       sleep(10000)
 warp(atas,wid:upper())
       getBot():autoCollect(5,true)
-      getBot():findPath(0,y)
+      findPath(0,y)
 for _,rah in pairs(getBot():getObjects()) do
         if rah.id == 112 then
           while rah.count > 0 do
@@ -1099,7 +1099,7 @@ for _,rah in pairs(getBot():getObjects()) do
               getBot():move(RIGHT,3)
             end
             y = y + 2
-            getBot():findPath(0,y)
+            findPath(0,y)
           end
           if rah.count == 0 then
             getBot():remove()
@@ -1118,7 +1118,7 @@ for _, tile in pairs(getBot():getTiles()) do
 if tile.fg ~= 0 and tile.fg ~= seedid and getBot():getTile(tile.x, tile.y-1).fg ~= seedid-1 and getBot():getTile(tile.x, tile.y-1).fg ~= seedid and getBot():getItemCount(seedid) > 0 then
 if getBot():getTile(tile.x, tile.y-1).fg == 0 then
 if not blacklistTiles or check(tile.x,tile.y) then
-getBot():findPath(tile.x, tile.y-1)
+findPath(tile.x, tile.y-1)
 sleep(20)
 if getBot():getTile(math.floor(getBot():getLocal().pos.x / 32), math.floor(getBot():getLocal().pos.y / 32)).fg == 0 then
 reconnect(tile.x,tile.y-1)
@@ -1258,7 +1258,7 @@ function collectObject(itemId)
             if getBot():isInside(posX, posY,10) then
                 getBot():collectObject(object.uid)
             else
-                if getBot():findPath(posX, posY) then
+                if findPath(posX, posY) then
                     sleep(50)
                     getBot():collectObject(object.uid)
                 end
@@ -1371,7 +1371,7 @@ end
 cekbp()
 coptrashs()
 atas = getBot():getWorld().name
-getBot():findPath(posXBreak,posYBreak)
+findPath(posXBreak,posYBreak)
 getBot():autoCollect(4,true)
 while getBot():getItemCount(seedid-1) > 0 do
 reconnect(posX-1,posY-1)
@@ -1505,7 +1505,7 @@ werkd = worldnya
             sleep(1000)
             if x and y and getBot():getBotStatus() == Success and getBot():getWorld().name:upper() == werkd:upper() then
                 repeat
-                    getBot():findPath(x,y)
+                    findPath(x,y)
                     sleep(100)
                 until math.floor(getBot():getLocal().pos.x / 32) == x or math.floor(getBot():getLocal().pos.y / 32) == y
             end
@@ -1530,7 +1530,7 @@ werkd = worldnya
             sleep(1000)
             if x and y and getBot():getBotStatus() == Success and getBot():getWorld().name:upper() == werkd:upper() then
                 repeat
-                    getBot():findPath(x,y)
+                    findPath(x,y)
                     sleep(100)
                 until math.floor(getBot():getLocal().pos.x / 32) == x or math.floor(getBot():getLocal().pos.y / 32) == y
             end
@@ -1633,7 +1633,7 @@ atas = getBot():getWorld().name
             if tile.fg == IDPatokanPack or tile.bg == IDPatokanPack then
                 if CekTilePack(tile.x,tile.y,getBot():getItemCount(pack)) then
                     while math.floor(getBot():getLocal().pos.x / 32) ~= (tile.x - 1) or math.floor(getBot():getLocal().pos.y / 32) ~= tile.y do
-                        getBot():findPath(tile.x - 1,tile.y)
+                        findPath(tile.x - 1,tile.y)
                         sleep(1000)
                          reconnectpack(atas, tile.x, tile.y)
                     end
@@ -1704,7 +1704,7 @@ atas = getBot():getWorld().name
         if tile.fg == IDPatokanSeed or tile.bg == IDPatokanSeed then 
            if CekTileSeeds(tile.x,tile.y,100) then
                 while math.floor(getBot():getLocal().pos.x / 32) ~= (tile.x - 1) or math.floor(getBot():getLocal().pos.y / 32) ~= tile.y do
-                    getBot():findPath(tile.x - 1,tile.y)
+                    findPath(tile.x - 1,tile.y)
                     sleep(100)
                     reconnectseed(atas, tile.x, tile.y)
                 end
@@ -1775,7 +1775,7 @@ function CounterApi()
                     wear(3066)
                 end
                 sleep(5000)
-                getBot():findPath(x, y - 2)
+                findPath(x, y - 2)
                 sleep(500)
                 punch(0, 2)
             else
@@ -1784,7 +1784,7 @@ function CounterApi()
                         wear(3066)
                     end
                     sleep(5000)
-                    getBot():findPath(x, y + 1)
+                    findPath(x, y + 1)
                     sleep(500)
                     punch(0, -1)
                 end
