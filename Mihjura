@@ -1,3 +1,4 @@
+
 --===JOPY STORE===--
 
 Time = {}
@@ -28,7 +29,9 @@ BpCek = false
 growidIndex = 1
 emoji = ""
 loopnya = 0
-checknya = false
+checknya = true
+
+
 
 function findPath(x,y)
     local px = math.floor(getBot():getLocal().pos.x/32)
@@ -38,32 +41,32 @@ function findPath(x,y)
     if posY > 4 then
         for i = 0, math.floor(posY/1)do
             py = py + 1
-            sleep(100)
+            sleep(150)
             getBot():findPath(px,py)
         end
     elseif posY <-4 then
         for i = 1,  math.floor(posY/-1) do
             py = py - 1
-            sleep(100)
+            sleep(150)
             getBot():findPath(px,py)
         end
     end
     if posX > 4 then
         for i = 1, math.floor(posX/1)do
             px = px + 1
-            sleep(100)
+            sleep(150)
             getBot():findPath(px,py)
         end
     elseif posX <-4 then
         for i = 1,  math.floor(posX/-1) do
             px = px - 1
-            sleep(100)
+            sleep(150)
             getBot():findPath(px,py)
         end
     end
-    sleep(50)
+    sleep(100)
     getBot():findPath(x,y)
-    sleep(50)
+    sleep(100)
 end
 
 
@@ -1366,13 +1369,17 @@ end
 end
 
 function breaks()
-local py = math.floor(getBot():getLocal().pos.y/32)
 if getBot():getItemCount(98) > 0 and not getBot():isEquipped(98) then
 wear(98)
 end
 cekbp()
 coptrashs()
-findPath(posXBreak,posYBreak)
+            if posXBreak and posYBreak and getBot():getBotStatus() == Success  then
+                repeat
+                    findPath(posXBreak,posYBreak)
+                    sleep(1000)
+                until math.floor(getBot():getLocal().pos.x / 32) == posXBreak or math.floor(getBot():getLocal().pos.y / 32) == posYBreak
+            end
 atas = getBot():getWorld().name
 getBot():autoCollect(4,true)
 while getBot():getItemCount(seedid-1) > 0 do
