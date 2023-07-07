@@ -137,7 +137,7 @@ function findPath(xnya,ynya)
   if path then
     for i = 1, #path do
    getBot():findPath(path[i][1],path[i][2])
-sleep(100)
+sleep(20)
     end
   else
     log("Path not found")
@@ -1443,11 +1443,13 @@ end
 end
 
 function breaks()
+local py = math.floor(getBot():getLocal().pos.y/32)
 if getBot():getItemCount(98) > 0 and not getBot():isEquipped(98) then
 wear(98)
 end
 cekbp()
 coptrashs()
+findPath(posXBreak,posYBreak)
 atas = getBot():getWorld().name
 getBot():autoCollect(4,true)
 while getBot():getItemCount(seedid-1) > 0 do
