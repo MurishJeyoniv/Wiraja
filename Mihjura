@@ -29,7 +29,7 @@ BpCek = false
 growidIndex = 1
 emoji = ""
 loopnya = 0
-checknya = true
+checknya = false
 
 
 
@@ -1286,10 +1286,11 @@ botshow("Bot Taking Pickaxe..")
    sleep(1000)
    getBot():move(DOWN,1)
     sleep(1000)
-   if getBot():getItemCount(98) > 0 then
+end
+if getBot():getItemCount(98) > 0 then
    getBot():autoCollect(4,false)
-   sleep(2000)
-   end
+   sleep(500)
+end
    if getBot():getItemCount(98) > 1 then
     getBot():sendPacket("action|drop\n|itemID|98",2)
     sleep(1000)
@@ -1298,7 +1299,6 @@ botshow("Bot Taking Pickaxe..")
     end
     wear(98)
     sleep(500)
-end
 end
 end
 end
