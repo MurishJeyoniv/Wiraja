@@ -1263,6 +1263,7 @@ end
 end
 end
 end
+end
 
 function takehose()
 if CounterFire then
