@@ -1240,16 +1240,17 @@ botshow("Bot Taking Pickaxe..")
     sleep(100)
     while getBot():getItemCount(98) == 0 do
  collectObject(98)
+end
+if getBot():getItemCount(98) > 0 then
+getBot():autoCollect(4,false)
+sleep(500)
+end
     getBot():move(LEFT,1)
     sleep(2000)
    getBot():move(UP,1)
    sleep(1000)
    getBot():move(DOWN,1)
     sleep(1000)
-   if getBot():getItemCount(98) > 0 then
-   getBot():autoCollect(4,false)
-   sleep(2000)
-   end
    if getBot():getItemCount(98) > 1 then
     getBot():sendPacket("action|drop\n|itemID|98",2)
     sleep(1000)
