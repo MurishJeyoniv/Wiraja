@@ -1374,6 +1374,9 @@ function findPath(x,y)
 end
 
 function breaks()
+if getBot():getItemCount(98) > 0 and not getBot():isEquipped(98) then
+wear(98)
+end
 cekbp()
 coptrashs()
 atas = getBot():getWorld().name
