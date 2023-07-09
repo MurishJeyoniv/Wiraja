@@ -1,4 +1,6 @@
- --===== Encrypt ===== -- 
+ --=====(Jopy Store)===== -- 
+
+
 indexWorld = 1
 t = os.time()
 bw = 0
