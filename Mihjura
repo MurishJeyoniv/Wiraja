@@ -769,7 +769,7 @@ function botRest()
             if getBot():getBotStatus() ~= Success then
                 repeat
                     getBot():reConnect()
-                    sleep(10000)
+                    sleep(8000)
                 until getBot():getBotStatus() == Success
             end
             if getBot():getBotStatus() == Success then
