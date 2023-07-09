@@ -1249,7 +1249,6 @@ botshow("Bot Taking Pickaxe..")
     sleep(100)
     while getBot():getItemCount(98) == 0 do
  collectObject(98)
-end
 if getBot():getItemCount(98) > 0 then
 getBot():autoCollect(4,false)
 sleep(500)
@@ -1268,6 +1267,7 @@ end
     end
     wear(98)
     sleep(500)
+end
 end
 end
 end
