@@ -769,7 +769,7 @@ function botRest()
             if getBot():getBotStatus() ~= Success then
                 repeat
                     getBot():reConnect()
-                    sleep(8000)
+                    sleep(10000)
                 until getBot():getBotStatus() == Success
             end
             if getBot():getBotStatus() == Success then
@@ -1071,6 +1071,13 @@ for _, tile in ipairs(getBot():getTiles()) do
 if getBot():getTile(tile.x,tile.y-1).fg == seedid and getBot():canHarvest(tile.x,tile.y-1) and getBot():getItemCount(seedid-1) < 165 then
 if not blacklistTiles or check(tile.x,tile.y) then
 findPath(tile.x,tile.y-1)
+if math.floor(getBot():getLocal().pos.x / 32) ~= tile.x or math.floor(getBot():getLocal().pos.y / 32) ~= tile.y-1 then
+getBot():disconnect()
+sleep(2000)
+TagBan("**"..getBot():getLocal().name:upper().." Was Stuck When Harvesting, Reconnecting..** @everyone")
+reconnect(posX-1,posY-1)
+jalan()
+end
 while getBot():getTile(tile.x,tile.y - 1).fg == seedid and getBot():canHarvest(tile.x,tile.y-1) do
 reconnect(tile.x,tile.y-1)
 getBot():hitTile(tile.x,tile.y-1)
@@ -1118,6 +1125,13 @@ if tile.fg ~= 0 and tile.fg ~= seedid and getBot():getTile(tile.x, tile.y-1).fg 
 if getBot():getTile(tile.x, tile.y-1).fg == 0 then
 if not blacklistTiles or check(tile.x,tile.y) then
 findPath(tile.x, tile.y-1)
+if math.floor(getBot():getLocal().pos.x / 32) ~= tile.x or math.floor(getBot():getLocal().pos.y / 32) ~= tile.y-1 then
+getBot():disconnect()
+sleep(2000)
+TagBan("**"..getBot():getLocal().name:upper().." Was Stuck When Planting, Reconnecting..** @everyone")
+reconnect(posX-1,posY-1)
+jalan()
+end
 if getBot():getTile(math.floor(getBot():getLocal().pos.x / 32), math.floor(getBot():getLocal().pos.y / 32)).fg == 0 then
 reconnect(tile.x,tile.y-1)
 getBot():placeTile(tile.x,tile.y-1,seedid)
@@ -1367,6 +1381,14 @@ cekbp()
 coptrashs()
 atas = getBot():getWorld().name
 findPath(posXBreak,posYBreak)
+sleep(500)
+if math.floor(getBot():getLocal().pos.x / 32) ~= posXBreak or math.floor(getBot():getLocal().pos.y / 32) ~= posYBreak then
+getBot():disconnect()
+sleep(2000)
+TagBan("**"..getBot():getLocal().name:upper().." Was Stuck When Breaking, Reconnecting..** @everyone")
+reconnect(posX-1,posY-1)
+jalan()
+end
 getBot():autoCollect(4,true)
 while getBot():getItemCount(seedid-1) > 0 do
 reconnect(posX-1,posY-1)
