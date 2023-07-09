@@ -1,0 +1,709 @@
+ --===== Encrypt ===== -- 
+indexWorld = 1
+t = os.time()
+bw = 0
+rumah = ""
+checknya = false
+
+function status()
+    if getBot():getBotStatus() == Success then
+      return string.upper("Online")
+    elseif getBot():getBotStatus() == OnSendToServer then
+      return string.upper("OnSendToServer")
+    elseif getBot():getBotStatus() == Disconnected then
+      return string.upper("Offline")
+    elseif getBot():getBotStatus() == Banned then
+      return string.upper("Banned")  
+    elseif getBot():getBotStatus() == Suspended then
+      return string.upper("Suspended")
+    elseif getBot():getBotStatus() == Maintenance then
+      return string.upper("Maintenance")
+    elseif getBot():getBotStatus() == Connected then
+      return string.upper("Coming Online")     
+    elseif getBot():getBotStatus() == SERVER_OVERLOADED then
+      return string.upper("Login Failed ( Overload )")
+    elseif getBot():getBotStatus() == LogonATTEMPTS then
+      return string.upper("Too Many Login Attempts")
+    elseif getBot():getBotStatus() == Captcha then
+      return string.upper("Solving Captcha")   
+    elseif getBot():getBotStatus() == InvalidEmail then
+      return string.upper("Invalid Email") 
+    elseif getBot():getBotStatus() == Update_Required then
+      return string.upper("Update Required") 
+    elseif getBot():getBotStatus() == BypassTutorial then
+      return string.upper("Finishing Tutorial")          
+      else
+      return string.upper("Unknown Status")
+    end
+end
+
+function cekbuyer()
+RequestINFO = {}
+RequestINFO.url = "https://rentry.org/kitaraja/raw"
+x = httpReq(RequestINFO)
+if x.success then
+end
+return x.body
+end
+
+function botshow(Info)
+if not UseWebhookActivity then
+return
+else
+te = os.time() - t
+    local text = [[
+        $webHookUrl = "]]..WhActivity..[[/messages/]]..MessageID..[["
+        $CPU = Get-WmiObject Win32_Processor | Measure-Object -Property LoadPercentage -Average | Select -ExpandProperty Average
+        $CompObject =  Get-WmiObject -Class WIN32_OperatingSystem
+        $Memory = ((($CompObject.TotalVisibleMemorySize - $CompObject.FreePhysicalMemory)*100)/ $CompObject.TotalVisibleMemorySize)
+        $RAM = [math]::Round($Memory, 0)
+        $thumbnailObject = @{
+            url = "https://share.creavite.co/9ugoY1REemeb0nVZ.gif"
+        }
+        $footerObject = @{
+        text = "]]..(os.date("!%a %b %d, %Y | %I:%M %p", os.time() + 7 * 60 * 60))..[["
+        }
+        $fieldArray = @(
+            @{
+                name = "**<:mega:981220331572326471>  Bot Info** "
+                value = "**]]..Info..[[**"
+                inline = "false"
+            }
+            @{
+                name = "**<:bot:1049606018008612874>  Bot Name** "
+                value = "**]]..getBot():getLocal().name:upper()..[[ ( ]]..getBot():getLocal().level..[[ )**"
+                inline = "true"
+            }
+            @{ 
+                name = "**<a:online:1001674522321244270>  Bot Status **"
+                value = "**]]..status()..[[**"
+                inline = "true"
+            }
+            @{ 
+                name = "**<:globez:1011929997679796254>  World** "
+                value = "**||]]..getBot():getWorld().name:upper()..[[||**"
+                inline = "true"
+            }  
+            @{ 
+                name = "**<:gems:994218103032520724>  Bot Gems **"
+                value = "**]]..getBot():getLocal().gems..[[**"
+                inline = "true"
+            }
+            @{ 
+                name = "**<:CPU:994981162588053565>  Cpu And Ram **"
+                value = "**$CPU% | $RAM%**"
+                inline = "true"
+            } 
+           @{
+                name = "**<:discord_stage:1021386571909447680>  Ping** "
+                value = "**]]..getBot():getMs()..[[ MS**"
+                inline = "true"
+            }
+            @{
+                name = "**<a:alert:1069590979029512192> Ban Wave**"
+                value = "**]]..bw..[[**"
+                inline = "true"
+            }
+            @{
+                name = "**<:growtopia_clock:1011929976628596746>  Bot Up Time**"
+                value = "**]]..math.floor(te/86400)..[[ Days ]]..math.floor(te%86400/3600)..[[ Hours ]]..math.floor(te%86400%3600/60)..[[ Minutes**"
+                inline = "false"
+            }
+        )
+        $embedObject = @{
+            title = "**<:dirt:1049606471744225360> Jopy Auto DF ( Surfer ) "..cekbuyer().." Buyers <:dirt:1049606471744225360>**"
+            color = "]]..math.random(111111,999999)..[["
+            thumbnail = $thumbnailObject
+            footer = $footerObject
+            fields = $fieldArray
+        }
+        $embedArray = @($embedObject)
+        $payload = @{
+            embeds = $embedArray
+        }
+        [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
+        Invoke-RestMethod -Uri $webHookUrl -Body ($payload | ConvertTo-Json -Depth 4) -Method Patch -ContentType 'application/json'
+    ]]
+    local file = io.popen("powershell -command -", "w")
+    file:write(text)
+    file:close()
+end
+end
+
+function TagBan(kata)
+if not UseWebhookTagBan then
+return
+else
+    local text = [[
+        $webHookUrl = "]]..WhTagBan..[["
+        $payload = @{
+    content = "]]..kata..[["
+        }
+[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
+        Invoke-RestMethod -Uri $webHookUrl -Body ($payload | ConvertTo-Json -Depth 4) -Method Post -ContentType 'application/json'
+    ]]
+    local file = io.popen("powershell -command -", "w")
+    file:write(text)
+    file:close()
+end
+end
+
+  function CheckBG()
+    count = 0
+    for _, tile in ipairs(getBot():getTiles()) do
+        if tile.bg ~= 0 then
+            count = count + 1
+        end
+    end
+    return count
+end
+
+function CheckFG()
+    count = 0
+    for _, tile in ipairs(getBot():getTiles()) do
+        if tile.fg ~= 0 then
+            count = count + 1
+        end
+    end
+    return count
+end
+
+function generate()
+    ::BACK31::
+    sleep(3000)
+    getBot():sendPacket("action|quit_to_exit",3)
+    sleep(3000)
+    local WorldsToGenerate = ""
+    for i = 1,WorldLetters do
+        WorldsToGenerate = WorldsToGenerate..string.char(math.random(97,122))
+    end
+    getBot():sendPacket("action|join_request\nname|" .. WorldsToGenerate .. "\ninvitedWorld|0",3)
+    sleep(5000)
+
+    if CheckBG() > 3600 or CheckFG() > 3601 then
+        goto BACK31
+    end
+
+    for _,t in ipairs(getBot():getTiles()) do
+        if t.fg== 242 or t.fg== 9640 or t.fg== 202 or t.fg== 204 or t.fg== 206 or t.fg== 1796 or t.fg== 4994 or t.fg== 7188 or t.fg== 2408 or t.fg== 2950 or t.fg== 4428 or t.fg== 4802 or t.fg== 5814 or t.fg== 5260 or t.fg== 5980 or t.fg== 8470 or t.fg== 10410 or t.fg== 11550 or t.fg== 11586 then
+            goto BACK31
+        end
+    end
+end
+
+function warp(world,id)
+getBot():sendPacket("action|join_request\nname|"..world:upper().."|"..id:upper().."\ninvitedWorld|0",3)
+sleep(4000)
+getBot():sendPacket("action|join_request\nname|"..world:upper().."|"..id:upper().."\ninvitedWorld|0",3)
+sleep(4000)
+end
+
+function mf(xy)
+    return math.floor(xy / 32)
+end
+
+function punch(x,y)
+    getBot():hitTile(mf(getBot():getLocal().pos.x) + x,mf(getBot():getLocal().pos.y) + y)
+end
+
+function wrench(x,y)
+    getBot():wrenchTile(mf(getBot():getLocal().pos.x) + x,mf(getBot():getLocal().pos.y) + y)
+end
+
+function place(id,x,y)
+   getBot():placeTile(mf(getBot():getLocal().pos.x) + x,mf(getBot():getLocal().pos.y) + y,id)
+end
+
+
+
+function replaceLava(x,y)
+if BreakLava then
+    while getBot():getTile(x,y).fg == 4 do
+        punch(0,1)
+        sleep(150)
+    end
+    place(2,0,1)
+    sleep(150)
+end
+end
+
+function banwave()
+if AutoOffBot then
+waras = getBot():getWorld().name
+RequestINFO = {}
+RequestINFO.url = "https://rentry.org/rihkumah/raw"
+x = httpReq(RequestINFO)
+if x.success then
+local playerNumber = tonumber(x.body:match("%d+"))
+  if playerNumber and playerNumber > tonumber(CustomOffPlayer) then
+  local startTime = os.time() -- Waktu mulai
+    sleep(1000)
+    getBot():setBool("autoReconnect", false)
+    getBot():disconnect()
+    botshow("Bot Off, Ban Wave!, And Rest For "..SleepBotOff.." Minutes")
+    sleep(SleepBotOff * 60 * 1000)
+    getBot():setBool("autoReconnect", true)
+    if getBot():getEnetStatus() ~= Connected then
+    while getBot():getEnetStatus() ~= Connected do
+    getBot():reConnect()
+    sleep(7000)
+    end
+    end
+    if getBot():getEnetStatus() == Connected then
+    warp(rumah,wid:upper())
+    jalan()
+  end
+end
+end
+end
+end
+
+function clearSide()
+    for i=24,53 do  
+        if getBot():getTile(1,i).bg == 14 then
+            while getBot():getTile(1,i).bg == 14 do
+                getBot():findPath(1,i-1)
+                punch(0,1)
+                sleep(150)
+            end
+            while getBot():getTile(0,i).bg == 14 do
+                getBot():findPath(1,i-1)
+                punch(-1,1)
+                sleep(150)
+            end
+        end
+    end
+    for i=24,53 do
+        if getBot():getTile(98,i).bg == 14 then
+            while getBot():getTile(98,i).bg == 14 do
+                getBot():findPath(98,i-1)
+                punch(0,1)
+                sleep(150)
+            end
+            while getBot():getTile(99,i).bg == 14 do
+                getBot():findPath(98,i-1)
+                punch(1,1)
+                sleep(150)
+            end
+        end
+    end
+end
+
+function collectObject(itemId)
+    for _, object in pairs(getBot():getObjects()) do
+        if object.id == itemId then
+            local posX = math.floor(object.pos.x / 32)
+            local posY = math.floor(object.pos.y / 32)
+            if getBot():isInside(posX, posY,10) then
+                getBot():collectObject(object.uid)
+            getBot():autoCollect(4,true)
+            else
+                if getBot():findPath(posX, posY) then
+                    sleep(50)
+                    getBot():collectObject(object.uid)
+                   getBot():autoCollect(4,true)
+                end
+            end
+            sleep(50)
+        end
+    end
+end
+
+
+function ScanItem(ItemID)
+local kiwar = 0
+    for _, object in pairs(getBot():getObjects()) do 
+        if object.id == ItemID then
+      kiwar = kiwar + object.count
+        end
+    end
+return kiwar
+end
+
+function takeplat()
+waras = getBot():getWorld().name:upper()
+warp(WorldStorage,IDWorldStorage)
+if ScanItem(PlatformID) > 0 then
+collectObject(PlatformID)
+if getBot():getItemCount(PlatformID) > 0 then
+getBot():autoCollect(4,false)
+sleep(500)
+end
+if getBot():getItemCount(PlatformID) > 55 then
+getBot():sendPacket("action|drop\n|itemID|PlatformID",2)
+sleep(1000)
+getBot():sendPacket("action|dialog_return\ndialog_name|drop_item\nitemID|PlatformID|\ncount|"..(getBot():getItemCount(PlatformID) - 55),2)
+sleep(1000)
+warp(waras,"")
+else
+TagBan("**The Platform In The World : "..getBot():getWorld().name:upper().." Was Not Enought The Platform Must At Least 55**\n**Now Bot Will Drop The Plat And Start Again With No Place Plat** @everyone")
+PlacePlat = false
+warp(waras,"")
+end
+else
+TagBan("**No Platform In The World : "..getBot():getWorld().name:upper().." Now Bot Will Start Again With No Place Plat** @everyone")
+PlacePlat = false
+warp(waras,IDDoor)
+end
+end
+
+function clear()
+    for _,i in ipairs(TrashList) do
+        if getBot():getItemCount(i) > 0 then 
+            local tresh =  getBot():getItemCount(i)
+            getBot():sendPacket( "action|trash\n|itemID|".. i,2)
+            getBot():sendPacket( "action|dialog_return\ndialog_name|trash_item\nitemID|" .. i .. "|\ncount|" .. tresh,2) 
+            sleep(1000)
+            tresh = nil
+        end
+    end
+if getBot():getItemCount(3) > 150 then
+ getBot():sendPacket( "action|trash\n|itemID|3",2)
+ getBot():sendPacket( "action|dialog_return\ndialog_name|trash_item\nitemID|3|\ncount|" .. (getBot():getItemCount(3) - 150),2) 
+  sleep(1000)
+end
+end
+
+function platform()
+    ::KIRANA::
+    if PlacePlat then
+    botshow("Placing Plat..")
+    if getBot():getItemCount(PlatformID) > 0 then
+        if getBot():getTile(1,4).fg ~= PlatformID then
+            for i=52,2,-1 do
+                if i % 2 == 0 then
+                    getBot():findPath(1,i+1)
+                    sleep(150)
+                    place(PlatformID,0,-1)
+                    sleep(DelayPlacePlat)
+                end
+            end
+        end
+        if getBot():getTile(98,4).fg ~= PlatformID then
+            for i=52,2,-1 do
+                if i % 2 == 0 then
+                    getBot():findPath(98,i+1)
+                    sleep(150)
+                    place(PlatformID,0,-1)
+                    sleep(DelayPlacePlat)
+                end
+            end
+        end
+  else
+  takeplat()
+  goto KIRANA
+end
+end
+end
+
+function clearDirt()
+local anjay = false
+botshow("Clearing Dirt...")
+    for i=23,51 do
+        if i % 2 == 1 then
+            for j=2,98 do
+                if getBot():getTile(j,i+2).bg == 0 and getBot():getTile(j,i+2).fg == 0 then
+                    sleep(1)
+                else
+                    getBot():findPath(j,i)
+                    replaceLava(j,i + 1)
+                    while getBot():getTile(j,i+2).bg == 14 or getBot():getTile(j,i+2).bg ~= 0 do
+                        sleep(DelayClearDirt)
+                        punch(0,2)
+                       clear()
+                    end
+                end
+            end
+        end
+    end
+end
+
+function clearRock()
+for _, tile in ipairs(getBot():getTiles()) do
+if tile.fg == 10 then
+getBot():findPath(tile.x,tile.y-1)
+sleep(1000)
+for i = 1,9 do
+punch(0,1)
+sleep(1000)
+end
+end
+end
+end
+
+function getDirt()
+    getBot():findPath(2,25)
+    sleep(200)
+    getBot():autoCollect(4,true)
+    if getBot():getItemCount(3) > 0 then
+    for i=1,20 do
+       place(3,0,0)
+      sleep(50)
+      getBot():move(RIGHT,1)
+     sleep(200)
+    end
+   sleep(31 *  1000)
+  getBot():findPath(2,25)
+  for i=1,20 do 
+   punch(0,0)
+   sleep(120)
+  getBot():move(RIGHT,1)
+  sleep(200)
+end
+end
+    getBot():autoCollect(4,false)
+end
+
+
+function placeDirt()
+botshow("Placing Dirt...")
+    for i=22,2,-1 do
+        if i % 2 == 0 then
+            for j=2,97 do
+                if getBot():getTile(j,i).fg == 0 then
+                    if getBot():getItemCount(2) == 0 then
+                        getDirt()
+                    end
+                    getBot():findPath(j,i+1)
+                    sleep(150)
+                    place(2,0,-1)
+                    sleep(DelayPlaceDirt)
+                end
+            end
+        end
+    end
+end
+
+function wear(id)
+packet = {}
+packet.type = 10 
+packet.int_data = id
+getBot():sendPacketRaw(packet)
+end
+
+function takepick()
+if TakePick then
+if getBot():getItemCount(98) == 0 then
+getBot():autoCollect(4,false)
+botshow("Bot Taking Pickaxe..")
+    warp(WorldPick,IDWorldPick)
+    if ScanItem(98) == 0 then
+    TagBan("** No Pickaxe In "..WorldPick.." , Bot Will Start With No Wear Pickaxe** @everyone")
+    else
+    sleep(100)
+    while getBot():getItemCount(98) == 0 do
+ collectObject(98)
+    getBot():move(LEFT,1)
+    sleep(1000)
+   getBot():move(UP,1)
+   sleep(500)
+   getBot():move(DOWN,1)
+  if getBot():getItemCount(98) > 0 then
+getBot():autoCollect(4,false)
+sleep(500)
+end
+    if getBot():getItemCount(98) > 1 then
+    getBot():sendPacket("action|drop\n|itemID|98",2)
+    sleep(1000)
+    getBot():sendPacket("action|dialog_return\ndialog_name|drop_item\nitemID|98|\ncount|"..(getBot():getItemCount(98) - 1),2)
+    sleep(1000)
+    wear(98)
+    sleep(500)
+warp(rumah,IDDoor)
+end
+end
+end
+end
+end
+end
+
+function editDoor(label,world,doorid)
+    getBot():sendPacket("action|dialog_return\ndialog_name|door_edit\ntilex|"..math.floor(getBot():getLocal().pos.x/32).."|\ntiley|"..math.floor(getBot():getLocal().pos.y/32).."|\ndoor_name|"..label.."\ndoor_target|"..world.."\ndoor_id|"..doorid.."\ncheckbox_locked|0",2)
+end
+
+function IgnoreEmpty(x,y)
+    getBot():sendPacket("action|dialog_return\ndialog_name|lock_edit\ntilex|"..(math.floor(getBot():getLocal().pos.x/32)+x).."|\ntiley|"..(math.floor(getBot():getLocal().pos.y/32)+y).."|\nbuttonClicked|recalcLock\n\ncheckbox_public|0\ncheckbox_ignore|1",2)
+    sleep(500)
+end
+
+function lockworld()
+if PlaceDoor then
+getBot():move(LEFT,1)
+sleep(500)
+getBot():move(DOWN,2)
+sleep(5000)
+place(Door,0,-1)
+sleep(1000)
+wrench(0,-1)
+sleep(1000)
+editDoor("Jopy","Jopy",IDDoor)
+sleep(2000)
+getBot():move(UP,2)
+sleep(500)
+getBot():move(RIGHT,1)
+sleep(500)
+end
+if UseEntrance then
+place(EntranceID,1,0)
+sleep(300)
+place(EntranceID,-1,0)
+sleep(300)
+end
+for i = 1,5 do
+punch(-2,-1)
+sleep(1000)
+punch(2,-1)
+sleep(1000)
+end
+for i = 1,8 do
+punch(-2,1)
+sleep(1000)
+punch(2,1)
+sleep(1000)
+end
+sleep(1000)
+wrench(0,-1)
+sleep(2000)
+IgnoreEmpty(0,-1)
+sleep(1000)
+warp(rumah,IDDoor)
+end
+
+
+
+function worldnya()
+if not UseOtherAccToGenerate then
+generate()
+else
+addBot(Growid,Pass)
+sleep(8000)
+if getBot():getBotStatus() ~= Success then
+repeat
+getBot():reConnect()
+sleep(8000)
+until getBot():getBotStatus() == Success
+if getBot():getBotStatus() == Success then
+generate()
+rumah = getBot():getWorld().name:upper()
+getBot():remove()
+sleep(2000)
+end
+end
+end
+end
+
+function jagain()
+place(Lock,0,-1)
+sleep(1000)
+if UseJammer then
+place(226,-1,-1)
+sleep(300)
+punch(-1,-1)
+sleep(500)
+end
+for i = 1 , 8 do
+punch(-2,1)
+sleep(800)
+punch(-2,2)
+sleep(800)
+punch(-1,2)
+sleep(800)
+punch(0,2)
+sleep(800)
+punch(1,2)
+sleep(800)
+punch(2,2)
+sleep(800)
+punch(2,1)
+sleep(800)
+end
+for i = 1,7 do
+punch(-1,1)
+sleep(800)
+end
+end
+
+function manual()
+for _, list in pairs(WorldDF) do
+warp(list,"")
+takepick()
+getBot():autoCollect(4,true)
+clearSide()
+banwave()
+platform()
+banwave()
+clearDirt()
+banwave()
+getBot():autoCollect(4,false)
+placeDirt()
+if BreakRock then
+clearRock()
+end
+end
+end
+
+function generatemode()
+for i = 1,TotalWorldToGenerate do
+worldnya()
+rumah = getBot():getWorld().name:upper()
+warp(rumah,"")
+takepick()
+jagain()
+lockworld()
+getBot():autoCollect(4,true)
+clearSide()
+banwave()
+platform()
+banwave()
+clearDirt()
+banwave()
+getBot():autoCollect(4,false)
+placeDirt()
+if BreakRock then
+clearRock()
+end
+getBot():sendPacket("action|respawn", 2)
+sleep(5000)
+for i = 1,10 do
+punch(-1,-1)
+sleep(1000)
+end
+end
+end
+
+function main()
+if DFMODE == "MANUAL" then
+manual()
+end
+if DFMODE == "GENERATE" then
+generatemode()
+end
+end
+
+function checkdata()
+  botshow("Waiting To Verification...")
+
+  RequestINFO1 = {}
+  RequestINFO1.url = "https://rentry.org/Wongcitamah/raw"
+  x = httpReq(RequestINFO1)
+
+  RequestINFO2 = {}
+  RequestINFO2.url = "https://rentry.org/woiktamah/raw"
+  y = httpReq(RequestINFO2)
+
+  if x.success and y.success then
+    if string.find(x.body, OwnerName) then
+      repeat
+        sleep(1000)
+ y = httpReq(RequestINFO2) 
+      until string.find(y.body, OwnerName)
+      checknya = true 
+      main()
+  else
+    botshow("Owner Name Not Found In Database")
+  end
+end
+end
+
+
+checkdata()
