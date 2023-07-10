@@ -38,30 +38,30 @@ function findPath(x,y)
     if posY > 9 then
         for i = 0, math.floor(posY/9)do
             py = py + 9
-           sleep(50)
+           sleep(80)
             getBot():findPath(px,py)
         end
     elseif posY <-9 then
         for i = 1,  math.floor(posY/-9) do
             py = py - 9
-            sleep(50)
+            sleep(80)
             getBot():findPath(px,py)
         end
     end
     if posX > 9 then
         for i = 1, math.floor(posX/9)do
             px = px + 9
-               sleep(50)
+               sleep(80)
             getBot():findPath(px,py)
         end
     elseif posX <-9 then
         for i = 1,  math.floor(posX/-9) do
             px = px -9
-            sleep(50)
+            sleep(80)
             getBot():findPath(px,py)
         end
     end
-    sleep(20)
+    sleep(80)
     getBot():findPath(x,y)
 end
 
@@ -1072,11 +1072,10 @@ if getBot():getTile(tile.x,tile.y-1).fg == seedid and getBot():canHarvest(tile.x
 if not blacklistTiles or check(tile.x,tile.y) then
 findPath(tile.x,tile.y-1)
 if math.floor(getBot():getLocal().pos.x / 32) ~= tile.x or math.floor(getBot():getLocal().pos.y / 32) ~= tile.y-1 then
-getBot():disconnect()
-sleep(2000)
-TagBan("**"..getBot():getLocal().name:upper().." Was Stuck When Harvesting, Reconnecting..** @everyone")
-reconnect(posX-1,posY-1)
-jalan()
+log("Stuck When Harvesting")
+getBot():move(LEFT,1)
+sleep(500)
+getBot():findPath(tile.x,tile.y-1)
 end
 while getBot():getTile(tile.x,tile.y - 1).fg == seedid and getBot():canHarvest(tile.x,tile.y-1) do
 reconnect(tile.x,tile.y-1)
@@ -1126,11 +1125,10 @@ if getBot():getTile(tile.x, tile.y-1).fg == 0 then
 if not blacklistTiles or check(tile.x,tile.y) then
 findPath(tile.x, tile.y-1)
 if math.floor(getBot():getLocal().pos.x / 32) ~= tile.x or math.floor(getBot():getLocal().pos.y / 32) ~= tile.y-1 then
-getBot():disconnect()
-sleep(2000)
-TagBan("**"..getBot():getLocal().name:upper().." Was Stuck When Planting, Reconnecting..** @everyone")
-reconnect(posX-1,posY-1)
-jalan()
+log("Stuck When Planting")
+getBot():move(LEFT,1)
+sleep(500)
+getBot():findPath(tile.x,tile.y-1)
 end
 if getBot():getTile(math.floor(getBot():getLocal().pos.x / 32), math.floor(getBot():getLocal().pos.y / 32)).fg == 0 then
 reconnect(tile.x,tile.y-1)
@@ -1262,24 +1260,6 @@ packet.int_data = id
 getBot():sendPacketRaw(packet)
 end
 
-function collectObject(itemId)
-    for _, object in pairs(getBot():getObjects()) do
-        if object.id == itemId then
-            local posX = math.floor(object.pos.x / 32)
-            local posY = math.floor(object.pos.y / 32)
-            if getBot():isInside(posX, posY,10) then
-                getBot():collectObject(object.uid)
-            else
-                if findPath(posX, posY) then
-                    sleep(50)
-                    getBot():collectObject(object.uid)
-                end
-            end
-            sleep(50)
-        end
-    end
-end
-
 function takepick()
 if TakePick then
 if getBot():getItemCount(98) == 0 then
@@ -1287,11 +1267,18 @@ botshow("Bot Taking Pickaxe..")
     warp(WorldPick,WorldPickID)
     sleep(100)
     while getBot():getItemCount(98) == 0 do
- collectObject(98)
-if getBot():getItemCount(98) > 0 then
-getBot():autoCollect(4,false)
-sleep(500)
-end
+        for _,obj in pairs(getBot():getObjects()) do
+            if obj.id == 98 then
+                getBot():findPath(math.floor(obj.pos.x / 32),math.floor(obj.pos.y / 32))
+                sleep(1000)
+                getBot():autoCollect(4,true)
+            end
+            if getBot():getItemCount(98) > 0 then
+              getBot():autoCollect(4,false)
+                break
+            end
+        end
+    end
     getBot():move(LEFT,1)
     sleep(2000)
    getBot():move(UP,1)
@@ -1306,7 +1293,6 @@ end
     end
     wear(98)
     sleep(500)
-end
 end
 end
 end
@@ -1383,11 +1369,10 @@ atas = getBot():getWorld().name
 findPath(posXBreak,posYBreak)
 sleep(500)
 if math.floor(getBot():getLocal().pos.x / 32) ~= posXBreak or math.floor(getBot():getLocal().pos.y / 32) ~= posYBreak then
-getBot():disconnect()
-sleep(2000)
-TagBan("**"..getBot():getLocal().name:upper().." Was Stuck When Breaking, Reconnecting..** @everyone")
-reconnect(posX-1,posY-1)
-jalan()
+log("Stuck When Breaking")
+getBot():move(LEFT,1)
+sleep(500)
+getBot():findPath(posXBreak,posYBreak)
 end
 getBot():autoCollect(4,true)
 while getBot():getItemCount(seedid-1) > 0 do
