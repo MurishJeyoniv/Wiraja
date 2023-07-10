@@ -38,32 +38,28 @@ function findPath(x,y)
     if posY > 9 then
         for i = 0, math.floor(posY/9)do
             py = py + 9
-           sleep(80)
             getBot():findPath(px,py)
         end
     elseif posY <-9 then
         for i = 1,  math.floor(posY/-9) do
             py = py - 9
-            sleep(80)
             getBot():findPath(px,py)
         end
     end
     if posX > 9 then
         for i = 1, math.floor(posX/9)do
             px = px + 9
-               sleep(80)
             getBot():findPath(px,py)
         end
     elseif posX <-9 then
         for i = 1,  math.floor(posX/-9) do
             px = px -9
-            sleep(80)
             getBot():findPath(px,py)
         end
     end
-    sleep(80)
     getBot():findPath(x,y)
 end
+
 
 function TagBan(kata)
 if not UseWebhookTagBan then
@@ -1073,9 +1069,9 @@ if not blacklistTiles or check(tile.x,tile.y) then
 findPath(tile.x,tile.y-1)
 if math.floor(getBot():getLocal().pos.x / 32) ~= tile.x or math.floor(getBot():getLocal().pos.y / 32) ~= tile.y-1 then
 log("Stuck When Harvesting")
-getBot():move(LEFT,1)
-sleep(500)
+repeat
 getBot():findPath(tile.x,tile.y-1)
+until math.floor(getBot():getLocal().pos.x / 32) == tile.x or math.floor(getBot():getLocal().pos.y / 32) == tile.y-1
 end
 while getBot():getTile(tile.x,tile.y - 1).fg == seedid and getBot():canHarvest(tile.x,tile.y-1) do
 reconnect(tile.x,tile.y-1)
@@ -1126,9 +1122,9 @@ if not blacklistTiles or check(tile.x,tile.y) then
 findPath(tile.x, tile.y-1)
 if math.floor(getBot():getLocal().pos.x / 32) ~= tile.x or math.floor(getBot():getLocal().pos.y / 32) ~= tile.y-1 then
 log("Stuck When Planting")
-getBot():move(LEFT,1)
-sleep(500)
+repeat
 getBot():findPath(tile.x,tile.y-1)
+until math.floor(getBot():getLocal().pos.x / 32) == tile.x or math.floor(getBot():getLocal().pos.y / 32) == tile.y-1
 end
 if getBot():getTile(math.floor(getBot():getLocal().pos.x / 32), math.floor(getBot():getLocal().pos.y / 32)).fg == 0 then
 reconnect(tile.x,tile.y-1)
@@ -1370,9 +1366,9 @@ findPath(posXBreak,posYBreak)
 sleep(500)
 if math.floor(getBot():getLocal().pos.x / 32) ~= posXBreak or math.floor(getBot():getLocal().pos.y / 32) ~= posYBreak then
 log("Stuck When Breaking")
-getBot():move(LEFT,1)
-sleep(500)
+repeat
 getBot():findPath(posXBreak,posYBreak)
+until math.floor(getBot():getLocal().pos.x / 32) == posXBreak or math.floor(getBot():getLocal().pos.y / 32) == posYBreak
 end
 getBot():autoCollect(4,true)
 while getBot():getItemCount(seedid-1) > 0 do
