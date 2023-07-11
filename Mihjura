@@ -1305,16 +1305,23 @@ if CounterFire then
 if getBot():getItemCount(3066) == 0 then
     warp(WorldStorageFire,IDWorldStorageFire)
     sleep(100)
-     collectObject(3066)
-    sleep(1000)
+    while getBot():getItemCount(3066) == 0 do
+        for _,obj in pairs(getBot():getObjects()) do
+            if obj.id == 3066 then
+                getBot():findPath(math.floor(obj.pos.x / 32),math.floor(obj.pos.y / 32))
+                sleep(1000)
+                getBot():autoCollect(4,true)
+            end
+            if getBot():getItemCount(3066) > 0 then
+              getBot():autoCollect(4,false)
+                break
+            end
+        end
+    end
     getBot():move(LEFT,1)
     sleep(1000)
    getBot():move(UP,1)
    sleep(500)
-   if getBot():getItemCount(98) > 0 then
-   getBot():autoCollect(4,false)
-   sleep(500)
-   end
    getBot():move(DOWN,1)
     if getBot():getItemCount(3066) > 1 then
     getBot():sendPacket("action|drop\n|itemID|3066",2)
