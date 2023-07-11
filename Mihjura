@@ -1076,6 +1076,7 @@ if math.floor(getBot():getLocal().pos.x / 32) ~= tile.x or math.floor(getBot():g
 log("Stuck When Harvesting")
 repeat
 getBot():findPath(tile.x,tile.y-1)
+sleep(500)
 until math.floor(getBot():getLocal().pos.x / 32) == tile.x or math.floor(getBot():getLocal().pos.y / 32) == tile.y-1
 end
 while getBot():getTile(tile.x,tile.y - 1).fg == seedid and getBot():canHarvest(tile.x,tile.y-1) do
@@ -1129,6 +1130,7 @@ if math.floor(getBot():getLocal().pos.x / 32) ~= tile.x or math.floor(getBot():g
 log("Stuck When Planting")
 repeat
 getBot():findPath(tile.x,tile.y-1)
+sleep(500)
 until math.floor(getBot():getLocal().pos.x / 32) == tile.x or math.floor(getBot():getLocal().pos.y / 32) == tile.y-1
 end
 if getBot():getTile(math.floor(getBot():getLocal().pos.x / 32), math.floor(getBot():getLocal().pos.y / 32)).fg == 0 then
@@ -1373,6 +1375,7 @@ if math.floor(getBot():getLocal().pos.x / 32) ~= posXBreak or math.floor(getBot(
 log("Stuck When Breaking")
 repeat
 getBot():findPath(posXBreak,posYBreak)
+sleep(500)
 until math.floor(getBot():getLocal().pos.x / 32) == posXBreak or math.floor(getBot():getLocal().pos.y / 32) == posYBreak
 end
 getBot():autoCollect(4,true)
