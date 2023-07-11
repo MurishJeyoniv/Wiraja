@@ -316,7 +316,7 @@ end
 function waktuWorld()
     strWaktu = ""
         for _,world in pairs(WorldList) do
-strWaktu = strWaktu .."\n" .. world:upper()  .. " ( " .. ("<:pro_timeout:1100160755287982150> " .. (waktu[world] or "?")) .. " | " .. ":palm_tree: : " .. (pohon[world] or "0") .. " | " .. ":gem: : " .. (berlian[world] or "0") .. " )"
+strWaktu = strWaktu .."\n" .. world:upper()  .. " ( " .. (":clock4: " .. (waktu[world] or "?")) .. " | " .. ":palm_tree: : " .. (pohon[world] or "0") .. " | " .. ":gem: : " .. (berlian[world] or "0") .. " )"
     end
 return strWaktu
 end
