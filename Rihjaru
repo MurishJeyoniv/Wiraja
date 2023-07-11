@@ -627,7 +627,7 @@ end
 
 function manual()
 for _, list in pairs(WorldDF) do
-warp(list,"")
+warp(list,IDDoor)
 takepick()
 getBot():autoCollect(4,true)
 clearSide()
