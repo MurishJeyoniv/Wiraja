@@ -1284,6 +1284,7 @@ botshow("Bot Taking Pickaxe..")
     warp(WorldPick,WorldPickID)
     sleep(100)
     while getBot():getItemCount(98) == 0 do
+           sleep(5000)
         for _,obj in pairs(getBot():getObjects()) do
             if obj.id == 98 then
                 getBot():findPath(math.floor(obj.pos.x / 32),math.floor(obj.pos.y / 32))
@@ -1353,7 +1354,7 @@ function joinworld()
 botshow("World Finish, Joining World...")
     sleep(100)
     for _,bimba in pairs(WorldForJoin) do
-        warp(bimba,"")
+        warpdoang(bimba,"")
         sleep(4000)
     end
 end
