@@ -625,6 +625,13 @@ function soilmode()
       for _, tile in ipairs(getBot():getTiles()) do
         if getBot():getTile(tile.x, tile.y - 1).fg == seedid and getBot():canHarvest(tile.x, tile.y - 1) and getBot():getItemCount(seedid - 1) < 165 then
             findPath(tile.x, tile.y - 1)
+if math.floor(getBot():getLocal().pos.x / 32) ~= tile.x or math.floor(getBot():getLocal().pos.y / 32) ~= tile.y-1 then
+log("Stuck When Harvesting")
+repeat
+getBot():findPath(tile.x,tile.y-1)
+sleep(500)
+until math.floor(getBot():getLocal().pos.x / 32) == tile.x or math.floor(getBot():getLocal().pos.y / 32) == tile.y-1
+end
             while getBot():getTile(tile.x, tile.y - 1).fg == seedid and getBot():canHarvest(tile.x, tile.y - 1) do
               reconnect(posX - 1, posY - 1)
               getBot():hitTile(tile.x, tile.y - 1)
@@ -643,6 +650,13 @@ function soilmode()
         if getBot():getTile(tile.x, tile.y - 1).fg == seedid and getBot():canHarvest(tile.x, tile.y - 1) and getBot():getItemCount(seedid - 1) < 165 then
           if not blacklistTiles or check(tile.x, tile.y) then
             findPath(tile.x, tile.y - 1)
+if math.floor(getBot():getLocal().pos.x / 32) ~= tile.x or math.floor(getBot():getLocal().pos.y / 32) ~= tile.y-1 then
+log("Stuck When Harvesting")
+repeat
+getBot():findPath(tile.x,tile.y-1)
+sleep(500)
+until math.floor(getBot():getLocal().pos.x / 32) == tile.x or math.floor(getBot():getLocal().pos.y / 32) == tile.y-1
+end
             while getBot():getTile(tile.x, tile.y - 1).fg == seedid and getBot():canHarvest(tile.x, tile.y - 1) do
               reconnect(posX - 1, posY - 1)
               getBot():hitTile(tile.x, tile.y - 1)
