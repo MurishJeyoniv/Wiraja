@@ -30,6 +30,7 @@ emoji = ""
 loopnya = 0
 checknya = false
 
+
 function movePlayer(currentX, currentY, targetX, targetY)
     if currentY ~= targetY then
         getBot():findPath(targetX, targetY)
@@ -39,21 +40,18 @@ function movePlayer(currentX, currentY, targetX, targetY)
     end
 
 
-    if currentX ~= targetX then
-        getBot():findPath(targetX, targetY)
-        sleep(100) -- Tunggu sebentar setelah mencari jalur
-    else
-        getBot():setPos(targetX, targetY)
-    end
-
-   while currentX ~= targetX do
-        if currentX < targetX then
-            currentX = math.min(targetX, currentX + 8)
+     if currentX ~= targetX then
+        if math.abs(currentX - targetX) < 3 then
+          repeat  
+           getBot():setPos(targetX, targetY)
+       until math.floor(getBot():getLocal().pos.x/32) == targetX
         else
-            currentX = math.max(targetX, currentX - 8)
+          repeat
+            getBot():findPath(targetX, targetY)
+            sleep(800) -- Tunggu sebentar setelah mencari jalur
+ until math.floor(getBot():getLocal().pos.x/32) == targetX
         end
-        getBot():setPos(currentX, currentY)
-end
+    end
 
     return currentX, currentY
 end
