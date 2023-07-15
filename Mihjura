@@ -412,16 +412,69 @@ function status()
 end
 
 
+function cekbuyer(nameowner)
+  local RequestINFO = {}
+  RequestINFO.url = "https://rentry.org/wongrekkahmesi2/raw"
+
+  -- Mengambil teks dari URL
+  local x = httpReq(RequestINFO)
+  local response = x.body
+  
+  -- Memisahkan teks menjadi baris-baris
+  local lines = {}
+  for line in response:gmatch("[^\r\n]+") do
+    table.insert(lines, line)
+  end
+  
+  -- Mencari UserID berdasarkan nama owner
+  for _, line in ipairs(lines) do
+    local owner, userid = line:match("(%S+)%s+(%d+)")
+    if owner == nameowner then
+      return userid -- Mengembalikan UserID
+    end
+  end
+  
+  return nil -- Jika nama owner tidak ditemukan
+end
+
+
 totalpack = 0
 seeddrop = 0
 
-function cekbuyer()
-RequestINFO = {}
-RequestINFO.url = "https://rentry.org/angkanyamahsama/raw"
-x = httpReq(RequestINFO)
-if x.success then
+
+function nungguverify()
+if not checknya then
+return " Waiting To Verify!"
+else
+return " Verified!"
 end
-return x.body
+end
+
+function cekemoji2()
+if seedid == 4585 then
+return "<:peppertree:999318156696887378>"
+elseif seedid == 5667 then
+return "<:lgrid:999318066070552716>"
+else
+return  "<:lgrid:999318066070552716>"
+end
+end
+
+function ceknya()
+  local RequestINFO = {}
+  RequestINFO.url = "https://rentry.org/wongrekkahmesi2/raw"
+
+  -- Mengambil teks dari URL
+  local x = httpReq(RequestINFO)
+  local response = x.body
+  
+  -- Menghitung jumlah baris
+  local lineCount = 0
+  for _ in response:gmatch("[^\r\n]+") do
+    lineCount = lineCount + 1
+  end
+  
+  return lineCount
 end
 
 function cekbp()
@@ -438,6 +491,7 @@ end
 end
 end
 
+
 function botshow(Info)
 if not UseWebhookStatus then
 return
@@ -453,27 +507,37 @@ te = os.time() - t
             url = "https://share.creavite.co/9ugoY1REemeb0nVZ.gif"
         }
         $footerObject = @{
-        text = "]]..(os.date("!%a %b %d, %Y | %I:%M %p", os.time() + 7 * 60 * 60))..[["
+        text = "]]..(os.date("!%a %b %d, %Y | %I:%M %p", os.time() + 7 * 60 * 60))..[[ "
         }
         $fieldArray = @(
             @{
-                name = "**<:mega:981220331572326471>  Bot Info** "
+                name = "**<:kannasip:1016295102882250823> ]]..nungguverify()..[[**"
+                value = "**<@]]..cekbuyer(OwnerName)..[[>**"
+                inline = "true"
+            }
+            @{
+                name = "**<:suaongtho:1070039313674412063> Total Buyers**"
+                value = "**]]..ceknya()..[[**"
+                inline = "true"
+            }
+            @{
+                name = "**<:Pickaxe:1109395511661830176> Bot Info**"
                 value = "**]]..Info..[[**"
                 inline = "false"
             }
             @{
-                name = "**<:bot:1049606018008612874>  Bot Name** "
+                name = "**<:bot:1049606018008612874> Bot Name**"
                 value = "**]]..getBot():getLocal().name:upper()..[[ ( ]]..getBot():getLocal().level..[[ )**"
                 inline = "true"
             }
-            @{ 
-                name = "**<a:online:1001674522321244270>  Bot Status **"
+            @{
+                name = "**<a:Online:1063444758783078480> Bot Status**"
                 value = "**]]..status()..[[**"
                 inline = "true"
             }
-            @{ 
-                name = "**<:globez:1011929997679796254>  World** "
-                value = "**||]]..getBot():getWorld().name:upper()..[[||**"
+            @{
+                name = "**<:World:1006699847308546109> World ( ]]..start..[[ / ]]..stop..[[ )**"
+                value = "||**]]..getBot():getWorld().name:upper()..[[**||"
                 inline = "true"
             }
             @{ 
@@ -487,7 +551,7 @@ te = os.time() - t
                 inline = "true"
             }   
             @{ 
-                name = "**<:gems:994218103032520724>  Bot Gems **"
+                name = "**<:gems:1083907540242407547>  Bot Gems **"
                 value = "**]]..getBot():getLocal().gems..[[**"
                 inline = "true"
             }
@@ -497,7 +561,7 @@ te = os.time() - t
                 inline = "true"
             }
             @{ 
-                name = "**<:CPU:994981162588053565>  Cpu And Ram **"
+                name = "**<:cpu:994228771014070372>  Cpu And Ram **"
                 value = "**$CPU% | $RAM%**"
                 inline = "true"
             } 
@@ -512,11 +576,6 @@ te = os.time() - t
                 inline = "true"
             }
             @{
-                name = "**<a:rgbload:993270101262475304>  Progress World**"
-                value = "**]]..start..[[ / ]]..stop..[[**"
-                inline = "true"
-            }
-            @{
                 name = "**<:loop:1086978455171772467> Loop**"
                 value = "**]]..loopnya..[[**"
                 inline = "true"
@@ -527,13 +586,13 @@ te = os.time() - t
                 inline = "false"
             }
             @{
-                name = "**<:growtopia_clock:1011929976628596746>  Bot Up Time**"
-                value = "**]]..math.floor(te/86400)..[[ Days ]]..math.floor(te%86400/3600)..[[ Hours ]]..math.floor(te%86400%3600/60)..[[ Minutes**"
+                name = "**<:pro_timeout:1100160755287982150>  Up Time**"
+                value = "**]]..math.floor(te/86400)..[[ Days ]]..math.floor(te%86400/3600)..[[ Hours ]]..math.floor(te%86400%3600/60)..[[ Minutes ]]..math.floor(te%86400%3600%60)..[[ Seconds**"
                 inline = "false"
             }
         )
         $embedObject = @{
-            title = "**<:HuTao_Yawn:825316612927127574> Jopy Rotation V2.0 ( Surfer ) <:HuTao_Yawn:825316612927127574> ( ]]..cekbuyer()..[[ Buyers )**"
+            title = "**]]..cekemoji2()..[[ Jopy Rotation ( Surfer )  ]]..cekemoji2()..[[ **"
             color = "]]..math.random(111111,999999)..[["
             thumbnail = $thumbnailObject
             footer = $footerObject
@@ -569,7 +628,7 @@ else
         }
         $fieldArray = @(
             @{
-                name = "**<:mega:981220331572326471>  Bot Info**"
+                name = "**<:Pickaxe:1109395511661830176>  Bot Info**"
                 value = "**]]..Kata..[[**"
                 inline = "false"
             }
@@ -579,7 +638,7 @@ else
                 inline = "false"
             }
             @{ 
-                name = "**<:globez:1011929997679796254>  World** "
+                name = "**<:World:1006699847308546109>  World** "
                 value = "**]]..getBot():getWorld().name:upper()..[[**"
                 inline = "true"
             }
@@ -591,16 +650,16 @@ else
             @{
                 name = "**<:small_seed_pack:1098848345956560997>  Total Pack**"
                 value = "**]]..totalpack..[[**"
-                inline = "true"
+                inline = "false"
             }
             @{
                 name = "**]]..emoji..[[  Total Seed**"
                 value = "**]]..seeddrop..[[**"
-                inline = "true"
+                inline = "false"
             }
         )
         $embedObject = @{
-            title = "**<:HuTao_Yawn:825316612927127574> Jopy Rotation V2.0 ( Surfer ) <:HuTao_Yawn:825316612927127574> ( ]]..cekbuyer()..[[ Buyers )**"
+            title = "**]]..cekemoji2()..[[ Jopy Rotation ( Surfer )]]..cekemoji2()..[[ **"
             color = "]]..math.random(111111,999999)..[["
             thumbnail = $thumbnailObject
             footer = $footerObject
@@ -655,7 +714,7 @@ end
 if math.floor(getBot():getLocal().pos.x / 32) ~= tile.x or math.floor(getBot():getLocal().pos.y / 32) ~= tile.y-1 then
 log("Stuck When Harvesting")
 repeat
-getBot():findPath(tile.x,tile.y-1)
+findPath(tile.x,tile.y-1)
 sleep(500)
 until math.floor(getBot():getLocal().pos.x / 32) == tile.x or math.floor(getBot():getLocal().pos.y / 32) == tile.y-1
 end
@@ -1117,7 +1176,7 @@ if not blacklistTiles or check(tile.x,tile.y) then
 findPath(tile.x,tile.y-1)
 if math.floor(getBot():getLocal().pos.x / 32) ~= tile.x or math.floor(getBot():getLocal().pos.y / 32) ~= tile.y-1 then
 repeat
-getBot():findPath(tile.x,tile.y-1)
+findPath(tile.x,tile.y-1)
 sleep(500)
 until math.floor(getBot():getLocal().pos.x / 32) == tile.x or math.floor(getBot():getLocal().pos.y / 32) == tile.y-1
 end
@@ -1130,7 +1189,7 @@ end
 end
 end
 else
-if getBot():getItemCount(seedid) < 50 then
+if getBot():getItemCount(seedid) < 120 then
 takenyaseed()
 end
 antiToxic()
@@ -1167,14 +1226,15 @@ atas = getBot():getWorld().name
 y = 0
 if foregraund(seedid) == 0 then
 if TakeGemsWithGrowid then
-addBot(GrowidTakeGems,PasswordGrowid)
+for _,rah in pairs(getBot():getObjects()) do
+        if rah.id == 112 then
+          if rah.count > 0 then
+          addBot(GrowidTakeGems,PasswordGrowid)
       sleep(10000)
 warp(atas,wid:upper())
       getBot():autoCollect(5,true)
       findPath(0,y)
-for _,rah in pairs(getBot():getObjects()) do
-        if rah.id == 112 then
-          while rah.count > 0 do
+        while rah.count > 0 do
             for i =1,33 do
               getBot():move(RIGHT,3)
             end
@@ -1191,6 +1251,7 @@ for _,rah in pairs(getBot():getObjects()) do
           end
         end
       end
+    end
 
 function plant()
 if not SeparatePlant then
@@ -1204,7 +1265,7 @@ if not blacklistTiles or check(tile.x,tile.y) then
 findPath(tile.x, tile.y-1)
 if math.floor(getBot():getLocal().pos.x / 32) ~= tile.x or math.floor(getBot():getLocal().pos.y / 32) ~= tile.y-1 then
 repeat
-getBot():findPath(tile.x,tile.y-1)
+findPath(tile.x,tile.y-1)
 sleep(500)
 until math.floor(getBot():getLocal().pos.x / 32) == tile.x or math.floor(getBot():getLocal().pos.y / 32) == tile.y-1
 end
@@ -1405,8 +1466,8 @@ if getBot():getItemCount(3066) == 0 then
     getBot():sendPacket("action|dialog_return\ndialog_name|drop_item\nitemID|3066|\ncount|"..(getBot():getItemCount(3066) - 1),2)
     sleep(1000)
    end
+   wear(3066)
    warp(rumah,wid)
-   sleep(5000)
 end
 end
 end
@@ -1456,7 +1517,7 @@ findPath(posXBreak,posYBreak)
 sleep(500)
 if math.floor(getBot():getLocal().pos.x / 32) ~= posXBreak or math.floor(getBot():getLocal().pos.y / 32) ~= posYBreak then
 repeat
-getBot():findPath(posXBreak,posYBreak)
+findPath(posXBreak,posYBreak)
 sleep(500)
 until math.floor(getBot():getLocal().pos.x / 32) == posXBreak or math.floor(getBot():getLocal().pos.y / 32) == posYBreak
 end
@@ -1560,7 +1621,7 @@ function foregraund(itemid)
     end
 
 function checkdata()
-  botshow("Checking Owner...")
+  botshow("Waiting To Verify...")
 
   RequestINFO1 = {}
   RequestINFO1.url = "https://rentry.org/wongrekkahmesi2/raw"
@@ -1860,7 +1921,9 @@ function CounterApi()
         for x = 0, 99 do
             if getBot():checkFlag(x,y,flagType.FIRE) and getBot():getTile(x,y-1).flags == 0 then
                 if not getBot():isEquipped(3066) then
-                    wear(3066)
+                     sleep(5000)
+                    takehose()
+                    sleep(5000)
                 end
                 sleep(5000)
                 findPath(x, y - 2)
@@ -1869,7 +1932,9 @@ function CounterApi()
             else
               if getBot():checkFlag(x,y,flagType.FIRE) and getBot():getTile(x-1,y).flags == 0 then
                     if not getBot():isEquipped(3066) then
-                        wear(3066)
+                      sleep(5000)
+                    takehose()
+                    sleep(5000)
                     end
                     sleep(5000)
                     findPath(x, y + 1)
