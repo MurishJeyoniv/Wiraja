@@ -48,7 +48,7 @@ function movePlayer(currentX, currentY, targetX, targetY)
         else
           repeat
             getBot():findPath(targetX, targetY)
-            sleep(800) -- Tunggu sebentar setelah mencari jalur
+            sleep(2000) -- Tunggu sebentar setelah mencari jalur
  until math.floor(getBot():getLocal().pos.x/32) == targetX
         end
     end
@@ -115,12 +115,14 @@ if AutoAddBot then
           
           if getBot():getBotStatus() == Success then
             -- Eksekusi aksi ketika bot berhasil login
+            proxyIndexAddAttempt = proxyIndexAddAttempt + 1
+            log("Hallo "..proxyIndexAddAttempt)
           end
         end
       else
         loginGuest("", getSocks(ProxyList[proxyIndexAdd]), ListBotAdd[i])
-        sleep(5000)
-        
+        sleep(10000)
+
         if getBot():getBotStatus() ~= Success then
           repeat
             getBot():reConnect()
@@ -130,26 +132,25 @@ if AutoAddBot then
           if getBot():getBotStatus() == Banned or getBot():getBotStatus() == Suspended then
             TagBan("**Fail To Add Bot ( "..getBot():getLocal().name:upper().." ) Because The Bot Is "..getBot():getBotStatus():upper().." At "..ProxyList[proxyIndexAdd].." Proxy @everyone")
             getBot():remove()
-          end
-          
-          if getBot():getBotStatus() == Success then
-            -- Eksekusi aksi ketika bot berhasil login
-          end
-          
-          proxyIndexAddAttempt = proxyIndexAddAttempt + 1
-          
-          if proxyIndexAddAttempt == MaxBotPerProxy then
-             if proxyIndexAdd <= #ProxyList then
-              proxyIndexAdd = proxyIndexAdd + 1
-              proxyIndexAddAttempt = 0
-            else
-              TagBan("**No More Socks Can Be Used For Adding Bot, Please Check It ** @everyone ")
+         end
+       
+       if getBot():getBotStatus() == Success then
+           -- here
+        end
+     end
+            
+         proxyIndexAddAttempt = proxyIndexAddAttempt + 1
+            if proxyIndexAddAttempt == MaxBotPerProxy then
+              if proxyIndexAdd <= #ProxyList then
+                proxyIndexAdd = proxyIndexAdd + 1
+                proxyIndexAddAttempt = 0
+              else
+                TagBan("**No More Socks Can Be Used For Adding Bot, Please Check It ** @everyone ")
+              end
             end
           end
         end
       end
-    end
-  end
 end
 
 
@@ -187,17 +188,18 @@ if AutoAddBot then
           if getBot():getBotStatus() == Banned or getBot():getBotStatus() == Unable_to_create_new_account then
           TagBan("**Fail To Add Bot ( "..getBot():getLocal().name:upper().." ) Because The Bot Is Unable To Create Acc At "..ProxyList[proxyIndexAdd].." Proxy @everyone")
             getBot():remove()
+         end
             
             if proxyIndexAdd <= #ProxyList then
               proxyIndexAdd = proxyIndexAdd + 1
             else
               TagBan("**No More Socks Can Be Used In The ProxyList, Please Check It** @everyone")
             end
-          end
           
           if getBot():getBotStatus() == Success or getBot():getBotStatus() == BypassTutorial then
             sleep(10000)
           end
+     end
           
           proxyIndexAddAttempt = proxyIndexAddAttempt + 1
           
@@ -213,7 +215,6 @@ if AutoAddBot then
       end
     end
   end
-end
 
 
 if AutoAddBot then
@@ -263,7 +264,6 @@ end
     end
   end
 end
-
 
 
 local fullName = getBot():getLocal().name:upper()
@@ -502,7 +502,7 @@ te = os.time() - t
         $Memory = ((($CompObject.TotalVisibleMemorySize - $CompObject.FreePhysicalMemory)*100)/ $CompObject.TotalVisibleMemorySize)
         $RAM = [math]::Round($Memory, 0)
         $thumbnailObject = @{
-            url = "https://share.creavite.co/9ugoY1REemeb0nVZ.gif"
+            url = "https://cdn.discordapp.com/icons/1051427884369195038/41aa737cca11ae24ce6ed6d516e8fa31.png?size=4096"
         }
         $footerObject = @{
         text = "]]..(os.date("!%a %b %d, %Y | %I:%M %p", os.time() + 7 * 60 * 60))..[[ "
@@ -619,7 +619,7 @@ else
         $CPU = Get-WmiObject Win32_Processor | Measure-Object -Property LoadPercentage -Average | Select -ExpandProperty Average
         $RAM = [math]::Round($Memory, 0)
         $thumbnailObject = @{
-            url = "https://share.creavite.co/9ugoY1REemeb0nVZ.gif"
+            url = "https://cdn.discordapp.com/icons/1051427884369195038/41aa737cca11ae24ce6ed6d516e8fa31.png?size=4096"
         }
         $footerObject = @{
             text = "]]..(os.date("!%a %b %d, %Y | %I:%M %p", os.time() + 7 * 60 * 60))..[["
