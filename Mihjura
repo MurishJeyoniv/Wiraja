@@ -1175,7 +1175,7 @@ findPath(tile.x,tile.y-1)
 if math.floor(getBot():getLocal().pos.x / 32) ~= tile.x or math.floor(getBot():getLocal().pos.y / 32) ~= tile.y-1 then
 repeat
 findPath(tile.x,tile.y-1)
-sleep(500)
+sleep(1000)
 until math.floor(getBot():getLocal().pos.x / 32) == tile.x or math.floor(getBot():getLocal().pos.y / 32) == tile.y-1
 end
 while getBot():getTile(tile.x,tile.y - 1).fg == seedid and getBot():canHarvest(tile.x,tile.y-1) do
@@ -1201,7 +1201,7 @@ findPath(tile.x,tile.y-1)
 if math.floor(getBot():getLocal().pos.x / 32) ~= tile.x or math.floor(getBot():getLocal().pos.y / 32) ~= tile.y-1 then
 repeat
 getBot():findPath(tile.x,tile.y-1)
-sleep(500)
+sleep(1000)
 until math.floor(getBot():getLocal().pos.x / 32) == tile.x or math.floor(getBot():getLocal().pos.y / 32) == tile.y-1
 end
 while getBot():getTile(tile.x,tile.y - 1).fg == seedid and getBot():canHarvest(tile.x,tile.y-1) do
@@ -1264,7 +1264,7 @@ findPath(tile.x, tile.y-1)
 if math.floor(getBot():getLocal().pos.x / 32) ~= tile.x or math.floor(getBot():getLocal().pos.y / 32) ~= tile.y-1 then
 repeat
 findPath(tile.x,tile.y-1)
-sleep(500)
+sleep(1000)
 until math.floor(getBot():getLocal().pos.x / 32) == tile.x or math.floor(getBot():getLocal().pos.y / 32) == tile.y-1
 end
 if getBot():getTile(math.floor(getBot():getLocal().pos.x / 32), math.floor(getBot():getLocal().pos.y / 32)).fg == 0 then
@@ -1423,12 +1423,10 @@ botshow("Bot Taking Pickaxe..")
    sleep(1000)
    getBot():move(DOWN,1)
     sleep(1000)
-   if getBot():getItemCount(98) > 1 then
     getBot():sendPacket("action|drop\n|itemID|98",2)
     sleep(1000)
     getBot():sendPacket("action|dialog_return\ndialog_name|drop_item\nitemID|98|\ncount|"..(getBot():getItemCount(98) - 1),2)
     sleep(1000)
-    end
     wear(98)
     sleep(500)
 end
@@ -1458,12 +1456,10 @@ if getBot():getItemCount(3066) == 0 then
    getBot():move(UP,1)
    sleep(500)
    getBot():move(DOWN,1)
-    if getBot():getItemCount(3066) > 1 then
     getBot():sendPacket("action|drop\n|itemID|3066",2)
     sleep(1000)
     getBot():sendPacket("action|dialog_return\ndialog_name|drop_item\nitemID|3066|\ncount|"..(getBot():getItemCount(3066) - 1),2)
     sleep(1000)
-   end
    wear(3066)
    warp(rumah,wid)
 end
@@ -1809,7 +1805,6 @@ royal = getBot():getItemCount(sampah)
     getBot():sendPacket("action|drop\nitemID|" .. sampah,2)
     getBot():sendPacket("action|dialog_return\ndialog_name|drop_item\nitemID|" .. seedid .. "|\ncount|" ..royal,2)
     sleep(500)
-    getBot():move(RIGHT,1)
     end
 end
     else
