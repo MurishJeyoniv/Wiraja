@@ -48,7 +48,7 @@ function movePlayer(currentX, currentY, targetX, targetY)
         else
           repeat
             getBot():findPath(targetX, targetY)
-            sleep(2000) -- Tunggu sebentar setelah mencari jalur
+            sleep(5000) -- Tunggu sebentar setelah mencari jalur
  until math.floor(getBot():getLocal().pos.x/32) == targetX
         end
     end
@@ -1175,7 +1175,7 @@ findPath(tile.x,tile.y-1)
 if math.floor(getBot():getLocal().pos.x / 32) ~= tile.x or math.floor(getBot():getLocal().pos.y / 32) ~= tile.y-1 then
 repeat
 findPath(tile.x,tile.y-1)
-sleep(1000)
+sleep(5000)
 until math.floor(getBot():getLocal().pos.x / 32) == tile.x or math.floor(getBot():getLocal().pos.y / 32) == tile.y-1
 end
 while getBot():getTile(tile.x,tile.y - 1).fg == seedid and getBot():canHarvest(tile.x,tile.y-1) do
@@ -1198,6 +1198,7 @@ for _, tile in ipairs(getBot():getTiles()) do
 if getBot():getTile(tile.x,tile.y-1).fg == seedid and getBot():canHarvest(tile.x,tile.y-1) and getBot():getItemCount(seedid-1) < 165 then
 if not blacklistTiles or check(tile.x,tile.y) then
 findPath(tile.x,tile.y-1)
+sleep(500)
 if math.floor(getBot():getLocal().pos.x / 32) ~= tile.x or math.floor(getBot():getLocal().pos.y / 32) ~= tile.y-1 then
 repeat
 getBot():findPath(tile.x,tile.y-1)
@@ -1261,10 +1262,11 @@ if tile.fg ~= 0 and tile.fg ~= seedid and getBot():getTile(tile.x, tile.y-1).fg 
 if getBot():getTile(tile.x, tile.y-1).fg == 0 then
 if not blacklistTiles or check(tile.x,tile.y) then
 findPath(tile.x, tile.y-1)
+sleep(500)
 if math.floor(getBot():getLocal().pos.x / 32) ~= tile.x or math.floor(getBot():getLocal().pos.y / 32) ~= tile.y-1 then
 repeat
 findPath(tile.x,tile.y-1)
-sleep(1000)
+sleep(5000)
 until math.floor(getBot():getLocal().pos.x / 32) == tile.x or math.floor(getBot():getLocal().pos.y / 32) == tile.y-1
 end
 if getBot():getTile(math.floor(getBot():getLocal().pos.x / 32), math.floor(getBot():getLocal().pos.y / 32)).fg == 0 then
@@ -1512,7 +1514,7 @@ sleep(500)
 if math.floor(getBot():getLocal().pos.x / 32) ~= posXBreak or math.floor(getBot():getLocal().pos.y / 32) ~= posYBreak then
 repeat
 findPath(posXBreak,posYBreak)
-sleep(500)
+sleep(5000)
 until math.floor(getBot():getLocal().pos.x / 32) == posXBreak or math.floor(getBot():getLocal().pos.y / 32) == posYBreak
 end
 getBot():autoCollect(4,true)
