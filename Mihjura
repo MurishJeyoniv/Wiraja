@@ -1919,10 +1919,16 @@ function CounterApi()
                     takehose()
                     sleep(5000)
                 end
+               if getBot():getItemCount(3066) > 0 and not getBot():isEquipped(3066) then 
+               wear(3066)
+              sleep(2000)
+               wear(3066)
+               end
                 sleep(5000)
                 findPath(x, y - 2)
                 sleep(500)
                 punch(0, 2)
+               sleep(2000)
             else
               if getBot():checkFlag(x,y,flagType.FIRE) and getBot():getTile(x-1,y).flags == 0 then
                     if not getBot():isEquipped(3066) then
@@ -1930,21 +1936,25 @@ function CounterApi()
                     takehose()
                     sleep(5000)
                     end
+               if getBot():getItemCount(3066) > 0 and not getBot():isEquipped(3066) then 
+               wear(3066)
+                  sleep(2000)
+                wear(3066)
+               end
                     sleep(5000)
                     findPath(x, y + 1)
                     sleep(500)
                     punch(0, -1)
+                   sleep(2000)
                 end
             end
         end
     end
 
-    if getBot():isEquipped(3066) then
-        wear(3066)
-    end
-   if getBot():getItemCount(98) > 0 and not getBot():isEquipped(98) then
-   wear(98)
-  end
+  warp(WorldStorageFire,IDWorldStorageFire)
+getBot():drop(3066,1)
+sleep(2000)
+warp(rumah,wid:upper())
   end
 
 function cukcuk1(world)
@@ -2034,7 +2044,6 @@ end
 if checknya then
 sleep(5000)
 takepick()
-takehose()
 warp(world,wid)
 if not nuked then
 clearTable(processedTimes)
