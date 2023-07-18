@@ -32,6 +32,10 @@ checknya = false
 
 
 function movePlayer(currentX, currentY, targetX, targetY)
+if math.floor(getBot():getLocal().pos.y / 32) == 1 then
+getBot():findPath(posX-1,posY-1)
+sleep(100)
+end
     local stepSize = 2
 
     local function moveTowardsTarget(targetX, targetY)
