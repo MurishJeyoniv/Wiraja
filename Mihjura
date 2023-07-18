@@ -32,7 +32,7 @@ checknya = false
 
 
 function movePlayer(currentX, currentY, targetX, targetY)
-if math.floor(getBot():getLocal().pos.y / 32) == 1 then
+if math.floor(getBot():getLocal().pos.y / 32) == 1 and getBot():getItemCount(seedid-1) >= 165 then
 getBot():findPath(posX-1,posY-1)
 sleep(100)
 end
