@@ -32,30 +32,41 @@ checknya = false
 
 
 function movePlayer(currentX, currentY, targetX, targetY)
-    if currentY ~= targetY then
-        getBot():findPath(targetX, targetY)
-        sleep(100) -- Tunggu sebentar setelah mencari jalur
-    else
-        getBot():setPos(targetX, targetY)
+    local stepSize = 2
+
+    local function moveTowardsTarget(targetX, targetY)
+        local dx = targetX - currentX
+        local dy = targetY - currentY
+
+        -- Tentukan perpindahan maksimum dalam arah X dan Y
+        local moveX = math.min(stepSize, math.abs(dx)) * (dx > 0 and 1 or -1)
+        local moveY = math.min(stepSize, math.abs(dy)) * (dy > 0 and 1 or -1)
+
+        currentX = currentX + moveX
+        currentY = currentY + moveY
+
+        getBot():setPos(currentX, currentY)
     end
 
+    local function distanceToTarget(targetX, targetY)
+        return math.abs(targetX - currentX), math.abs(targetY - currentY)
+    end
 
-     if currentX ~= targetX then
-        if math.abs(currentX - targetX) < 3 then
-          repeat  
-           getBot():setPos(targetX, targetY)
-       until math.floor(getBot():getLocal().pos.x/32) == targetX
+    while currentX ~= targetX or currentY ~= targetY do
+        local distX, distY = distanceToTarget(targetX, targetY)
+
+        if distX <= stepSize and distY <= stepSize then
+            -- Jika perpindahan kurang dari atau sama dengan 3 tile, tanpa delay
+            moveTowardsTarget(targetX, targetY)
         else
-          repeat
-            getBot():findPath(targetX, targetY)
-            sleep(5000) -- Tunggu sebentar setelah mencari jalur
- until math.floor(getBot():getLocal().pos.x/32) == targetX
+            -- Jika perpindahan lebih dari 3 tile, dengan delay 100
+            moveTowardsTarget(targetX, targetY)
+          sleep(100) -- Tunggu sebentar sebelum setPos selanjutnya
         end
     end
 
     return currentX, currentY
 end
-
 
 function findPath(x,y)
     local targetX = x
@@ -1315,7 +1326,7 @@ while getBot():getWorld().name:upper() ~= string.match(world:upper(), "([^|]+)")
                 sleep(5000)
             end
             getBot():sendPacket("action|join_request\nname|"..world:upper().."|"..id:upper().."\ninvitedWorld|0",3)
-            sleep(3000)
+            sleep(5000)
         end
     else
      while getBot():getTile(math.floor(getBot():getLocal().pos.x / 32),math.floor(getBot():getLocal().pos.y / 32)).fg == 6 and not nuked do
@@ -1324,9 +1335,11 @@ while getBot():getWorld().name:upper() ~= string.match(world:upper(), "([^|]+)")
                 sleep(5000)
             end
    getBot():sendPacket("action|join_request\nname|"..world:upper().."|"..id:upper().."\ninvitedWorld|0",3)
-            sleep(3000)
+            sleep(5000)
     end
 end
+getBot():move(DOWN,1)
+sleep(500)
 end
 
 function restoretime()
