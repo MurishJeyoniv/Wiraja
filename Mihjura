@@ -1785,7 +1785,7 @@ atas = getBot():getWorld().name
             if tile.fg == IDPatokanPack or tile.bg == IDPatokanPack then
                 if CekTilePack(tile.x,tile.y,getBot():getItemCount(pack)) then
                     while math.floor(getBot():getLocal().pos.x / 32) ~= (tile.x - 1) or math.floor(getBot():getLocal().pos.y / 32) ~= tile.y do
-                        findPath(tile.x - 1,tile.y)
+                        getBot():findPath(tile.x - 1,tile.y)
                         sleep(1000)
                          reconnectpack(atas, tile.x, tile.y)
                     end
@@ -1857,7 +1857,7 @@ sleep(2000)
         if tile.fg == IDPatokanSeed or tile.bg == IDPatokanSeed then 
            if CekTileSeeds(tile.x,tile.y,100) then
                 while math.floor(getBot():getLocal().pos.x / 32) ~= (tile.x - 1) or math.floor(getBot():getLocal().pos.y / 32) ~= tile.y do
-                    findPath(tile.x - 1,tile.y)
+                    getBot():findPath(tile.x - 1,tile.y)
                     sleep(100)
                     reconnectseed(atas, tile.x, tile.y)
                 end
