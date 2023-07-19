@@ -30,37 +30,50 @@ emoji = ""
 loopnya = 0
 checknya = false
 
-function movePlayer(currentX, currentY, targetX, targetY)
-    if currentY ~= targetY then
-        getBot():findPath(targetX, targetY)
-        sleep(100) -- Tunggu sebentar setelah mencari jalur
-    else
-        getBot():setPos(targetX, targetY)
+function findPath(targetX, targetY)
+currentX = math.floor(getBot():getLocal().pos.x / 32)
+currentY = math.floor(getBot():getLocal().pos.y / 32)
+    local maxMoveDistance = 8
+
+    -- Fungsi untuk menghitung jarak antara posisi saat ini dengan target
+    function distanceToTarget(x, y)
+        return math.abs(x - targetX) + math.abs(y - targetY)
     end
 
-
-     if currentX ~= targetX then
-        if math.abs(currentX - targetX) < 2 then
-         repeat
-           getBot():setPos(targetX, targetY)
-         until math.floor(getBot():getLocal().pos.x/32) == targetX
+    -- Pergerakan vertikal
+    while currentY ~= targetY do
+        if currentY > targetY then
+            currentY = math.max(targetY, currentY - 1)
         else
-         repeat 
-            getBot():findPath(targetX, targetY)
-            sleep(1000) -- Tunggu sebentar setelah mencari jalur
-        until math.floor(getBot():getLocal().pos.x/32) == targetX
+            currentY = math.min(targetY, currentY + 1)
         end
+
+        -- Pindahkan bot ke posisi berikutnya (dalam koordinat tile)
+        getBot():setPos(currentX, currentY)
+        sleep(50)
     end
 
-    return currentX, currentY
+    -- Pergerakan horizontal
+    while currentX ~= targetX do
+        local dx = targetX - currentX
+         if getBot():getTile(math.floor(getBot():getLocal().pos.x / 32 + 2), math.floor(getBot():getLocal().pos.y / 32)).fg == 6 or getBot():getTile(math.floor(getBot():getLocal().pos.x / 32 - 2), math.floor(getBot():getLocal().pos.y / 32)).fg == 6 then
+        -- Pindahkan bot ke posisi Y yang lebih rendah
+        getBot():findPath(targetX, targetY)
+        sleep(100)
+        end
+        if dx > 0 then
+            currentX = math.min(targetX, currentX + 1)
+        else
+            currentX = math.max(targetX, currentX - 1)
+        end
+
+        -- Pindahkan bot ke posisi berikutnya (dalam koordinat tile)
+        getBot():setPos(currentX, currentY)
+        sleep(50)
 end
 
-function findPath(x,y)
-    local targetX = x
-    local targetY = y
-    local currentX = math.floor(getBot():getLocal().pos.x/32)
-    local currentY = math.floor(getBot():getLocal().pos.y/32)
-    local finalX, finalY = movePlayer(currentX, currentY, targetX, targetY)
+    -- Kembalikan koordinat terakhir bot
+    return currentX, currentY
 end
 
 function TagBan(kata)
