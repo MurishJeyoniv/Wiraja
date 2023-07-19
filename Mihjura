@@ -31,35 +31,27 @@ loopnya = 0
 checknya = false
 
 function movePlayer(currentX, currentY, targetX, targetY)
-    while currentY ~= targetY do
-        if currentY > targetY then
-            currentY = math.max(targetY, currentY - 1)
-            if getBot():getTile(currentX,targetY).flags == 0 and math.floor(getBot():getLocal().pos.y/32) ~= targetY then
-                getBot():setPos(currentX, currentY - 1)
-                sleep(50)
-            end
+    if currentY ~= targetY then
+        getBot():findPath(targetX, targetY)
+        sleep(100) -- Tunggu sebentar setelah mencari jalur
+    else
+        getBot():setPos(targetX, targetY)
+    end
+
+
+     if currentX ~= targetX then
+        if math.abs(currentX - targetX) < 3 then
+          repeat  
+           getBot():setPos(targetX, targetY)
+       until math.floor(getBot():getLocal().pos.x/32) == targetX
         else
-            currentY = math.min(targetY, currentY + 1)
-            if getBot():getTile(currentX,targetY).flags == 0 and math.floor(getBot():getLocal().pos.y/32) ~= targetY then
-                getBot():setPos(currentX, currentY + 1)
-                sleep(50)
-            end
-        end
-        if math.floor(getBot():getLocal().pos.y/32) ~= targetY then
-            getBot():setPos(currentX, currentY)
-            sleep(50)
+          repeat
+            getBot():findPath(targetX, targetY)
+            sleep(5000) -- Tunggu sebentar setelah mencari jalur
+ until math.floor(getBot():getLocal().pos.x/32) == targetX
         end
     end
-    sleep(500)
-    while currentX ~= targetX do
-        if currentX < targetX then
-            currentX = math.min(targetX, currentX + 8)
-        else
-            currentX = math.max(targetX, currentX - 8)
-        end
-        getBot():setPos(currentX, currentY)
-        sleep(500)
-    end
+
     return currentX, currentY
 end
 
