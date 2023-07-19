@@ -34,21 +34,23 @@ function movePlayer(currentX, currentY, targetX, targetY)
     while currentY ~= targetY do
         if currentY > targetY then
             currentY = math.max(targetY, currentY - 1)
-            if getBot():getTile(currentX,targetY).flags == 0 and math.floor(bot:getLocal().pos.y/32) ~= targetY then
-               getBot():setPos(currentX, currentY - 1)
-              sleep(280)
+            if getBot():getTile(currentX,targetY).flags == 0 and math.floor(getBot():getLocal().pos.y/32) ~= targetY then
+                getBot():setPos(currentX, currentY - 1)
+                sleep(50)
             end
         else
             currentY = math.min(targetY, currentY + 1)
-            if getBot():getTile(currentX,targetY).flags == 0 and math.floor(bot:getLocal().pos.y/32) ~= targetY then
+            if getBot():getTile(currentX,targetY).flags == 0 and math.floor(getBot():getLocal().pos.y/32) ~= targetY then
                 getBot():setPos(currentX, currentY + 1)
+                sleep(50)
             end
         end
         if math.floor(getBot():getLocal().pos.y/32) ~= targetY then
             getBot():setPos(currentX, currentY)
-            sleep(250)
+            sleep(50)
         end
     end
+    sleep(500)
     while currentX ~= targetX do
         if currentX < targetX then
             currentX = math.min(targetX, currentX + 8)
@@ -56,7 +58,7 @@ function movePlayer(currentX, currentY, targetX, targetY)
             currentX = math.max(targetX, currentX - 8)
         end
         getBot():setPos(currentX, currentY)
-       sleep(300)
+        sleep(500)
     end
     return currentX, currentY
 end
