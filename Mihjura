@@ -69,40 +69,6 @@ function findPath(x,y)
     local finalX, finalY = movePlayer(currentX, currentY, targetX, targetY)
 end
 
-function movePlayer2(currentX, currentY, targetX, targetY)
-    if currentY ~= targetY then
-        getBot():findPath(targetX, targetY)
-        sleep(100) -- Tunggu sebentar setelah mencari jalur
-    else
-        getBot():setPos(targetX, targetY)
-    end
-
-
-     if currentX ~= targetX then
-        if math.abs(currentX - targetX) < 3 then
-          repeat  
-           getBot():setPos(targetX, targetY)
-       until math.floor(getBot():getLocal().pos.x/32) == targetX
-        else
-          repeat
-            getBot():findPath(targetX, targetY)
-            sleep(100) -- Tunggu sebentar setelah mencari jalur
- until math.floor(getBot():getLocal().pos.x/32) == targetX
-        end
-    end
-
-    return currentX, currentY
-end
-
-function findPath2(x,y)
-    local targetX = x
-    local targetY = y
-    local currentX = math.floor(getBot():getLocal().pos.x/32)
-    local currentY = math.floor(getBot():getLocal().pos.y/32)
-    local finalX, finalY = movePlayer2(currentX, currentY, targetX, targetY)
-end
-
-
 function TagBan(kata)
 if not UseWebhookTagBan then
 return
@@ -1205,7 +1171,7 @@ getBot():autoCollect(4,true)
 for _, tile in ipairs(getBot():getTiles()) do
 if getBot():getTile(tile.x,tile.y-1).fg == seedid and getBot():canHarvest(tile.x,tile.y-1) and getBot():getItemCount(seedid-1) < 165 then
 if not blacklistTiles or check(tile.x,tile.y) then
-findPath2(tile.x,tile.y-1)
+findPath(tile.x,tile.y-1)
 while getBot():getTile(tile.x,tile.y - 1).fg == seedid and getBot():canHarvest(tile.x,tile.y-1) do
 reconnect(tile.x,tile.y-1)
 getBot():hitTile(tile.x,tile.y-1)
@@ -1225,7 +1191,7 @@ getBot():autoCollect(4,true)
 for _, tile in ipairs(getBot():getTiles()) do
 if getBot():getTile(tile.x,tile.y-1).fg == seedid and getBot():canHarvest(tile.x,tile.y-1) and getBot():getItemCount(seedid-1) < 165 then
 if not blacklistTiles or check(tile.x,tile.y) then
-findPath2(tile.x,tile.y-1)
+findPath(tile.x,tile.y-1)
 while getBot():getTile(tile.x,tile.y - 1).fg == seedid and getBot():canHarvest(tile.x,tile.y-1) do
 reconnect(tile.x,tile.y-1)
 getBot():hitTile(tile.x,tile.y-1)
@@ -1282,7 +1248,7 @@ for _, tile in ipairs(getBot():getTiles()) do
 if tile.fg ~= 0 and tile.fg ~= seedid and getBot():getTile(tile.x, tile.y-1).fg ~= seedid-1 and getBot():getTile(tile.x, tile.y-1).fg ~= seedid and getBot():getItemCount(seedid) > 0 then
 if getBot():getTile(tile.x, tile.y-1).fg == 0 then
 if not blacklistTiles or check(tile.x,tile.y) then
-findPath2(tile.x, tile.y-1)
+findPath(tile.x, tile.y-1)
 if getBot():getTile(math.floor(getBot():getLocal().pos.x / 32), math.floor(getBot():getLocal().pos.y / 32)).fg == 0 then
 reconnect(tile.x,tile.y-1)
 getBot():placeTile(tile.x,tile.y-1,seedid)
