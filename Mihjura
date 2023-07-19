@@ -30,45 +30,34 @@ emoji = ""
 loopnya = 0
 checknya = false
 
-
 function movePlayer(currentX, currentY, targetX, targetY)
-if math.floor(getBot():getLocal().pos.y / 32) == 1 and getBot():getItemCount(seedid-1) >= 165 then
-getBot():findPath(posX-1,posY-1)
-sleep(100)
-end
-    local stepSize = 2
-
-    local function moveTowardsTarget(targetX, targetY)
-        local dx = targetX - currentX
-        local dy = targetY - currentY
-
-        -- Tentukan perpindahan maksimum dalam arah X dan Y
-        local moveX = math.min(stepSize, math.abs(dx)) * (dx > 0 and 1 or -1)
-        local moveY = math.min(stepSize, math.abs(dy)) * (dy > 0 and 1 or -1)
-
-        currentX = currentX + moveX
-        currentY = currentY + moveY
-
-        getBot():setPos(currentX, currentY)
-    end
-
-    local function distanceToTarget(targetX, targetY)
-        return math.abs(targetX - currentX), math.abs(targetY - currentY)
-    end
-
-    while currentX ~= targetX or currentY ~= targetY do
-        local distX, distY = distanceToTarget(targetX, targetY)
-
-        if distX <= stepSize and distY <= stepSize then
-            -- Jika perpindahan kurang dari atau sama dengan 3 tile, tanpa delay
-            moveTowardsTarget(targetX, targetY)
+    while currentY ~= targetY do
+        if currentY > targetY then
+            currentY = math.max(targetY, currentY - 1)
+            if getBot():getTile(currentX,targetY).flags == 0 and math.floor(bot:getLocal().pos.y/32) ~= targetY then
+               getBot():setPos(currentX, currentY - 1)
+              sleep(150)
+            end
         else
-            -- Jika perpindahan lebih dari 3 tile, dengan delay 100
-            moveTowardsTarget(targetX, targetY)
-          sleep(100) -- Tunggu sebentar sebelum setPos selanjutnya
+            currentY = math.min(targetY, currentY + 1)
+            if getBot():getTile(currentX,targetY).flags == 0 and math.floor(bot:getLocal().pos.y/32) ~= targetY then
+                getBot():setPos(currentX, currentY + 1)
+            end
+        end
+        if math.floor(getBot():getLocal().pos.y/32) ~= targetY then
+            getBot():setPos(currentX, currentY)
+            sleep(150)
         end
     end
-
+    while currentX ~= targetX do
+        if currentX < targetX then
+            currentX = math.min(targetX, currentX + 8)
+        else
+            currentX = math.max(targetX, currentX - 8)
+        end
+        getBot():setPos(currentX, currentY)
+       sleep(200)
+    end
     return currentX, currentY
 end
 
@@ -78,6 +67,39 @@ function findPath(x,y)
     local currentX = math.floor(getBot():getLocal().pos.x/32)
     local currentY = math.floor(getBot():getLocal().pos.y/32)
     local finalX, finalY = movePlayer(currentX, currentY, targetX, targetY)
+end
+
+function movePlayer2(currentX, currentY, targetX, targetY)
+    if currentY ~= targetY then
+        getBot():findPath(targetX, targetY)
+        sleep(100) -- Tunggu sebentar setelah mencari jalur
+    else
+        getBot():setPos(targetX, targetY)
+    end
+
+
+     if currentX ~= targetX then
+        if math.abs(currentX - targetX) < 3 then
+          repeat  
+           getBot():setPos(targetX, targetY)
+       until math.floor(getBot():getLocal().pos.x/32) == targetX
+        else
+          repeat
+            getBot():findPath(targetX, targetY)
+            sleep(100) -- Tunggu sebentar setelah mencari jalur
+ until math.floor(getBot():getLocal().pos.x/32) == targetX
+        end
+    end
+
+    return currentX, currentY
+end
+
+function findPath2(x,y)
+    local targetX = x
+    local targetY = y
+    local currentX = math.floor(getBot():getLocal().pos.x/32)
+    local currentY = math.floor(getBot():getLocal().pos.y/32)
+    local finalX, finalY = movePlayer2(currentX, currentY, targetX, targetY)
 end
 
 
@@ -135,7 +157,7 @@ if AutoAddBot then
         end
       else
         loginGuest("", getSocks(ProxyList[proxyIndexAdd]), ListBotAdd[i])
-        sleep(10000)
+        sleep(5000)
 
         if getBot():getBotStatus() ~= Success then
           repeat
@@ -1183,13 +1205,7 @@ getBot():autoCollect(4,true)
 for _, tile in ipairs(getBot():getTiles()) do
 if getBot():getTile(tile.x,tile.y-1).fg == seedid and getBot():canHarvest(tile.x,tile.y-1) and getBot():getItemCount(seedid-1) < 165 then
 if not blacklistTiles or check(tile.x,tile.y) then
-findPath(tile.x,tile.y-1)
-if math.floor(getBot():getLocal().pos.x / 32) ~= tile.x or math.floor(getBot():getLocal().pos.y / 32) ~= tile.y-1 then
-repeat
-findPath(tile.x,tile.y-1)
-sleep(5000)
-until math.floor(getBot():getLocal().pos.x / 32) == tile.x or math.floor(getBot():getLocal().pos.y / 32) == tile.y-1
-end
+findPath2(tile.x,tile.y-1)
 while getBot():getTile(tile.x,tile.y - 1).fg == seedid and getBot():canHarvest(tile.x,tile.y-1) do
 reconnect(tile.x,tile.y-1)
 getBot():hitTile(tile.x,tile.y-1)
@@ -1209,13 +1225,7 @@ getBot():autoCollect(4,true)
 for _, tile in ipairs(getBot():getTiles()) do
 if getBot():getTile(tile.x,tile.y-1).fg == seedid and getBot():canHarvest(tile.x,tile.y-1) and getBot():getItemCount(seedid-1) < 165 then
 if not blacklistTiles or check(tile.x,tile.y) then
-findPath(tile.x,tile.y-1)
-if math.floor(getBot():getLocal().pos.x / 32) ~= tile.x or math.floor(getBot():getLocal().pos.y / 32) ~= tile.y-1 then
-repeat
-getBot():findPath(tile.x,tile.y-1)
-sleep(5000)
-until math.floor(getBot():getLocal().pos.x / 32) == tile.x or math.floor(getBot():getLocal().pos.y / 32) == tile.y-1
-end
+findPath2(tile.x,tile.y-1)
 while getBot():getTile(tile.x,tile.y - 1).fg == seedid and getBot():canHarvest(tile.x,tile.y-1) do
 reconnect(tile.x,tile.y-1)
 getBot():hitTile(tile.x,tile.y-1)
@@ -1272,13 +1282,7 @@ for _, tile in ipairs(getBot():getTiles()) do
 if tile.fg ~= 0 and tile.fg ~= seedid and getBot():getTile(tile.x, tile.y-1).fg ~= seedid-1 and getBot():getTile(tile.x, tile.y-1).fg ~= seedid and getBot():getItemCount(seedid) > 0 then
 if getBot():getTile(tile.x, tile.y-1).fg == 0 then
 if not blacklistTiles or check(tile.x,tile.y) then
-findPath(tile.x, tile.y-1)
-if math.floor(getBot():getLocal().pos.x / 32) ~= tile.x or math.floor(getBot():getLocal().pos.y / 32) ~= tile.y-1 then
-repeat
-findPath(tile.x,tile.y-1)
-sleep(5000)
-until math.floor(getBot():getLocal().pos.x / 32) == tile.x or math.floor(getBot():getLocal().pos.y / 32) == tile.y-1
-end
+findPath2(tile.x, tile.y-1)
 if getBot():getTile(math.floor(getBot():getLocal().pos.x / 32), math.floor(getBot():getLocal().pos.y / 32)).fg == 0 then
 reconnect(tile.x,tile.y-1)
 getBot():placeTile(tile.x,tile.y-1,seedid)
@@ -1330,7 +1334,7 @@ while getBot():getWorld().name:upper() ~= string.match(world:upper(), "([^|]+)")
                 sleep(5000)
             end
             getBot():sendPacket("action|join_request\nname|"..world:upper().."|"..id:upper().."\ninvitedWorld|0",3)
-            sleep(5000)
+            sleep(3000)
         end
     else
      while getBot():getTile(math.floor(getBot():getLocal().pos.x / 32),math.floor(getBot():getLocal().pos.y / 32)).fg == 6 and not nuked do
@@ -1339,11 +1343,9 @@ while getBot():getWorld().name:upper() ~= string.match(world:upper(), "([^|]+)")
                 sleep(5000)
             end
    getBot():sendPacket("action|join_request\nname|"..world:upper().."|"..id:upper().."\ninvitedWorld|0",3)
-            sleep(5000)
+            sleep(3000)
     end
 end
-getBot():move(DOWN,1)
-sleep(500)
 end
 
 function restoretime()
@@ -1522,12 +1524,6 @@ cekbp()
 coptrashs()
 atas = getBot():getWorld().name
 findPath(posXBreak,posYBreak)
-if math.floor(getBot():getLocal().pos.x / 32) ~= posXBreak or math.floor(getBot():getLocal().pos.y / 32) ~= posYBreak then
-repeat
-findPath(posXBreak,posYBreak)
-sleep(5000)
-until math.floor(getBot():getLocal().pos.x / 32) == posXBreak or math.floor(getBot():getLocal().pos.y / 32) == posYBreak
-end
 getBot():autoCollect(4,true)
 while getBot():getItemCount(seedid-1) > 0 do
 reconnect(posX-1,posY-1)
