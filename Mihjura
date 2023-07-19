@@ -40,7 +40,7 @@ function movePlayer(currentX, currentY, targetX, targetY)
 
 
      if currentX ~= targetX then
-        if math.abs(currentX - targetX) < 3 then
+        if math.abs(currentX - targetX) < 2 then
           repeat  
            getBot():setPos(targetX, targetY)
        until math.floor(getBot():getLocal().pos.x/32) == targetX
