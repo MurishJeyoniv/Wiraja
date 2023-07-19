@@ -41,14 +41,14 @@ function movePlayer(currentX, currentY, targetX, targetY)
 
      if currentX ~= targetX then
         if math.abs(currentX - targetX) < 2 then
-          repeat  
+         repeat
            getBot():setPos(targetX, targetY)
-       until math.floor(getBot():getLocal().pos.x/32) == targetX
+         until math.floor(getBot():getLocal().pos.x/32) == targetX
         else
-          repeat
+         repeat 
             getBot():findPath(targetX, targetY)
-            sleep(5000) -- Tunggu sebentar setelah mencari jalur
- until math.floor(getBot():getLocal().pos.x/32) == targetX
+            sleep(100) -- Tunggu sebentar setelah mencari jalur
+        until math.floor(getBot():getLocal().pos.x/32) == targetX
         end
     end
 
