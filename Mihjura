@@ -47,7 +47,7 @@ function movePlayer(currentX, currentY, targetX, targetY)
         else
          repeat 
             getBot():findPath(targetX, targetY)
-            sleep(100) -- Tunggu sebentar setelah mencari jalur
+            sleep(1000) -- Tunggu sebentar setelah mencari jalur
         until math.floor(getBot():getLocal().pos.x/32) == targetX
         end
     end
