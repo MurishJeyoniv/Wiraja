@@ -48,6 +48,14 @@ break
 end
 end
 
+while math.floor(getBot():getLocal().pos.y / 32 ) == 24 or math.floor(getBot():getLocal().pos.y / 32) == 22 do
+getBot():findPath(targetX, targetY)
+sleep(100)
+if math.floor(getBot():getLocal().pos.y / 32) ~= 24 or math.floor(getBot():getLocal().pos.y / 32) ~= 22 then
+break
+end
+end
+
     -- Pergerakan vertikal
  while currentY ~= targetY do
 currentY = math.floor(getBot():getLocal().pos.y / 32)
