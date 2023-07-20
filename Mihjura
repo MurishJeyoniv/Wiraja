@@ -75,7 +75,7 @@ local dx = math.abs(targetX - currentX)
 while currentX ~= targetX do
 currentX = math.floor(getBot():getLocal().pos.x / 32)
     getBot():setPos(targetX, targetY)
-sleep(25)
+sleep(35)
 end
 else
     if getBot():getTile(math.floor(getBot():getLocal().pos.x / 32 + 2), math.floor(getBot():getLocal().pos.y / 32)).fg == 6 or getBot():getTile(math.floor(getBot():getLocal().pos.x / 32 - 2), math.floor(getBot():getLocal().pos.y / 32)).fg == 6 then
