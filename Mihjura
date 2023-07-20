@@ -80,7 +80,7 @@ else
             currentX = math.max(targetX, currentX - 8)
         end
         getBot():setPos(currentX, currentY)
-        sleep(300)
+        sleep(500)
     end
 end
 
