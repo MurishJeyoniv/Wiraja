@@ -97,7 +97,7 @@ end
             currentX = math.max(targetX, currentX - 7)
         end
         getBot():setPos(currentX, currentY)
-        sleep(300)
+        sleep(400)
     end
 end
 
