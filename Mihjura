@@ -28,7 +28,8 @@ BpCek = false
 growidIndex = 1
 emoji = ""
 loopnya = 0
-checknya = false
+checknya = true
+
 
 function findPath(targetX, targetY)
 currentX = math.floor(getBot():getLocal().pos.x / 32)
@@ -71,8 +72,11 @@ local dx = math.abs(targetX - currentX)
         getBot():findPath(targetX, targetY)
         sleep(100)
     end
+while currentX ~= targetX do
+currentX = math.floor(getBot():getLocal().pos.x / 32)
     getBot():setPos(targetX, targetY)
-sleep(30)
+sleep(25)
+end
 else
     if getBot():getTile(math.floor(getBot():getLocal().pos.x / 32 + 2), math.floor(getBot():getLocal().pos.y / 32)).fg == 6 or getBot():getTile(math.floor(getBot():getLocal().pos.x / 32 - 2), math.floor(getBot():getLocal().pos.y / 32)).fg == 6 then
         -- Pindahkan bot ke posisi Y yang lebih rendah
@@ -80,16 +84,28 @@ else
         sleep(100)
     end
 
+
     while currentX ~= targetX do
+    if math.floor(getBot():getLocal().pos.y / 32) == 23 then
+   getBot():findPath(targetX, targetY)
+sleep(100)
+end
   currentX = math.floor(getBot():getLocal().pos.x / 32)
         if currentX < targetX then
-            currentX = math.min(targetX, currentX + 8)
+            currentX = math.min(targetX, currentX + 7)
         else
-            currentX = math.max(targetX, currentX - 8)
+            currentX = math.max(targetX, currentX - 7)
         end
         getBot():setPos(currentX, currentY)
-        sleep(500)
+        sleep(300)
     end
+end
+
+if getBot():getTile(math.floor(getBot():getLocal().pos.x / 32), math.floor(getBot():getLocal().pos.y / 32 + 1)).fg == seedid-1 then
+for i=1,hit do
+getBot():hitTile(math.floor(getBot():getLocal().pos.x/32),math.floor(getBot():getLocal().pos.y/32 + 1))
+sleep(delaypunch)
+end
 end
 
     return currentX, currentY
@@ -1593,6 +1609,12 @@ sleep(delaypunch)
 end
 end
 end
+if getBot():getTile(math.floor(getBot():getLocal().pos.x / 32 -1) ,math.floor(getBot():getLocal().pos.y /32)).fg == seedid-1 then
+for i=1,hit do
+getBot():hitTile(posXNya-1,posYNya-1)
+sleep(delaypunch)
+end
+end
 end
 
 function foregraund(itemid)
@@ -1909,11 +1931,6 @@ function CounterApi()
     for y = 0, 53 do
         for x = 0, 99 do
             if getBot():checkFlag(x, y, flagType.FIRE) and getBot():getTile(x, y - 1).flags == 0 then
-                if not getBot():isEquipped(3066) then
-                    sleep(5000)
-                    takehose()
-                    sleep(5000)
-                end
                 if getBot():getItemCount(3066) > 0 and not getBot():isEquipped(3066) then
                     wear(3066)
                     sleep(2000)
@@ -1925,11 +1942,6 @@ function CounterApi()
                 punch(0, 2)
                 sleep(2000)
             elseif getBot():checkFlag(x, y, flagType.FIRE) and getBot():getTile(x - 1, y).flags == 0 then
-                if not getBot():isEquipped(3066) then
-                    sleep(5000)
-                    takehose()
-                    sleep(5000)
-                end
                 if getBot():getItemCount(3066) > 0 and not getBot():isEquipped(3066) then
                     wear(3066)
                     sleep(2000)
@@ -2044,6 +2056,7 @@ end
 if checknya then
 sleep(5000)
 takepick()
+takehose()
 warp(world,wid)
 if not nuked then
 clearTable(processedTimes)
