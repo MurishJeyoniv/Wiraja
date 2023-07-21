@@ -311,6 +311,9 @@ end
   end
 end
 
+for i, bot in pairs(getAllBot()) do
+log(bot:getLocal().name:upper())
+end
 
 local fullName = getBot():getLocal().name:upper()
 local searchPattern = "(%w+)_"
@@ -1858,7 +1861,6 @@ getBot():autoCollect(4,false)
 botpack("Saving Seeds")
 atas = getBot():getWorld().name
         warp(WorldSaveSeed,WorldSaveSeedID)
-sleep(2000)
     for _, tile in ipairs(getBot():getTiles()) do
         if tile.fg == IDPatokanSeed or tile.bg == IDPatokanSeed then 
            if CekTileSeeds(tile.x,tile.y,100) then
@@ -1891,11 +1893,9 @@ end
 
 function belicuy()
   woloy = getBot():getWorld().name
-    sleep(1800)
     getBot():autoCollect(4,false)
     botpack("Buying Pack..")
     warp(WorldSavePack,WorldSavePackID)
-sleep(2000)
     while getBot():getLocal().gems > packgems do
             getBot():sendPacket("action|buy\nitem|".. itemname,2)
             sleep(4000)
