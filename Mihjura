@@ -45,6 +45,9 @@ if SoilFarmMode then
 while math.floor(getBot():getLocal().pos.y / 32) == 52 and getBot():getItemCount(seedid-1) > 164 do
 getBot():findPath(1,48)
 sleep(100)
+if math.floor(getBot():getLocal().pos.y / 32) ~= 52 then
+break
+end
 end
 end
 
