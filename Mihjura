@@ -28,7 +28,7 @@ BpCek = false
 growidIndex = 1
 emoji = ""
 loopnya = 0
-checknya = true
+checknya = false
 
 
 function findPath(targetX, targetY)
