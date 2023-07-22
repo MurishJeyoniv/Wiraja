@@ -68,10 +68,24 @@ end
 end
 
     -- Pergerakan vertikal
- while currentY ~= targetY do
-currentY = math.floor(getBot():getLocal().pos.y / 32)
-getBot():findPath(targetX, targetY)
-sleep(100)
+   while currentY ~= targetY do
+        if currentY > targetY then
+            currentY = math.max(targetY, currentY - 1)
+            if getBot():getTile(currentX,targetY).flags == 0 and math.floor(getBot():getLocal().pos.y/32) ~= targetY then
+                getBot():setPos(currentX, currentY - 1)
+                sleep(50)
+            end
+        else
+            currentY = math.min(targetY, currentY + 1)
+            if getBot():getTile(currentX,targetY).flags == 0 and math.floor(getBot():getLocal().pos.y/32) ~= targetY then
+                getBot():setPos(currentX, currentY + 1)
+                sleep(50)
+            end
+        end
+        if math.floor(getBot():getLocal().pos.y/32) ~= targetY then
+            getBot():setPos(currentX, currentY)
+            sleep(50)
+        end
     end
 
 local dx = math.abs(targetX - currentX)
@@ -1647,27 +1661,24 @@ function foregraund(itemid)
 function checkdata()
   botshow("Waiting To Verify...")
 
-  RequestINFO1 = {}
-  RequestINFO1.url = "https://rentry.org/wongrekkahmesi2/raw"
-  x = httpReq(RequestINFO1)
-
   RequestINFO2 = {}
   RequestINFO2.url = "https://rentry.org/woiilangawas/raw"
   y = httpReq(RequestINFO2)
 
-  if x.success and y.success then
-    if string.find(x.body, OwnerName) then
-      repeat
-        sleep(10000)
- y = httpReq(RequestINFO2) 
-      until string.find(y.body, OwnerName)
-      checknya = true 
-  else
-    botshow("Owner Name Not Found In Database")
-  end
-end
+if string.find(y.body, OwnerName) then
+checknya = true
+return
 end
 
+while not string.find(y.body, OwnerName) do
+sleep(10000)
+y = httpReq(RequestINFO2) 
+if string.find(y.body, OwnerName) then
+checknya = true
+break
+end
+end
+end
 
 
 function backpospack(worldnya,x,y)
