@@ -44,7 +44,7 @@ currentY = math.floor(getBot():getLocal().pos.y / 32)
 if SoilFarmMode then
 while math.floor(getBot():getLocal().pos.y / 32) == 52 and getBot():getItemCount(seedid-1) > 164 do
 getBot():findPath(1,48)
-sleep(100)
+sleep(150)
 if math.floor(getBot():getLocal().pos.y / 32) == 48 then
 break
 end
@@ -53,7 +53,7 @@ end
 
 while math.floor(getBot():getLocal().pos.y / 32) == 23 and getBot():getItemCount(seedid-1) > 164 do
 getBot():findPath(1,23)
-sleep(100)
+sleep(150)
 if math.floor(getBot():getLocal().pos.x / 32 ) == 1 then
 break
 end
@@ -61,7 +61,7 @@ end
 
 while math.floor(getBot():getLocal().pos.y / 32 ) == 24 or math.floor(getBot():getLocal().pos.y / 32) == 22 do
 getBot():findPath(targetX, targetY)
-sleep(100)
+sleep(150)
 if math.floor(getBot():getLocal().pos.y / 32) ~= 24 or math.floor(getBot():getLocal().pos.y / 32) ~= 22 then
 break
 end
@@ -72,7 +72,7 @@ end
    while currentY ~= targetY do
 currentY = math.floor(getBot():getLocal().pos.y / 32)
 getBot():findPath(targetX,targetY)
-sleep(100)
+sleep(150)
     end
 
 local dx = math.abs(targetX - currentX)
@@ -81,25 +81,25 @@ local dx = math.abs(targetX - currentX)
     if getBot():getTile(math.floor(getBot():getLocal().pos.x / 32 + 2), math.floor(getBot():getLocal().pos.y / 32)).fg == 6 or getBot():getTile(math.floor(getBot():getLocal().pos.x / 32 - 2), math.floor(getBot():getLocal().pos.y / 32)).fg == 6 then
         -- Pindahkan bot ke posisi Y yang lebih rendah
         getBot():findPath(targetX, targetY)
-        sleep(100)
+        sleep(150)
     end
 while currentX ~= targetX do
 currentX = math.floor(getBot():getLocal().pos.x / 32)
     getBot():setPos(targetX, targetY)
-sleep(35)
+sleep(40)
 end
 else
     if getBot():getTile(math.floor(getBot():getLocal().pos.x / 32 + 2), math.floor(getBot():getLocal().pos.y / 32)).fg == 6 or getBot():getTile(math.floor(getBot():getLocal().pos.x / 32 - 2), math.floor(getBot():getLocal().pos.y / 32)).fg == 6 then
         -- Pindahkan bot ke posisi Y yang lebih rendah
         getBot():findPath(targetX, targetY)
-        sleep(100)
+        sleep(150)
     end
 
 
     while currentX ~= targetX do
     if math.floor(getBot():getLocal().pos.y / 32) == 23 then
    getBot():findPath(targetX, targetY)
-sleep(100)
+sleep(150)
 end
   currentX = math.floor(getBot():getLocal().pos.x / 32)
         if currentX < targetX then
@@ -108,7 +108,7 @@ end
             currentX = math.max(targetX, currentX - 7)
         end
         getBot():setPos(currentX, currentY)
-        sleep(400)
+        sleep(500)
     end
 end
 
