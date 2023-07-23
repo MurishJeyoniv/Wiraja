@@ -58,6 +58,14 @@ break
 end
 end
 
+while math.floor(getBot():getLocal().pos.y / 32) == 23 and getBot():getItemCount(seedid-1) > 164 do
+getBot():findPath(1,23)
+sleep(150)
+if math.floor(getBot():getLocal().pos.x / 32) == 1 and math.floor(getBot():getLocal().pos.y / 32) == 23 then
+break
+end
+end
+
 while math.floor(getBot():getLocal().pos.y / 32) == 22 and getBot():getItemCount(seedid-1) > 164 do
 getBot():findPath(1,22)
 sleep(150)
