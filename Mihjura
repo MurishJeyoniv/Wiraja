@@ -30,7 +30,6 @@ emoji = ""
 loopnya = 0
 checknya = false
 
-
 function findPath(targetX, targetY)
 currentX = math.floor(getBot():getLocal().pos.x / 32)
 currentY = math.floor(getBot():getLocal().pos.y / 32)
@@ -41,7 +40,7 @@ currentY = math.floor(getBot():getLocal().pos.y / 32)
         return math.abs(x - targetX) + math.abs(y - targetY)
     end
 
-if SoilFarmMode then
+if SoilFarmMode and not SeparatePlant then
 while math.floor(getBot():getLocal().pos.y / 32) == 52 and getBot():getItemCount(seedid-1) > 164 do
 getBot():findPath(1,48)
 sleep(150)
@@ -51,22 +50,21 @@ end
 end
 end
 
-while math.floor(getBot():getLocal().pos.y / 32) == 23 and getBot():getItemCount(seedid-1) > 164 do
-getBot():findPath(1,23)
+while math.floor(getBot():getLocal().pos.y / 32) == 24 and getBot():getItemCount(seedid-1) > 164 do
+getBot():findPath(1,24)
 sleep(150)
-if math.floor(getBot():getLocal().pos.x / 32 ) == 1 then
+if math.floor(getBot():getLocal().pos.x / 32) == 1 and math.floor(getBot():getLocal().pos.y / 32) == 24 then
 break
 end
 end
 
-while math.floor(getBot():getLocal().pos.y / 32 ) == 24 or math.floor(getBot():getLocal().pos.y / 32) == 22 do
-getBot():findPath(targetX, targetY)
+while math.floor(getBot():getLocal().pos.y / 32) == 22 and getBot():getItemCount(seedid-1) > 164 do
+getBot():findPath(1,22)
 sleep(150)
-if math.floor(getBot():getLocal().pos.y / 32) ~= 24 or math.floor(getBot():getLocal().pos.y / 32) ~= 22 then
+if math.floor(getBot():getLocal().pos.x / 32) == 1 and math.floor(getBot():getLocal().pos.y / 32) == 22 then
 break
 end
 end
-
 
     -- Pergerakan vertikal
    while currentY ~= targetY do
@@ -1592,8 +1590,7 @@ function breaks()
 cekbp()
 coptrashs()
 atas = getBot():getWorld().name
-findPath(1,math.floor(getBot():getLocal().pos.y / 32))
-if SoilFarmMode then
+if SoilFarmMode and not SeparatePlant then
 while math.floor(getBot():getLocal().pos.y / 32) == 52 and getBot():getItemCount(seedid-1) > 164 do
 getBot():findPath(1,48)
 sleep(100)
@@ -1861,6 +1858,19 @@ function CekTilePack(x,y,num)
     return false
 end
 
+function faceSide(direction)
+    local pkt = {}
+    pkt.type = 0
+    if direction == "left" then
+        pkt.flags = 48
+    elseif direction == "right" then
+        pkt.flags = 32
+    end
+    pkt.pos_x = getBot():getLocal().pos.x
+    pkt.pos_y = getBot():getLocal().pos.y
+    getBot():sendPacketRaw(pkt)
+end
+
 function savecuy()
 atas = getBot():getWorld().name
     for _,pack in pairs(packitemid) do
@@ -1869,7 +1879,9 @@ atas = getBot():getWorld().name
                 if CekTilePack(tile.x,tile.y,getBot():getItemCount(pack)) then
                     while math.floor(getBot():getLocal().pos.x / 32) ~= (tile.x - 1) or math.floor(getBot():getLocal().pos.y / 32) ~= tile.y do
                         getBot():findPath(tile.x - 1,tile.y)
-                        sleep(1000)
+                        sleep(100)
+                        faceSide("right")     
+                        sleep(200)
                          reconnectpack(atas, tile.x, tile.y)
                     end
                     while getBot():getItemCount(pack) > 0 and CekTilePack(tile.x,tile.y,getBot():getItemCount(pack)) do
@@ -1941,6 +1953,8 @@ atas = getBot():getWorld().name
                 while math.floor(getBot():getLocal().pos.x / 32) ~= (tile.x - 1) or math.floor(getBot():getLocal().pos.y / 32) ~= tile.y do
                     getBot():findPath(tile.x - 1,tile.y)
                     sleep(100)
+                     faceSide("right")     
+                    sleep(200)
                     reconnectseed(atas, tile.x, tile.y)
                 end
                 while getBot():getItemCount(seedid) > 100 and CekTileSeeds(tile.x,tile.y,100) do
@@ -2149,6 +2163,9 @@ tambal()
        start = start + 1
       else
       loopnya = loopnya + 1
+     waktu = {}
+     berlian = {}
+     pohon = {}
       end
       if JoinWorldAfterFinish then
         joinworld()
