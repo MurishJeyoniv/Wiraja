@@ -1406,10 +1406,10 @@ while getBot():getWorld().name:upper() ~= string.match(world:upper(), "([^|]+)")
         while getBot():getTile(math.floor(getBot():getLocal().pos.x / 32),math.floor(getBot():getLocal().pos.y / 32)).fg == 6 and not nuked do
             while getBot():getBotStatus() ~= Success do
                 getBot():reConnect()
-                sleep(5000)
+                sleep(5500)
             end
             getBot():sendPacket("action|join_request\nname|"..world:upper().."|"..id:upper().."\ninvitedWorld|0",3)
-            sleep(3000)
+            sleep(4000)
         end
     else
      while getBot():getTile(math.floor(getBot():getLocal().pos.x / 32),math.floor(getBot():getLocal().pos.y / 32)).fg == 6 and not nuked do
@@ -1418,7 +1418,7 @@ while getBot():getWorld().name:upper() ~= string.match(world:upper(), "([^|]+)")
                 sleep(5000)
             end
    getBot():sendPacket("action|join_request\nname|"..world:upper().."|"..id:upper().."\ninvitedWorld|0",3)
-            sleep(3000)
+            sleep(4000)
     end
 end
 end
@@ -1955,6 +1955,7 @@ getBot():autoCollect(4,false)
 botpack("Saving Seeds")
 atas = getBot():getWorld().name
         warp(WorldSaveSeed,WorldSaveSeedID)
+sleep(1000)
     for _, tile in ipairs(getBot():getTiles()) do
         if tile.fg == IDPatokanSeed or tile.bg == IDPatokanSeed then 
            if CekTileSeeds(tile.x,tile.y,100) then
