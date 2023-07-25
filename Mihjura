@@ -85,11 +85,24 @@ end
     end
 end
 
-if getBot():getTile(math.floor(getBot():getLocal().pos.x / 32), math.floor(getBot():getLocal().pos.y / 32 + 1)).fg == seedid-1 then
-for i=1,hit do
+while getBot():getTile(math.floor(getBot():getLocal().pos.x / 32), math.floor(getBot():getLocal().pos.y / 32 + 1)).fg == seedid-1 do
 getBot():hitTile(math.floor(getBot():getLocal().pos.x / 32),math.floor(getBot():getLocal().pos.y / 32 + 1))
 sleep(delaypunch)
 end
+
+while getBot():getTile(math.floor(getBot():getLocal().pos.x / 32), math.floor(getBot():getLocal().pos.y / 32 - 1)).fg == seedid-1 do
+getBot():hitTile(math.floor(getBot():getLocal().pos.x / 32),math.floor(getBot():getLocal().pos.y / 32 - 1))
+sleep(delaypunch)
+end
+
+while getBot():getTile(math.floor(getBot():getLocal().pos.x / 32 - 1), math.floor(getBot():getLocal().pos.y / 32 )).fg == seedid-1 do
+getBot():hitTile(math.floor(getBot():getLocal().pos.x / 32 - 1),math.floor(getBot():getLocal().pos.y / 32 ))
+sleep(delaypunch)
+end
+
+while getBot():getTile(math.floor(getBot():getLocal().pos.x / 32 + 1), math.floor(getBot():getLocal().pos.y / 32 )).fg == seedid-1 do
+getBot():hitTile(math.floor(getBot():getLocal().pos.x / 32 + 1),math.floor(getBot():getLocal().pos.y / 32 ))
+sleep(delaypunch)
 end
 
     return currentX, currentY
