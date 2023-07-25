@@ -1827,8 +1827,6 @@ atas = getBot():getWorld().name
                     while math.floor(getBot():getLocal().pos.x / 32) ~= (tile.x - 1) or math.floor(getBot():getLocal().pos.y / 32) ~= tile.y do
                         getBot():findPath(tile.x - 1,tile.y)
                         sleep(100)
-                        faceSide("right")     
-                        sleep(200)
                          reconnectpack(atas, tile.x, tile.y)
                     end
                     while getBot():getItemCount(pack) > 0 and CekTilePack(tile.x,tile.y,getBot():getItemCount(pack)) do
@@ -1894,15 +1892,12 @@ getBot():autoCollect(4,false)
 botpack("Saving Seeds")
 atas = getBot():getWorld().name
         warp(WorldSaveSeed,WorldSaveSeedID)
-sleep(1000)
     for _, tile in ipairs(getBot():getTiles()) do
         if tile.fg == IDPatokanSeed or tile.bg == IDPatokanSeed then 
            if CekTileSeeds(tile.x,tile.y,100) then
                 while math.floor(getBot():getLocal().pos.x / 32) ~= (tile.x - 1) or math.floor(getBot():getLocal().pos.y / 32) ~= tile.y do
                     getBot():findPath(tile.x - 1,tile.y)
                     sleep(100)
-                     faceSide("right")     
-                    sleep(200)
                     reconnectseed(atas, tile.x, tile.y)
                 end
                 while getBot():getItemCount(seedid) > 100 and CekTileSeeds(tile.x,tile.y,100) do
