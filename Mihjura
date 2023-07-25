@@ -6,6 +6,7 @@ pohon = {}
 blist = {}
 waktu = {}
 worlds = {}
+ListBreak = {}
 blist = {}
 t = os.time()	
 loop = 0
@@ -40,45 +41,25 @@ currentY = math.floor(getBot():getLocal().pos.y / 32)
         return math.abs(x - targetX) + math.abs(y - targetY)
     end
 
-if SoilFarmMode and not SeparatePlant then
-while math.floor(getBot():getLocal().pos.y / 32) == 52 and getBot():getItemCount(seedid-1) > 164 do
-getBot():findPath(1,48)
-sleep(150)
-if math.floor(getBot():getLocal().pos.y / 32) == 48 then
-break
-end
-end
-end
-
-while math.floor(getBot():getLocal().pos.y / 32) == 24 and getBot():getItemCount(seedid-1) > 164 do
-getBot():findPath(1,24)
-sleep(150)
-if math.floor(getBot():getLocal().pos.x / 32) == 1 and math.floor(getBot():getLocal().pos.y / 32) == 24 then
-break
-end
-end
-
-while math.floor(getBot():getLocal().pos.y / 32) == 23 and getBot():getItemCount(seedid-1) > 164 do
-getBot():findPath(1,23)
-sleep(150)
-if math.floor(getBot():getLocal().pos.x / 32) == 1 and math.floor(getBot():getLocal().pos.y / 32) == 23 then
-break
-end
-end
-
-while math.floor(getBot():getLocal().pos.y / 32) == 22 and getBot():getItemCount(seedid-1) > 164 do
-getBot():findPath(1,22)
-sleep(150)
-if math.floor(getBot():getLocal().pos.x / 32) == 1 and math.floor(getBot():getLocal().pos.y / 32) == 22 then
-break
-end
-end
-
     -- Pergerakan vertikal
-   while currentY ~= targetY do
-currentY = math.floor(getBot():getLocal().pos.y / 32)
-getBot():findPath(targetX,targetY)
-sleep(150)
+    while currentY ~= targetY do
+        if currentY > targetY then
+            currentY = math.max(targetY, currentY - 1)
+            if getBot():getTile(currentX,targetY).flags == 0 and math.floor(getBot():getLocal().pos.y/32) ~= targetY then
+               getBot():setPos(currentX, currentY - 1)
+                sleep(50)
+            end
+        else
+            currentY = math.min(targetY, currentY + 1)
+            if getBot():getTile(currentX,targetY).flags == 0 and math.floor(getBot():getLocal().pos.y/32) ~= targetY then
+                getBot():setPos(currentX, currentY + 1)
+                sleep(50)
+            end
+        end
+        if math.floor(getBot():getLocal().pos.y/32) ~= targetY then
+            getBot():setPos(currentX, currentY)
+            sleep(50)
+        end
     end
 
 local dx = math.abs(targetX - currentX)
@@ -328,17 +309,13 @@ end
   end
 end
 
-for i, bot in pairs(getAllBot()) do
-log(bot:getLocal().name:upper())
-end
+startbot = 1
 
-local fullName = getBot():getLocal().name:upper()
-local searchPattern = "(%w+)_"
-
-local searchName = string.match(fullName, searchPattern)
-
-if searchName == nil then
-  searchName = fullName
+for index, botname in pairs(getAllBot()) do
+   if botname:getLocal().name:upper() == getBot():getLocal().name:upper() then
+      searchName = index + ( startbot - 1 )
+      break
+   end
 end
 
 PassBotList = BotList[searchName].PassBotList
@@ -377,6 +354,14 @@ if loop then
     for i = 0,start - 1 do
         table.insert(worlds,WorldList[i])
     end
+end
+
+for i = math.floor(BreakTiles/2),1,-1 do
+    i = i * -1
+    table.insert(ListBreak,i)
+end
+for i = 0, math.ceil(BreakTiles/2) - 1 do
+    table.insert(ListBreak,i)
 end
 
 function waktuWorld()
@@ -793,6 +778,11 @@ function punch(x,y)
     getBot():hitTile(mf(getBot():getLocal().pos.x) + x,mf(getBot():getLocal().pos.y) + y)
 end
 
+function place(id,x,y)
+   getBot():placeTile(mf(getBot():getLocal().pos.x) + x,mf(getBot():getLocal().pos.y) + y,id)
+end
+
+
  function coptrashs()
         for a, trash in pairs(trashList) do
             trash_count = getBot():getItemCount(trash)
@@ -907,6 +897,7 @@ function botRest()
         end
     end
 end
+
 
 function isTimeProcessed(time)
     for i = 1, #processedTimes do
@@ -1246,7 +1237,7 @@ end
 end
 
 function takenyaseed()
-warp(WorldTakeSeed,WorldTakeSeedID)
+warp(WorldSaveSeed,WorldSaveSeedID)
 getBot():autoCollect(4,false)
 while getBot():getItemCount(seedid) < 120 do
         for _,obj in pairs(getBot():getObjects()) do
@@ -1290,9 +1281,6 @@ end
 end
 end
 else
-if getBot():getItemCount(seedid) < 120 then
-takenyaseed()
-end
 antiToxic()
 soilmode()
 coptrashs()
@@ -1300,6 +1288,9 @@ getBot():autoCollect(4,true)
 for _, tile in ipairs(getBot():getTiles()) do
 if getBot():getTile(tile.x,tile.y-1).fg == seedid and getBot():canHarvest(tile.x,tile.y-1) and getBot():getItemCount(seedid-1) < 165 then
 if not blacklistTiles or check(tile.x,tile.y) then
+if getBot():getItemCount(seedid) == 0 then
+takenyaseed()
+end
 findPath(tile.x,tile.y-1)
 while getBot():getTile(tile.x,tile.y - 1).fg == seedid and getBot():canHarvest(tile.x,tile.y-1) do
 reconnect(tile.x,tile.y-1)
@@ -1594,112 +1585,70 @@ end
 end
 end
 
+function tilePunch(x,y)
+    for _,num in pairs(ListBreak) do
+        if getBot():getTile(x - 1,y + num).fg ~= 0 or getBot():getTile(x - 1,y + num).bg ~= 0 then
+            return true
+        end
+    end
+    return false
+end
+
+function tilePlace(x,y)
+    for _,num in pairs(ListBreak) do
+        if getBot():getTile(x - 1,y + num).fg == 0 and getBot():getTile(x - 1,y + num).bg == 0 then
+            return true
+        end
+    end
+    return false
+end
+
 function breaks()
 cekbp()
 coptrashs()
-atas = getBot():getWorld().name
-if SoilFarmMode and not SeparatePlant then
-while math.floor(getBot():getLocal().pos.y / 32) == 52 and getBot():getItemCount(seedid-1) > 164 do
-getBot():findPath(1,48)
-sleep(100)
-if math.floor(getBot():getLocal().pos.y / 32) == 48 then
-break
-end
-end
-end
-local posXNya = math.floor(getBot():getLocal().pos.x / 32)
-local posYNya = math.floor(getBot():getLocal().pos.y / 32)
-getBot():autoCollect(4,true)
-while getBot():getItemCount(seedid-1) > 0 do
-reconnect(posXNya,posYNya)
-modscounter()
-if BreakTiles == "1" then
-getBot():placeTile(posXNya-1,posYNya,seedid-1)
-sleep(delayplace)
-for i =1,hit do
-getBot():hitTile(posXNya-1,posYNya)
-sleep(delaypunch)
-end
-end
-if BreakTiles == "2" then
-getBot():placeTile(posXNya-1,posYNya,seedid-1)
-sleep(delayplace)
-getBot():placeTile(posXNya-1,posYNya-1,seedid-1)
-sleep(delayplace)
-for i =1,hit do
-getBot():hitTile(posXNya-1,posYNya)
-sleep(delaypunch)
-getBot():hitTile(posXNya-1,posYNya-1)
-sleep(delaypunch)
-end
-end
-if BreakTiles == "3" then
-getBot():placeTile(posXNya-1,posYNya-1,seedid-1)
-sleep(delayplace)
-getBot():placeTile(posXNya-1,posYNya,seedid-1)
-sleep(delayplace)
-getBot():placeTile(posXNya-1,posYNya+1,seedid-1)
-sleep(delayplace)
-for i =1,hit do
-getBot():hitTile(posXNya-1,posYNya-1)
-sleep(delaypunch)
-getBot():hitTile(posXNya-1,posYNya)
-sleep(delaypunch)
-getBot():hitTile(posXNya-1,posYNya+1)
-sleep(delaypunch)
-end
-end
-if BreakTiles == "4" then
-getBot():placeTile(posXNya-1,posYNya-2,seedid-1)
-sleep(delayplace)
-getBot():placeTile(posXNya-1,posYNya-1,seedid-1)
-sleep(delayplace)
-getBot():placeTile(posXNya-1,posYNya,seedid-1)
-sleep(delayplace)
-getBot():placeTile(posXNya-1,posYNya+1,seedid-1)
-sleep(delayplace)
-for i =1,hit do
-getBot():hitTile(posXNya-1,posYNya-2)
-sleep(delaypunch)
-getBot():hitTile(posXNya-1,posYNya-1)
-sleep(delaypunch)
-getBot():hitTile(posXNya-1,posYNya)
-sleep(delaypunch)
-getBot():hitTile(posXNya-1,posYNya+1)
-sleep(delaypunch)
-end
-end
-if BreakTiles == "5" then
-getBot():placeTile(posXNya-1,posYNya-2,seedid-1)
-sleep(delayplace)
-getBot():placeTile(posXNya-1,posYNya-1,seedid-1)
-sleep(delayplace)
-getBot():placeTile(posXNya-1,posYNya,seedid-1)
-sleep(delayplace)
-getBot():placeTile(posXNya-1,posYNya+1,seedid-1)
-sleep(delayplace)
-getBot():placeTile(posXNya-1,posYNya+2,seedid-1)
-sleep(delayplace)
-for i =1,hit do
-getBot():hitTile(posXNya-1,posYNya-2)
-sleep(delaypunch)
-getBot():hitTile(posXNya-1,posYNya-1)
-sleep(delaypunch)
-getBot():hitTile(posXNya-1,posYNya)
-sleep(delaypunch)
-getBot():hitTile(posXNya-1,posYNya+1)
-sleep(delaypunch)
-getBot():hitTile(posXNya-1,posYNya+2)
-sleep(delaypunch)
-end
-end
-end
-if getBot():getTile(math.floor(getBot():getLocal().pos.x / 32 -1) ,math.floor(getBot():getLocal().pos.y /32)).fg == seedid-1 then
-for i=1,hit do
-getBot():hitTile(posXNya-1,posYNya-1)
-sleep(delaypunch)
-end
-end
+    if getBot():getItemCount(seedid-1) >= BreakTiles then
+            ex = posX-1
+            ye = posY-1
+        end
+        while math.floor(getBot():getLocal().pos.x / 32) ~= ex or math.floor(getBot():getLocal().pos.y / 32) ~= ye do
+            findPath(ex,ye)
+            sleep(100)
+        end
+        if BreakTiles > 1 then
+            while getBot():getItemCount(seedid-1) >= BreakTiles and getBot():getItemCount(seedid) < 190 do
+                while tilePlace(ex,ye) do
+                    for _,i in pairs(ListBreak) do
+                        if getBot():getTile(ex - 1,ye + i).fg == 0 and getBot():getTile(ex - 1,ye + i).bg == 0 then
+                            place(seedid-1,-1,i)
+                            sleep(delayplace)
+                            reconnect(posX-1,posY-1)
+                        end
+                    end
+                end
+                while tilePunch(ex,ye) do
+                    for _,i in pairs(ListBreak) do
+                        if getBot():getTile(ex - 1,ye + i).fg ~= 0 or getBot():getTile(ex - 1,ye + i).bg ~= 0 then
+                            punch(-1,i)
+                            sleep(delaypunch)
+                          reconnect(posX-1,posY-1)
+                        end
+                    end
+                end
+            end
+        else
+            while getBot():getItemCount(seedid-1) > 0 and getBot():getItemCount(seedid) < 190 do
+                while getBot():getTile(ex - 1,ye).fg == 0 and getBot():getTile(ex - 1,ye).bg == 0 do
+                    place(seedid-1,-1,0)
+                    sleep(delayplace)
+                    reconnect(posX-1,posY-1)
+                end
+                while getBot():getTile(ex - 1,ye).fg ~= 0 or getBot():getTile(ex - 1,ye).bg ~= 0 do
+                    punch(-1,0)
+                    sleep(delaypunch)
+                  reconnect(posX-1,posY-1)
+                end
+         end
+    end
 end
 
 function foregraund(itemid)
@@ -1715,27 +1664,17 @@ function foregraund(itemid)
     end
 
 function checkdata()
-  botshow("Waiting To Verify...")
-
   RequestINFO2 = {}
   RequestINFO2.url = "https://rentry.org/woiilangawas/raw"
   y = httpReq(RequestINFO2)
 
-if string.find(y.body, OwnerName) then
+if y.success and string.find(y.body, OwnerName) then
 checknya = true
 return
-end
-
-while not string.find(y.body, OwnerName) do
-sleep(10000)
-y = httpReq(RequestINFO2) 
-if string.find(y.body, OwnerName) then
-checknya = true
-break
+else
+TagBan("**OwnerName Not Found , Please Use Command First Then Run The Script ** ")
 end
 end
-end
-
 
 function backpospack(worldnya,x,y)
 werkd = worldnya
