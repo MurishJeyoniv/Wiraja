@@ -2087,9 +2087,6 @@ waktuWorld()
 if Guest then
 sleep(20000)
 end
-if not checknya then
-checkdata()
-end
 if checknya then
 sleep(5000)
 takepick()
@@ -2126,7 +2123,6 @@ nuked = false
 sleep(5000)
    end
 end
-end
 if not loop then
     waktuWorld()
     sleep(100)
@@ -2138,6 +2134,14 @@ end
 end
 end
 
-
-
+function awalan()
+if not checknya then
+checkdata()
+end
+if checknya then
 startwoi()
+end
+end
+
+
+awalan()
