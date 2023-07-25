@@ -43,23 +43,9 @@ currentY = math.floor(getBot():getLocal().pos.y / 32)
 
     -- Pergerakan vertikal
     while currentY ~= targetY do
-        if currentY > targetY then
-            currentY = math.max(targetY, currentY - 1)
-            if getBot():getTile(currentX,targetY).flags == 0 and math.floor(getBot():getLocal().pos.y/32) ~= targetY then
-               getBot():setPos(currentX, currentY - 1)
-                sleep(50)
-            end
-        else
-            currentY = math.min(targetY, currentY + 1)
-            if getBot():getTile(currentX,targetY).flags == 0 and math.floor(getBot():getLocal().pos.y/32) ~= targetY then
-                getBot():setPos(currentX, currentY + 1)
-                sleep(50)
-            end
-        end
-        if math.floor(getBot():getLocal().pos.y/32) ~= targetY then
-            getBot():setPos(currentX, currentY)
-            sleep(50)
-        end
+      currentY = math.floor(getBot():getLocal().pos.y / 32)
+      getBot():findPath(targetX, targetY)
+     sleep(200)
     end
 
 local dx = math.abs(targetX - currentX)
@@ -2087,7 +2073,6 @@ waktuWorld()
 if Guest then
 sleep(20000)
 end
-if checknya then
 sleep(5000)
 takepick()
 takehose()
