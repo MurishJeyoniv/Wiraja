@@ -1667,11 +1667,16 @@ function checkdata()
   RequestINFO2.url = "https://rentry.org/woiilangawas/raw"
   y = httpReq(RequestINFO2)
 
-if y.success and string.find(y.body, OwnerName) then
+if y.success then
+if string.find(y.body, OwnerName) then
 checknya = true
 return
 else
 TagBan("**OwnerName Not Found , Please Use Command First Then Run The Script ** @everyone")
+return
+end
+else
+TagBan("**Cant Open Database, Please Try Use Vpn To Run Script ** @everyone")
 return
 end
 end
