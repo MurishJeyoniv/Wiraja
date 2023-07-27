@@ -551,8 +551,8 @@ te = os.time() - t
         $CompObject =  Get-WmiObject -Class WIN32_OperatingSystem
         $Memory = ((($CompObject.TotalVisibleMemorySize - $CompObject.FreePhysicalMemory)*100)/ $CompObject.TotalVisibleMemorySize)
         $RAM = [math]::Round($Memory, 0)
-        $thumbnailObject = @{
-            url = "https://cdn.discordapp.com/icons/1051427884369195038/41aa737cca11ae24ce6ed6d516e8fa31.png?size=4096"
+        $imageObject = @{
+            url = "https://cdn.discordapp.com/attachments/1083626331515920404/1134097487448244234/standard.gif"
         }
         $footerObject = @{
         text = "]]..(os.date("!%a %b %d, %Y | %I:%M %p", os.time() + 7 * 60 * 60))..[[ "
@@ -642,8 +642,8 @@ te = os.time() - t
         $embedObject = @{
             title = "**]]..cekemoji2()..[[ Jopy Rotation ( Surfer )  ]]..cekemoji2()..[[ **"
             color = "]]..math.random(111111,999999)..[["
-            thumbnail = $thumbnailObject
             footer = $footerObject
+            image = $imageObject
             fields = $fieldArray
         }
         $embedArray = @($embedObject)
@@ -668,8 +668,8 @@ else
         $webHookUrl = "]]..WhPackAndSeed..[[/messages/]]..MessageIDPack..[["
         $CPU = Get-WmiObject Win32_Processor | Measure-Object -Property LoadPercentage -Average | Select -ExpandProperty Average
         $RAM = [math]::Round($Memory, 0)
-        $thumbnailObject = @{
-            url = "https://cdn.discordapp.com/icons/1051427884369195038/41aa737cca11ae24ce6ed6d516e8fa31.png?size=4096"
+        $imageObject = @{
+            url = "https://cdn.discordapp.com/attachments/1083626331515920404/1134097487448244234/standard.gif"
         }
         $footerObject = @{
             text = "]]..(os.date("!%a %b %d, %Y | %I:%M %p", os.time() + 7 * 60 * 60))..[["
@@ -709,7 +709,7 @@ else
         $embedObject = @{
             title = "**]]..cekemoji2()..[[ Jopy Rotation ( Surfer )]]..cekemoji2()..[[ **"
             color = "]]..math.random(111111,999999)..[["
-            thumbnail = $thumbnailObject
+            image = $imageObject
             footer = $footerObject
             fields = $fieldArray
         }
