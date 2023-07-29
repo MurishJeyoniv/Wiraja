@@ -1,11 +1,94 @@
- --=====(Jopy Store)===== -- 
-
+ --===== Encrypt ===== -- 
 
 indexWorld = 1
 t = os.time()
 bw = 0
 rumah = ""
 checknya = false
+
+startbot = 1
+
+for index, botname in pairs(getAllBot()) do
+   if botname:getLocal().name:upper() == getBot():getLocal().name:upper() then
+      searchName = index + ( startbot - 1 )
+      break
+   end
+end
+
+TotalWorldToGenerate = BotList[searchName].TotalWorldToGenerate
+WorldLetters = BotList[searchName].WorldLetters
+GenerateWithNumber = BotList[searchName].GenerateWithNumber
+UseOtherAccToGenerate = BotList[searchName].UseOtherAccToGenerate
+Growid = BotList[searchName].Growid
+Pass = BotList[searchName].Pass
+Lock = BotList[searchName].Lock
+UseJammer = BotList[searchName].UseJammer
+IDJammer = BotList[searchName].IDJammer
+UseEntrance = BotList[searchName].UseEntrance
+EntranceID = BotList[searchName].EntranceID
+PlaceDoor = BotList[searchName].PlaceDoor
+Door = BotList[searchName].Door
+IDDoor = BotList[searchName].IDDoor
+UseWebhookActivity = BotList[searchName].UseWebhookActivity
+WhActivity = BotList[searchName].WhActivity
+MessageID = BotList[searchName].MessageID
+
+function findPath(targetX, targetY)
+currentX = math.floor(getBot():getLocal().pos.x / 32)
+currentY = math.floor(getBot():getLocal().pos.y / 32)
+    local maxMoveDistance = 8
+
+    -- Fungsi untuk menghitung jarak antara posisi saat ini dengan target
+    function distanceToTarget(x, y)
+        return math.abs(x - targetX) + math.abs(y - targetY)
+    end
+
+    -- Pergerakan vertikal
+    while currentY ~= targetY do
+      currentY = math.floor(getBot():getLocal().pos.y / 32)
+      getBot():findPath(targetX, targetY)
+     sleep(300)
+    end
+
+local dx = math.abs(targetX - currentX)
+if dx < 2 then
+local dx = math.abs(targetX - currentX)
+    if getBot():getTile(math.floor(getBot():getLocal().pos.x / 32 + 2), math.floor(getBot():getLocal().pos.y / 32)).fg == 6 or getBot():getTile(math.floor(getBot():getLocal().pos.x / 32 - 2), math.floor(getBot():getLocal().pos.y / 32)).fg == 6 then
+        -- Pindahkan bot ke posisi Y yang lebih rendah
+       getBot():findPath(targetX, targetY)
+        sleep(150)
+    end
+while currentX ~= targetX do
+currentX = math.floor(getBot():getLocal().pos.x / 32)
+    getBot():setPos(targetX, targetY)
+sleep(40)
+end
+else
+    if getBot():getTile(math.floor(getBot():getLocal().pos.x / 32 + 2), math.floor(getBot():getLocal().pos.y / 32)).fg == 6 or getBot():getTile(math.floor(getBot():getLocal().pos.x / 32 - 2), math.floor(getBot():getLocal().pos.y / 32)).fg == 6 then
+        -- Pindahkan bot ke posisi Y yang lebih rendah
+        getBot():findPath(targetX, targetY)
+        sleep(150)
+    end
+
+
+    while currentX ~= targetX do
+    if math.floor(getBot():getLocal().pos.y / 32) == 23 then
+   getBot():findPath(targetX, targetY)
+sleep(150)
+end
+  currentX = math.floor(getBot():getLocal().pos.x / 32)
+        if currentX < targetX then
+            currentX = math.min(targetX, currentX + 7)
+        else
+            currentX = math.max(targetX, currentX - 7)
+        end
+        getBot():setPos(currentX, currentY)
+        sleep(500)
+    end
+end
+
+    return currentX, currentY
+end
 
 function status()
     if getBot():getBotStatus() == Success then
@@ -39,13 +122,60 @@ function status()
     end
 end
 
-function cekbuyer()
-RequestINFO = {}
-RequestINFO.url = "https://rentry.org/kitaraja/raw"
-x = httpReq(RequestINFO)
-if x.success then
+function logs(text)
+    local file = io.open("JopyDF.txt","a")
+    file:write(text.."\n")
+    file:close()
 end
-return x.body
+
+function ceknya()
+  local RequestINFO = {}
+  RequestINFO.url = "https://rentry.org/Wongcitamah/raw"
+
+  -- Mengambil teks dari URL
+  local x = httpReq(RequestINFO)
+  local response = x.body
+  
+  -- Menghitung jumlah baris
+  local lineCount = 0
+  for _ in response:gmatch("[^\r\n]+") do
+    lineCount = lineCount + 1
+  end
+  
+  return lineCount
+end
+
+function nungguverify()
+if not checknya then
+return " Waiting To Verify!"
+else
+return " Verified!"
+end
+end
+
+function cekbuyer(nameowner)
+  local RequestINFO = {}
+  RequestINFO.url = "https://rentry.org/Wongcitamah/raw"
+
+  -- Mengambil teks dari URL
+  local x = httpReq(RequestINFO)
+  local response = x.body
+  
+  -- Memisahkan teks menjadi baris-baris
+  local lines = {}
+  for line in response:gmatch("[^\r\n]+") do
+    table.insert(lines, line)
+  end
+  
+  -- Mencari UserID berdasarkan nama owner
+  for _, line in ipairs(lines) do
+    local owner, userid = line:match("(%S+)%s+(%d+)")
+    if owner == nameowner then
+      return userid -- Mengembalikan UserID
+    end
+  end
+  
+  return nil -- Jika nama owner tidak ditemukan
 end
 
 function botshow(Info)
@@ -59,13 +189,23 @@ te = os.time() - t
         $CompObject =  Get-WmiObject -Class WIN32_OperatingSystem
         $Memory = ((($CompObject.TotalVisibleMemorySize - $CompObject.FreePhysicalMemory)*100)/ $CompObject.TotalVisibleMemorySize)
         $RAM = [math]::Round($Memory, 0)
-        $thumbnailObject = @{
-            url = "https://share.creavite.co/9ugoY1REemeb0nVZ.gif"
+        $imageObject = @{
+            url = "https://cdn.discordapp.com/attachments/1083626331515920404/1134097487448244234/standard.gif"
         }
         $footerObject = @{
         text = "]]..(os.date("!%a %b %d, %Y | %I:%M %p", os.time() + 7 * 60 * 60))..[["
         }
         $fieldArray = @(
+            @{
+                name = "**<:kannasip:1016295102882250823> ]]..nungguverify()..[[**"
+                value = "**<@]]..cekbuyer(OwnerName)..[[>**"
+                inline = "true"
+            }
+            @{
+                name = "**<:suaongtho:1070039313674412063> Total Buyers**"
+                value = "**]]..ceknya()..[[**"
+                inline = "true"
+            }
             @{
                 name = "**<:mega:981220331572326471>  Bot Info** "
                 value = "**]]..Info..[[**"
@@ -113,9 +253,9 @@ te = os.time() - t
             }
         )
         $embedObject = @{
-            title = "**<:dirt:1049606471744225360> Jopy Auto DF ( Surfer ) "..cekbuyer().." Buyers <:dirt:1049606471744225360>**"
+            title = "**<:dirt:1049606471744225360> Jopy Auto DF ( Surfer ) <:dirt:1049606471744225360>**"
             color = "]]..math.random(111111,999999)..[["
-            thumbnail = $thumbnailObject
+            image = $imageObject
             footer = $footerObject
             fields = $fieldArray
         }
@@ -180,7 +320,7 @@ function generate()
         WorldsToGenerate = WorldsToGenerate..string.char(math.random(97,122))
     end
     getBot():sendPacket("action|join_request\nname|" .. WorldsToGenerate .. "\ninvitedWorld|0",3)
-    sleep(5000)
+    sleep(3000)
 
     if CheckBG() > 3600 or CheckFG() > 3601 then
         goto BACK31
@@ -223,9 +363,11 @@ if BreakLava then
     while getBot():getTile(x,y).fg == 4 do
         punch(0,1)
         sleep(150)
-    end
-    place(2,0,1)
+    while getBot():getTile(x,y).fg ~= 2 do
+       place(2,0,1)
     sleep(150)
+ end
+    end
 end
 end
 
@@ -264,12 +406,12 @@ function clearSide()
     for i=24,53 do  
         if getBot():getTile(1,i).bg == 14 then
             while getBot():getTile(1,i).bg == 14 do
-                getBot():findPath(1,i-1)
+                findPath(1,i-1)
                 punch(0,1)
                 sleep(150)
             end
             while getBot():getTile(0,i).bg == 14 do
-                getBot():findPath(1,i-1)
+                findPath(1,i-1)
                 punch(-1,1)
                 sleep(150)
             end
@@ -278,12 +420,12 @@ function clearSide()
     for i=24,53 do
         if getBot():getTile(98,i).bg == 14 then
             while getBot():getTile(98,i).bg == 14 do
-                getBot():findPath(98,i-1)
+                findPath(98,i-1)
                 punch(0,1)
                 sleep(150)
             end
             while getBot():getTile(99,i).bg == 14 do
-                getBot():findPath(98,i-1)
+                findPath(98,i-1)
                 punch(1,1)
                 sleep(150)
             end
@@ -300,7 +442,7 @@ function collectObject(itemId)
                 getBot():collectObject(object.uid)
             getBot():autoCollect(4,true)
             else
-                if getBot():findPath(posX, posY) then
+                if findPath(posX, posY) then
                     sleep(50)
                     getBot():collectObject(object.uid)
                    getBot():autoCollect(4,true)
@@ -336,16 +478,20 @@ getBot():sendPacket("action|drop\n|itemID|PlatformID",2)
 sleep(1000)
 getBot():sendPacket("action|dialog_return\ndialog_name|drop_item\nitemID|PlatformID|\ncount|"..(getBot():getItemCount(PlatformID) - 55),2)
 sleep(1000)
-warp(waras,"")
+warp(waras,IDDoor)
 else
 TagBan("**The Platform In The World : "..getBot():getWorld().name:upper().." Was Not Enought The Platform Must At Least 55**\n**Now Bot Will Drop The Plat And Start Again With No Place Plat** @everyone")
 PlacePlat = false
-warp(waras,"")
+warp(waras,IDDoor)
 end
 else
 TagBan("**No Platform In The World : "..getBot():getWorld().name:upper().." Now Bot Will Start Again With No Place Plat** @everyone")
 PlacePlat = false
 warp(waras,IDDoor)
+  xbot = math.floor(getBot():getLocal().pos.x /32)
+ybot = math.floor(getBot():getLocal().pos.y /32)
+findPath(xbot-1,ybot)
+sleep(300)
 end
 end
 
@@ -407,7 +553,7 @@ botshow("Clearing Dirt...")
                 if getBot():getTile(j,i+2).bg == 0 and getBot():getTile(j,i+2).fg == 0 then
                     sleep(1)
                 else
-                    getBot():findPath(j,i)
+                    findPath(j,i)
                     replaceLava(j,i + 1)
                     while getBot():getTile(j,i+2).bg == 14 or getBot():getTile(j,i+2).bg ~= 0 do
                         sleep(DelayClearDirt)
@@ -423,18 +569,20 @@ end
 function clearRock()
 for _, tile in ipairs(getBot():getTiles()) do
 if tile.fg == 10 then
-getBot():findPath(tile.x,tile.y-1)
+findPath(tile.x,tile.y-1)
 sleep(1000)
 for i = 1,9 do
 punch(0,1)
 sleep(1000)
 end
+place(2,0,1)
+sleep(100)
 end
 end
 end
 
 function getDirt()
-    getBot():findPath(2,25)
+    findPath(2,25)
     sleep(200)
     getBot():autoCollect(4,true)
     if getBot():getItemCount(3) > 0 then
@@ -445,7 +593,7 @@ function getDirt()
      sleep(200)
     end
    sleep(31 *  1000)
-  getBot():findPath(2,25)
+  findPath(2,25)
   for i=1,20 do 
    punch(0,0)
    sleep(120)
@@ -466,10 +614,12 @@ botshow("Placing Dirt...")
                     if getBot():getItemCount(2) == 0 then
                         getDirt()
                     end
-                    getBot():findPath(j,i+1)
+                    findPath(j,i+1)
                     sleep(150)
+                    while getBot():getTile(math.floor(getBot():getLocal().pos.x /32), math.floor(getBot():getLocal().pos.y /32 -1)).fg ~= 2 do
                     place(2,0,-1)
                     sleep(DelayPlaceDirt)
+                   end
                 end
             end
         end
@@ -529,41 +679,79 @@ function IgnoreEmpty(x,y)
 end
 
 function lockworld()
+xbot = math.floor(getBot():getLocal().pos.x /32)
+ybot = math.floor(getBot():getLocal().pos.y /32)
+if UseJammer then
+place(IDJammer,-1,-1)
+sleep(300)
+punch(-1,-1)
+sleep(500)
+end
+while getBot():getTile(math.floor(getBot():getLocal().pos.x /32 -1), math.floor(getBot():getLocal().pos.y / 32 + 1)).fg ~= 0 or getBot():getTile(math.floor(getBot():getLocal().pos.x /32 -1), math.floor(getBot():getLocal().pos.y / 32 + 1)).bg ~= 0 do
+punch(-1,1)
+sleep(100)
+end
+while getBot():getTile(math.floor(getBot():getLocal().pos.x /32 -2), math.floor(getBot():getLocal().pos.y / 32 + 1)).fg ~= 0 or getBot():getTile(math.floor(getBot():getLocal().pos.x /32 -2), math.floor(getBot():getLocal().pos.y / 32 + 1)).bg ~= 0 do
+punch(-2,1)
+sleep(100)
+end
+while getBot():getTile(math.floor(getBot():getLocal().pos.x /32 -2), math.floor(getBot():getLocal().pos.y / 32 + 2)).fg ~= 0 or getBot():getTile(math.floor(getBot():getLocal().pos.x /32 -2), math.floor(getBot():getLocal().pos.y / 32 + 2)).bg ~= 0 do
+punch(-2,2)
+sleep(100)
+end
+while getBot():getTile(math.floor(getBot():getLocal().pos.x /32 -1), math.floor(getBot():getLocal().pos.y / 32 + 2)).fg ~= 0 or getBot():getTile(math.floor(getBot():getLocal().pos.x /32 -1), math.floor(getBot():getLocal().pos.y / 32 + 2)).bg ~= 0 do
+punch(-1,2)
+sleep(100)
+end
+while getBot():getTile(math.floor(getBot():getLocal().pos.x /32), math.floor(getBot():getLocal().pos.y / 32 + 2)).fg ~= 0 or getBot():getTile(math.floor(getBot():getLocal().pos.x /32), math.floor(getBot():getLocal().pos.y / 32 + 2)).bg ~= 0 do
+punch(0,2)
+sleep(100)
+end
+while getBot():getTile(math.floor(getBot():getLocal().pos.x /32 + 1), math.floor(getBot():getLocal().pos.y / 32 + 2)).fg ~= 0 or getBot():getTile(math.floor(getBot():getLocal().pos.x /32 + 1), math.floor(getBot():getLocal().pos.y / 32 + 2)).bg ~= 0 do
+punch(1,2)
+sleep(100)
+end
+while getBot():getTile(math.floor(getBot():getLocal().pos.x /32 + 2), math.floor(getBot():getLocal().pos.y / 32 + 2)).fg ~= 0 or getBot():getTile(math.floor(getBot():getLocal().pos.x /32 + 2), math.floor(getBot():getLocal().pos.y / 32 + 2)).bg ~= 0 do
+punch(2,2)
+sleep(100)
+end
+while getBot():getTile(math.floor(getBot():getLocal().pos.x /32 + 2), math.floor(getBot():getLocal().pos.y / 32 + 1)).fg ~= 0 or getBot():getTile(math.floor(getBot():getLocal().pos.x /32 + 2), math.floor(getBot():getLocal().pos.y / 32 + 1)).bg ~= 0 do
+punch(2,1)
+sleep(100)
+end
 if PlaceDoor then
 getBot():move(LEFT,1)
-sleep(500)
-getBot():move(DOWN,2)
-sleep(5000)
-place(Door,0,-1)
+sleep(100)
+getBot():move(DOWN,1)
+sleep(100)
+while getBot():getTile(math.floor(getBot():getLocal().pos.x / 32), math.floor(getBot():getLocal().pos.y / 32)).fg ~= Door do
+place(Door,0,0)
 sleep(1000)
-wrench(0,-1)
+end
+wrench(0,0)
 sleep(1000)
 editDoor("Jopy","Jopy",IDDoor)
 sleep(2000)
-getBot():move(UP,2)
-sleep(500)
+getBot():move(UP,1)
+sleep(100)
 getBot():move(RIGHT,1)
-sleep(500)
+sleep(100)
 end
+place(2,1,-1)
+sleep(1000)
+place(Lock,0,-1)
+sleep(1000)
 if UseEntrance then
 place(EntranceID,1,0)
 sleep(300)
 place(EntranceID,-1,0)
 sleep(300)
+else
+place(2,1,0)
+sleep(300)
+place(2,-1,0)
+sleep(300)
 end
-for i = 1,5 do
-punch(-2,-1)
-sleep(1000)
-punch(2,-1)
-sleep(1000)
-end
-for i = 1,8 do
-punch(-2,1)
-sleep(1000)
-punch(2,1)
-sleep(1000)
-end
-sleep(1000)
 wrench(0,-1)
 sleep(2000)
 IgnoreEmpty(0,-1)
@@ -579,80 +767,28 @@ generate()
 else
 addBot(Growid,Pass)
 sleep(8000)
-if getBot():getBotStatus() ~= Success then
-repeat
-getBot():reConnect()
-sleep(8000)
-until getBot():getBotStatus() == Success
-if getBot():getBotStatus() == Success then
 generate()
+lockworld()
 rumah = getBot():getWorld().name:upper()
 getBot():remove()
 sleep(2000)
 end
 end
-end
-end
-
-function jagain()
-place(Lock,0,-1)
-sleep(1000)
-if UseJammer then
-place(226,-1,-1)
-sleep(300)
-punch(-1,-1)
-sleep(500)
-end
-for i = 1 , 8 do
-punch(-2,1)
-sleep(800)
-punch(-2,2)
-sleep(800)
-punch(-1,2)
-sleep(800)
-punch(0,2)
-sleep(800)
-punch(1,2)
-sleep(800)
-punch(2,2)
-sleep(800)
-punch(2,1)
-sleep(800)
-end
-for i = 1,7 do
-punch(-1,1)
-sleep(800)
-end
-end
-
-function manual()
-for _, list in pairs(WorldDF) do
-warp(list,IDDoor)
-takepick()
-getBot():autoCollect(4,true)
-clearSide()
-banwave()
-platform()
-banwave()
-clearDirt()
-banwave()
-getBot():autoCollect(4,false)
-placeDirt()
-if BreakRock then
-clearRock()
-end
-end
-end
 
 function generatemode()
 for i = 1,TotalWorldToGenerate do
+botshow("Finding World..")
 worldnya()
+if UseOtherAccToGenerate then
+warp(rumah,IDDoor)
+end
+if not UseOtherAccToGenerate then
 rumah = getBot():getWorld().name:upper()
-warp(rumah,"")
-takepick()
-jagain()
+logs("World : "..rumah.."")
 lockworld()
+end
 getBot():autoCollect(4,true)
+takepick()
 clearSide()
 banwave()
 platform()
@@ -666,46 +802,45 @@ clearRock()
 end
 getBot():sendPacket("action|respawn", 2)
 sleep(5000)
-for i = 1,10 do
+if AutoTakeJammerWhenDone then
+while getBot():getTile(math.floor(getBot():getLocal().pos.x /32 -1), math.floor(getBot():getLocal().pos.y /32 - 1)).fg == IDJammer do
 punch(-1,-1)
-sleep(1000)
+sleep(200)
+end
+place(2,-1,-1)
+sleep(200)
 end
 end
+botshow("All Df Has Been Created, Removing Bot...")
+getBot():remove()
 end
 
 function main()
-if DFMODE == "MANUAL" then
-manual()
-end
-if DFMODE == "GENERATE" then
+botshow("Bot Start")
 generatemode()
-end
 end
 
 function checkdata()
   botshow("Waiting To Verification...")
 
   RequestINFO1 = {}
-  RequestINFO1.url = "https://rentry.org/Wongcitamah/raw"
+  RequestINFO1.url = "https://rentry.org/woiktamah/raw"
   x = httpReq(RequestINFO1)
 
-  RequestINFO2 = {}
-  RequestINFO2.url = "https://rentry.org/woiktamah/raw"
-  y = httpReq(RequestINFO2)
-
-  if x.success and y.success then
+  if x.success then
     if string.find(x.body, OwnerName) then
-      repeat
-        sleep(1000)
- y = httpReq(RequestINFO2) 
-      until string.find(y.body, OwnerName)
-      checknya = true 
-      main()
+checknya = true
+  main()
   else
-    botshow("Owner Name Not Found In Database")
-  end
+TagBan("Use Command !rundfsurfer First Then Run Script @everyone")
+return
+end
+else
+TagBan("Error When Run Script, Try To Re Run The Script, If Problem Still, Use Vpn And Re Run @everyone ")
+return
 end
 end
+
 
 
 checkdata()
