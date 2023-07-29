@@ -766,8 +766,8 @@ else
 addBot(Growid,Pass)
 sleep(8000)
 generate()
-lockworld()
 rumah = getBot():getWorld().name:upper()
+lockworld()
 getBot():remove()
 sleep(2000)
 end
