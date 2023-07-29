@@ -362,11 +362,9 @@ function replaceLava(x,y)
 if BreakLava then
     while getBot():getTile(x,y).fg == 4 do
         punch(0,1)
-        sleep(150)
-    while getBot():getTile(x,y).fg ~= 2 do
+        sleep(300)
        place(2,0,1)
-    sleep(150)
- end
+    sleep(300)
     end
 end
 end
