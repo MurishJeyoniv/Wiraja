@@ -810,6 +810,10 @@ end
 place(2,-1,-1)
 sleep(200)
 end
+place(2,-2,1)
+sleep(300)
+place(2,2,1)
+sleep(300)
 end
 botshow("All Df Has Been Created, Removing Bot...")
 getBot():remove()
