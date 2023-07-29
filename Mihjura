@@ -45,7 +45,7 @@ currentY = math.floor(getBot():getLocal().pos.y / 32)
     while currentY ~= targetY do
       currentY = math.floor(getBot():getLocal().pos.y / 32)
       getBot():findPath(targetX, targetY)
-     sleep(200)
+     sleep(300)
     end
 
 local dx = math.abs(targetX - currentX)
