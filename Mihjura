@@ -1316,18 +1316,21 @@ for _,rah in pairs(getBot():getObjects()) do
           if rah.count > 0 then
           addBot(GrowidTakeGems,PasswordGrowid)
       sleep(10000)
-warp(atas,wid:upper())
-      getBot():autoCollect(5,true)
-      findPath(0,y)
+warptakegems(atas,wid:upper())
+      getBot(GrowidTakeGems):autoCollect(5,true)
+      getBot(GrowidTakeGems):findPath(0,y)
+      sleep(1000)
         while rah.count > 0 do
             for i =1,33 do
-              getBot():move(RIGHT,3)
+              getBot():move(RIGHT,3) 
+          sleep(500)
             end
             y = y + 2
-            findPath(0,y)
+            getBot(GrowidTakeGems):findPath(0,y)
+          sleep(500)
           end
           if rah.count == 0 then
-            getBot():remove()
+            getBot(GrowidTakeGems):remove()
             sleep(10000)
             botshow("Done Taking Soil Gems")
                 end
@@ -1367,6 +1370,13 @@ end
 end
 end
 end
+end
+
+function warptakegems(world,id)
+getBot(GrowidTakeGems):sendPacket("action|join_request\nname|"..world:upper().."|"..id:upper().."\ninvitedWorld|0",3)
+sleep(6000)
+getBot(GrowidTakeGems):sendPacket("action|join_request\nname|"..world:upper().."|"..id:upper().."\ninvitedWorld|0",3)
+sleep(6000)
 end
 
 function warpdoang(world,id)
