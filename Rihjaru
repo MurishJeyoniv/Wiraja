@@ -6,13 +6,13 @@ bw = 0
 rumah = ""
 checknya = false
 
-startbot = 1
+local fullName = getBot():getLocal().name:upper()
+local searchPattern = "(%w+)_"
 
-for index, botname in pairs(getAllBot()) do
-   if botname:getLocal().name:upper() == getBot():getLocal().name:upper() then
-      searchName = index + ( startbot - 1 )
-      break
-   end
+local searchName = string.match(fullName, searchPattern)
+
+if searchName == nil then
+  searchName = fullName
 end
 
 TotalWorldToGenerate = BotList[searchName].TotalWorldToGenerate
