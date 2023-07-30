@@ -939,13 +939,13 @@ if AutoTakeJammerWhenDone and UseOtherAccToGenerate then
 addBot(Growid,Pass)
 sleep(8000)
 getBot(Growid):warp(rumah)
-while getBot():getTile(math.floor(getBot():getLocal().pos.x /32 -1), math.floor(getBot():getLocal().pos.y /32 - 1)).fg == IDJammer do
-punch(-1,-1)
+while getBot(Growid):getTile(math.floor(getBot(Growid):getLocal().pos.x /32 -1), math.floor(getBot(Growid):getLocal().pos.y /32 - 1)).fg == IDJammer do
+punchotheracc(-1,-1)
 sleep(200)
 end
 place(2,-1,-1)
 sleep(200)
-getBot():remove()
+getBot(Growid):remove()
 end
 place(2,-2,1)
 sleep(300)
