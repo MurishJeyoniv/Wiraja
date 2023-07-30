@@ -333,6 +333,29 @@ function generate()
     end
 end
 
+function generateotheracc()
+    ::BACK31::
+    sleep(3000)
+    getBot(Growid):sendPacket("action|quit_to_exit",3)
+    sleep(3000)
+    local WorldsToGenerate = ""
+    for i = 1,WorldLetters do
+        WorldsToGenerate = WorldsToGenerate..string.char(math.random(97,122))
+    end
+    getBot(Growid):sendPacket("action|join_request\nname|" .. WorldsToGenerate .. "\ninvitedWorld|0",3)
+    sleep(3000)
+
+    if CheckBG() > 3600 or CheckFG() > 3601 then
+        goto BACK31
+    end
+
+    for _,t in ipairs(getBot(Growid):getTiles()) do
+        if t.fg== 242 or t.fg== 9640 or t.fg== 202 or t.fg== 204 or t.fg== 206 or t.fg== 1796 or t.fg== 4994 or t.fg== 7188 or t.fg== 2408 or t.fg== 2950 or t.fg== 4428 or t.fg== 4802 or t.fg== 5814 or t.fg== 5260 or t.fg== 5980 or t.fg== 8470 or t.fg== 10410 or t.fg== 11550 or t.fg== 11586 then
+            goto BACK31
+        end
+    end
+end
+
 function warp(world,id)
 getBot():sendPacket("action|join_request\nname|"..world:upper().."|"..id:upper().."\ninvitedWorld|0",3)
 sleep(4000)
@@ -348,12 +371,24 @@ function punch(x,y)
     getBot():hitTile(mf(getBot():getLocal().pos.x) + x,mf(getBot():getLocal().pos.y) + y)
 end
 
+function punchotheracc(x,y)
+    getBot(Growid):hitTile(mf(getBot(Growid):getLocal().pos.x) + x,mf(getBot(Growid):getLocal().pos.y) + y)
+end
+
 function wrench(x,y)
     getBot():wrenchTile(mf(getBot():getLocal().pos.x) + x,mf(getBot():getLocal().pos.y) + y)
 end
 
+function wrenchotheracc(x,y)
+    getBot(Growid):wrenchTile(mf(getBot(Growid):getLocal().pos.x) + x,mf(getBot(Growid):getLocal().pos.y) + y)
+end
+
 function place(id,x,y)
    getBot():placeTile(mf(getBot():getLocal().pos.x) + x,mf(getBot():getLocal().pos.y) + y,id)
+end
+
+function placeotheracc(id,x,y)
+   getBot(Growid):placeTile(mf(getBot(Growid):getLocal().pos.x) + x,mf(getBot(Growid):getLocal().pos.y) + y,id)
 end
 
 
@@ -671,10 +706,20 @@ function editDoor(label,world,doorid)
     getBot():sendPacket("action|dialog_return\ndialog_name|door_edit\ntilex|"..math.floor(getBot():getLocal().pos.x/32).."|\ntiley|"..math.floor(getBot():getLocal().pos.y/32).."|\ndoor_name|"..label.."\ndoor_target|"..world.."\ndoor_id|"..doorid.."\ncheckbox_locked|0",2)
 end
 
+function editDoorotheracc(label,world,doorid)
+    getBot(Growid):sendPacket("action|dialog_return\ndialog_name|door_edit\ntilex|"..math.floor(getBot(Growid):getLocal().pos.x/32).."|\ntiley|"..math.floor(getBot(Growid):getLocal().pos.y/32).."|\ndoor_name|"..label.."\ndoor_target|"..world.."\ndoor_id|"..doorid.."\ncheckbox_locked|0",2)
+end
+
 function IgnoreEmpty(x,y)
     getBot():sendPacket("action|dialog_return\ndialog_name|lock_edit\ntilex|"..(math.floor(getBot():getLocal().pos.x/32)+x).."|\ntiley|"..(math.floor(getBot():getLocal().pos.y/32)+y).."|\nbuttonClicked|recalcLock\n\ncheckbox_public|0\ncheckbox_ignore|1",2)
     sleep(500)
 end
+
+function IgnoreEmptyotheracc(x,y)
+    getBot(Growid):sendPacket("action|dialog_return\ndialog_name|lock_edit\ntilex|"..(math.floor(getBot(Growid):getLocal().pos.x/32)+x).."|\ntiley|"..(math.floor(getBot(Growid):getLocal().pos.y/32)+y).."|\nbuttonClicked|recalcLock\n\ncheckbox_public|0\ncheckbox_ignore|1",2)
+    sleep(500)
+end
+
 
 function lockworld()
 xbot = math.floor(getBot():getLocal().pos.x /32)
@@ -757,6 +802,87 @@ sleep(1000)
 warp(rumah,IDDoor)
 end
 
+function lockworldotheracc()
+xbot = math.floor(getBot(Growid):getLocal().pos.x /32)
+ybot = math.floor(getBot(Growid):getLocal().pos.y /32)
+if UseJammer then
+placeotheracc(IDJammer,-1,-1)
+sleep(300)
+punchotheracc(-1,-1)
+sleep(500)
+end
+while getBot(Growid):getTile(math.floor(getBot(Growid):getLocal().pos.x /32 -1), math.floor(getBot(Growid):getLocal().pos.y / 32 + 1)).fg ~= 0 or getBot(Growid):getTile(math.floor(getBot(Growid):getLocal().pos.x /32 -1), math.floor(getBot():getLocal(Growid).pos.y / 32 + 1)).bg ~= 0 do
+punchotheracc(-1,1)
+sleep(100)
+end
+while getBot(Growid):getTile(math.floor(getBot(Growid):getLocal().pos.x /32 -2), math.floor(getBot(Growid):getLocal().pos.y / 32 + 1)).fg ~= 0 or getBot(Growid):getTile(math.floor(getBot(Growid):getLocal().pos.x /32 -2), math.floor(getBot(Growid):getLocal().pos.y / 32 + 1)).bg ~= 0 do
+punchotheracc(-2,1)
+sleep(100)
+end
+while getBot(Growid):getTile(math.floor(getBot(Growid):getLocal().pos.x /32 -2), math.floor(getBot(Growid):getLocal().pos.y / 32 + 2)).fg ~= 0 or getBot(Growid):getTile(math.floor(getBot(Growid):getLocal().pos.x /32 -2), math.floor(getBot(Growid):getLocal().pos.y / 32 + 2)).bg ~= 0 do
+punchotheracc(-2,2)
+sleep(100)
+end
+while getBot(Growid):getTile(math.floor(getBot(Growid):getLocal().pos.x /32 -1), math.floor(getBot(Growid):getLocal().pos.y / 32 + 2)).fg ~= 0 or getBot(Growid):getTile(math.floor(getBot(Growid):getLocal().pos.x /32 -1), math.floor(getBot(Growid):getLocal().pos.y / 32 + 2)).bg ~= 0 do
+punchotheracc(-1,2)
+sleep(100)
+end
+while getBot(Growid):getTile(math.floor(getBot(Growid):getLocal().pos.x /32), math.floor(getBot(Growid):getLocal().pos.y / 32 + 2)).fg ~= 0 or getBot(Growid):getTile(math.floor(getBot(Growid):getLocal().pos.x /32), math.floor(getBot(Growid):getLocal().pos.y / 32 + 2)).bg ~= 0 do
+punchotheracc(0,2)
+sleep(100)
+end
+while getBot(Growid):getTile(math.floor(getBot(Growid):getLocal().pos.x /32 + 1), math.floor(getBot(Growid):getLocal().pos.y / 32 + 2)).fg ~= 0 or getBot(Growid):getTile(math.floor(getBot(Growid):getLocal().pos.x /32 + 1), math.floor(getBot(Growid):getLocal().pos.y / 32 + 2)).bg ~= 0 do
+punchotheracc(1,2)
+sleep(100)
+end
+while getBot(Growid):getTile(math.floor(getBot(Growid):getLocal().pos.x /32 + 2), math.floor(getBot(Growid):getLocal().pos.y / 32 + 2)).fg ~= 0 or getBot(Growid):getTile(math.floor(getBot(Growid):getLocal().pos.x /32 + 2), math.floor(getBot(Growid):getLocal().pos.y / 32 + 2)).bg ~= 0 do
+punchotheracc(2,2)
+sleep(100)
+end
+while getBot(Growid):getTile(math.floor(getBot(Growid):getLocal().pos.x /32 + 2), math.floor(getBot(Growid):getLocal().pos.y / 32 + 1)).fg ~= 0 or getBot(Growid):getTile(math.floor(getBot(Growid):getLocal().pos.x /32 + 2), math.floor(getBot(Growid):getLocal().pos.y / 32 + 1)).bg ~= 0 do
+punchotheracc(2,1)
+sleep(100)
+end
+if PlaceDoor then
+getBot(Growid):move(LEFT,1)
+sleep(100)
+getBot(Growid):move(DOWN,1)
+sleep(100)
+while getBot(Growid):getTile(math.floor(getBot(Growid):getLocal().pos.x / 32), math.floor(getBot(Growid):getLocal().pos.y / 32)).fg ~= Door do
+placeotheracc(Door,0,0)
+sleep(1000)
+end
+wrenchotheracc(0,0)
+sleep(1000)
+editDoorotheracc("Jopy","Jopy",IDDoor)
+sleep(2000)
+getBot(Growid):move(UP,1)
+sleep(100)
+getBot(Growid):move(RIGHT,1)
+sleep(100)
+end
+placeotheracc(2,1,-1)
+sleep(1000)
+placeotheracc(Lock,0,-1)
+sleep(1000)
+if UseEntrance then
+placeotheracc(EntranceID,1,0)
+sleep(300)
+placeotheracc(EntranceID,-1,0)
+sleep(300)
+else
+placeotheracc(2,1,0)
+sleep(300)
+placeotheracc(2,-1,0)
+sleep(300)
+end
+wrenchotheracc(0,-1)
+sleep(2000)
+IgnoreEmptyotheracc(0,-1)
+sleep(1000)
+end
+
+
 
 
 function worldnya()
@@ -765,10 +891,11 @@ generate()
 else
 addBot(Growid,Pass)
 sleep(8000)
-generate()
-rumah = getBot():getWorld().name:upper()
-lockworld()
-getBot():remove()
+generateotheracc()
+rumah = getBot(Growid):getWorld().name:upper()
+logs("World : "..rumah.."")
+lockworldotheracc()
+getBot(Growid):remove()
 sleep(2000)
 end
 end
@@ -787,26 +914,38 @@ lockworld()
 end
 getBot():autoCollect(4,true)
 takepick()
+getBot():autoCollect(4,true)
 clearSide()
 banwave()
 platform()
 banwave()
 clearDirt()
 banwave()
-getBot():autoCollect(4,false)
 placeDirt()
 if BreakRock then
 clearRock()
 end
 getBot():sendPacket("action|respawn", 2)
 sleep(5000)
-if AutoTakeJammerWhenDone then
+if AutoTakeJammerWhenDone and not UseOtherAccToGenerate then
 while getBot():getTile(math.floor(getBot():getLocal().pos.x /32 -1), math.floor(getBot():getLocal().pos.y /32 - 1)).fg == IDJammer do
 punch(-1,-1)
 sleep(200)
 end
 place(2,-1,-1)
 sleep(200)
+end
+if AutoTakeJammerWhenDone and UseOtherAccToGenerate then
+addBot(Growid,Pass)
+sleep(8000)
+getBot(Growid):warp(rumah)
+while getBot():getTile(math.floor(getBot():getLocal().pos.x /32 -1), math.floor(getBot():getLocal().pos.y /32 - 1)).fg == IDJammer do
+punch(-1,-1)
+sleep(200)
+end
+place(2,-1,-1)
+sleep(200)
+getBot():remove()
 end
 place(2,-2,1)
 sleep(300)
