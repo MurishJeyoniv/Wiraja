@@ -1342,6 +1342,9 @@ function plant()
 if not SeparatePlant then
 return
 end
+if DontPlant then
+return
+end
 coptrashs()
 for _, tile in ipairs(getBot():getTiles()) do
 if tile.fg ~= 0 and tile.fg ~= seedid and getBot():getTile(tile.x, tile.y-1).fg ~= seedid-1 and getBot():getTile(tile.x, tile.y-1).fg ~= seedid and getBot():getItemCount(seedid) > 0 then
