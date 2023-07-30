@@ -310,6 +310,26 @@ function CheckFG()
     return count
 end
 
+function CheckBGotheracc()
+    count = 0
+    for _, tile in ipairs(getBot(Growid):getTiles()) do
+        if tile.bg ~= 0 then
+            count = count + 1
+        end
+    end
+    return count
+end
+
+function CheckFGotheracc()
+    count = 0
+    for _, tile in ipairs(getBot(Growid):getTiles()) do
+        if tile.fg ~= 0 then
+            count = count + 1
+        end
+    end
+    return count
+end
+
 function generate()
     ::BACK31::
     sleep(3000)
@@ -345,7 +365,7 @@ function generateotheracc()
     getBot(Growid):sendPacket("action|join_request\nname|" .. WorldsToGenerate .. "\ninvitedWorld|0",3)
     sleep(3000)
 
-    if CheckBG() > 3600 or CheckFG() > 3601 then
+    if CheckBGotheracc() > 3600 or CheckFGotheracc() > 3601 then
         goto BACK31
     end
 
