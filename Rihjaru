@@ -415,12 +415,24 @@ end
 
 function replaceLava(x,y)
 if BreakLava then
-    while getBot():getTile(x,y).fg == 4 do
+    if getBot():getTile(x,y).fg == 4 then
+     for i = 1,5 do
         punch(0,1)
         sleep(300)
+ end
        place(2,0,1)
     sleep(300)
     end
+end
+if BreakRock then
+if getBot():getTile(x,y).fg == 10 then
+for i = 1,9 do
+punch(0,1)
+sleep(300)
+end
+place(2,0,1)
+sleep(300)
+end
 end
 end
 
