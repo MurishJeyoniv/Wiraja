@@ -386,16 +386,18 @@ end
         end
         sleep(500)
     end
+    if UseFossilBrush then
     place(4132, 0, 1)
     sleep(1500)
+    end
     getBot():autoCollect(4,true)
     sleep(1000)
     getBot():autoCollect(4,false)
     start_fossil = start_fossil + 1
     totalfossil = totalfossil + 1
-if getBot():getItemCount(2) > 0 then
-place(2, 0, 1)
-sleep(300)
+if AutoPutRock then
+place(10, 0, 1)
+sleep(700)
 end
 if scanFossil() == 0 then
 getBot():warp(WorldSave)
