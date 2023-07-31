@@ -264,33 +264,48 @@ te = os.time() - t
 end
 end
 
+function CekTilePack(x,y,num)
+    local count = 0
+    local stack = 0
+    for _,obj in pairs(getBot():getObjects()) do
+        if round(obj.pos.x / 32) == x and math.floor(obj.pos.y / 32) == y then
+            count = count + obj.count
+            stack = stack + 1
+        end
+    end
+    if stack < 20 and count <= (4000 - num) then
+        return true
+    end
+    return false
+end
+
+packitemid = {4134, 3936}
+
 function SaveFossil()
 if AutoSaveToOtherWorld then
-botshow("Saving Fossil")
 if getBot():getItemCount(4134) > 0 or getBot():getItemCount(3936) > 0 then
-warp(WorldSave,WorldSaveID)
-for _, tile in ipairs(getBot():getTiles()) do
-if tile.fg == PatokanID or tile.bg == PatokanID then
-getBot():findPath(tile.x-1,tile.y)
-sleep(500)
-end
-end
-while getBot():getItemCount(4134) > 0 do
-getBot():drop(4134,getBot():getItemCount(4134))
-sleep(2000)
-if getBot():getItemCount(4134) == 0 then
-getBot():move(UP,1)
-sleep(200)
-break
-end
-end
-while getBot():getItemCount(3936) > 0 do
-getBot():drop(3936,getBot():getItemCount(3936)) 
-sleep(2000)
-if getBot():getItemCount(3936) == 0 then
-break
-end
-end
+botshow("Saving Fossil")
+for _,pack in pairs(packitemid) do
+        for _,tile in ipairs(getBot():getTiles()) do
+            if tile.fg == IDPatokan or tile.bg == IDPatokan then
+                if CekTilePack(tile.x,tile.y,getBot():getItemCount(pack)) then
+                    while math.floor(getBot():getLocal().pos.x / 32) ~= (tile.x - 1) or math.floor(getBot():getLocal().pos.y / 32) ~= tile.y do
+                        getBot():findPath(tile.x - 1,tile.y)
+                        sleep(100)
+                    end
+                    while getBot():getItemCount(pack) > 0 and CekTilePack(tile.x,tile.y,getBot():getItemCount(pack)) do
+                        getBot():sendPacket("action|drop\n|itemID|"..pack,2)
+                        sleep(1000)
+                        getBot():sendPacket("action|dialog_return\ndialog_name|drop_item\nitemID|"..pack.."|\ncount|"..getBot():getItemCount(pack),2)
+                        sleep(1000)
+                    end
+                end
+            end
+            if getBot():getItemCount(pack) == 0 then
+                break
+            end
+        end
+    end
 end
 end
 end
