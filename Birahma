@@ -1,0 +1,455 @@
+
+--=========================	Batas Edit =========================
+worldss = {}
+waktu = {}
+ffossil = {}
+start_fossil = 1 -- gk usah diganti
+checknya = false
+t = os.time()
+totalfossil = 0
+
+startbot = 1
+
+for index, botname in pairs(getAllBot()) do
+   if botname:getLocal().name:upper() == getBot():getLocal().name:upper() then
+      searchName = index + ( startbot - 1 )
+      break
+   end
+end
+
+worlds = BotList[searchName].worlds
+startFrom = BotList[searchName].startFrom
+DoorID = BotList[searchName].DoorID
+UseWebhookStatus = BotList[searchName].UseWebhookStatus
+WhStatus = BotList[searchName].WhStatus
+MessageID = BotList[searchName].MessageID
+
+start = startFrom
+stop = #worlds
+
+for i = start,#worlds do
+    table.insert(worldss,worlds[i])
+end
+
+function mf(xy)
+    return math.floor(xy / 32)
+end
+
+function place(id,x,y)
+   getBot():placeTile(mf(getBot():getLocal().pos.x) + x,mf(getBot():getLocal().pos.y) + y,id)
+end
+
+function punch(x,y)
+    getBot():hitTile(mf(getBot():getLocal().pos.x) + x,mf(getBot():getLocal().pos.y) + y)
+end
+
+function wear(id)
+packet = {}
+packet.type = 10 
+packet.int_data = id
+getBot():sendPacketRaw(packet)
+end
+
+nuked = false
+
+function warp(world,id)
+rok = 0
+    while getBot():getWorld().name:upper() ~= world:upper() or getBot():getTile(math.floor(getBot():getLocal().pos.x / 32),math.floor(getBot():getLocal().pos.y / 32)).fg == 6 do
+        while getBot():getBotStatus() ~= Success do
+            sleep(1000)
+        end
+        getBot():sendPacket("action|join_request\nname|"..world.."|"..id.."\ninvitedWorld|0", 3)
+        sleep(4000)      
+      rok = rok + 1
+     if rok == 10 then
+    nuked = true
+ rok = 0
+ return
+ end
+    end
+end
+
+function waktuWorld()
+    strWaktu = ""
+        for _,world in pairs(worlds) do
+strWaktu = strWaktu .."\n" .. world:upper()  .. " ( " .. ("<:Fossil:1135233556138958949> " .. (waktu[world] or "?")) .. " )"
+    end
+return strWaktu
+end
+
+   function Fossil()
+   local fossil = 0
+    for _,tile in ipairs(getBot():getTiles()) do
+        if tile.fg == 3918 then
+            fossil = fossil + 1
+        end
+    end
+    return fossil 
+end
+
+function cekbuyer(nameowner)
+  local RequestINFO = {}
+  RequestINFO.url = "https://rentry.org/Orangmahsabar/raw"
+
+  -- Mengambil teks dari URL
+  local x = httpReq(RequestINFO)
+  local response = x.body
+  
+  -- Memisahkan teks menjadi baris-baris
+  local lines = {}
+  for line in response:gmatch("[^\r\n]+") do
+    table.insert(lines, line)
+  end
+  
+  -- Mencari UserID berdasarkan nama owner
+  for _, line in ipairs(lines) do
+    local owner, userid = line:match("(%S+)%s+(%d+)")
+    if owner == nameowner then
+      return userid -- Mengembalikan UserID
+    end
+  end
+  
+  return nil -- Jika nama owner tidak ditemukan
+end
+
+function status()
+    if getBot():getBotStatus() == Success then
+      return string.upper("Online")
+    elseif getBot():getBotStatus() == OnSendToServer then
+      return string.upper("OnSendToServer")
+    elseif getBot():getBotStatus() == Disconnected then
+      return string.upper("Offline")
+    elseif getBot():getBotStatus() == Banned then
+      return string.upper("Banned")  
+    elseif getBot():getBotStatus() == Suspended then
+      return string.upper("Suspended")
+    elseif getBot():getBotStatus() == Maintenance then
+      return string.upper("Maintenance")
+    elseif getBot():getBotStatus() == Connected then
+      return string.upper("Coming Online")     
+    elseif getBot():getBotStatus() == SERVER_OVERLOADED then
+      return string.upper("Login Failed ( Overload )")
+    elseif getBot():getBotStatus() == LogonATTEMPTS then
+      return string.upper("Too Many Login Attempts")
+    elseif getBot():getBotStatus() == Captcha then
+      return string.upper("Solving Captcha")   
+    elseif getBot():getBotStatus() == InvalidEmail then
+      return string.upper("Invalid Email") 
+    elseif getBot():getBotStatus() == Update_Required then
+      return string.upper("Update Required") 
+    elseif getBot():getBotStatus() == BypassTutorial then
+      return string.upper("Finishing Tutorial")          
+      else
+      return string.upper("Unknown Status")
+    end
+end
+
+function nungguverify()
+if not checknya then
+return " Waiting To Verify!"
+else
+return " Verified!"
+end
+end
+
+function ceknya()
+  local RequestINFO = {}
+  RequestINFO.url = "https://rentry.org/orangmahsabar/raw"
+
+  -- Mengambil teks dari URL
+  local x = httpReq(RequestINFO)
+  local response = x.body
+  
+  -- Menghitung jumlah baris
+  local lineCount = 0
+  for _ in response:gmatch("[^\r\n]+") do
+    lineCount = lineCount + 1
+  end
+  
+  return lineCount
+end
+
+function botshow(Info)
+if not UseWebhookStatus then
+return
+else
+te = os.time() - t
+    local text = [[
+        $webHookUrl = "]]..WhStatus..[[/messages/]]..MessageID..[["
+        $CPU = Get-WmiObject Win32_Processor | Measure-Object -Property LoadPercentage -Average | Select -ExpandProperty Average
+        $CompObject =  Get-WmiObject -Class WIN32_OperatingSystem
+        $Memory = ((($CompObject.TotalVisibleMemorySize - $CompObject.FreePhysicalMemory)*100)/ $CompObject.TotalVisibleMemorySize)
+        $RAM = [math]::Round($Memory, 0)
+        $imageObject = @{
+            url = "https://cdn.discordapp.com/attachments/1083626331515920404/1134097487448244234/standard.gif"
+        }
+        $footerObject = @{
+        text = "]]..(os.date("!%a %b %d, %Y | %I:%M %p", os.time() + 7 * 60 * 60))..[[ "
+        }
+        $fieldArray = @(
+            @{
+                name = "**<:kannasip:1016295102882250823> ]]..nungguverify()..[[**"
+                value = "**<@]]..cekbuyer(OwnerName)..[[>**"
+                inline = "true"
+            }
+            @{
+                name = "**<:suaongtho:1070039313674412063> Total Buyers**"
+                value = "**]]..ceknya()..[[**"
+                inline = "true"
+            }
+            @{
+                name = "**<:Pickaxe:1109395511661830176> Bot Info**"
+                value = "**]]..Info..[[**"
+                inline = "false"
+            }
+            @{
+                name = "**<:bot:1049606018008612874> Bot Name**"
+                value = "**]]..getBot():getLocal().name:upper()..[[ ( ]]..getBot():getLocal().level..[[ )**"
+                inline = "true"
+            }
+            @{
+                name = "**<a:Online:1063444758783078480> Bot Status**"
+                value = "**]]..status()..[[**"
+                inline = "true"
+            }
+            @{
+                name = "**<:World:1006699847308546109> World ( ]]..start..[[ / ]]..stop..[[ )**"
+                value = "||**]]..getBot():getWorld().name:upper()..[[**||"
+                inline = "true"
+            }
+            @{ 
+                name = "**<:fossilrock:1064165167992156240>  Fossil**"
+                value = "**]]..Fossil()..[[**"
+                inline = "true"
+            }
+            @{ 
+                name = "**<:cpu:994228771014070372>  Cpu And Ram **"
+                value = "**$CPU% | $RAM%**"
+                inline = "true"
+            } 
+           @{
+                name = "**<:discord_stage:1021386571909447680>  Ping** "
+                value = "**]]..getBot():getMs()..[[ MS**"
+                inline = "true"
+            }
+            @{
+                name = "**<:Scroll:1083965766187110460> World List**"
+                value = "**]]..waktuWorld()..[[**"
+                inline = "false"
+            }
+            @{
+                name = "**<:pro_timeout:1100160755287982150>  Up Time**"
+                value = "**]]..math.floor(te/86400)..[[ Days ]]..math.floor(te%86400/3600)..[[ Hours ]]..math.floor(te%86400%3600/60)..[[ Minutes ]]..math.floor(te%86400%3600%60)..[[ Seconds**"
+                inline = "false"
+            }
+        )
+        $embedObject = @{
+            title = "**<:FOSSIL:1057331856275689472> Jopy Auto Take Fossil ( Surfer ) <:FOSSIL:1057331856275689472> **"
+            color = "]]..math.random(111111,999999)..[["
+            footer = $footerObject
+            image = $imageObject
+            fields = $fieldArray
+        }
+        $embedArray = @($embedObject)
+        $payload = @{
+            embeds = $embedArray
+        }
+        [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
+        Invoke-RestMethod -Uri $webHookUrl -Body ($payload | ConvertTo-Json -Depth 4) -Method Patch -ContentType 'application/json'
+    ]]
+    local file = io.popen("powershell -command -", "w")
+    file:write(text)
+    file:close()
+end
+end
+
+function SaveFossil()
+if AutoSaveToOtherWorld then
+botshow("Saving Fossil")
+if getBot():getItemCount(4134) > 0 or getBot():getItemCount(3936) > 0 then
+warp(WorldSave,WorldSaveID)
+for _, tile in ipairs(getBot():getTiles()) do
+if tile.fg == PatokanID or tile.bg == PatokanID then
+getBot():findPath(tile.x-1,tile.y)
+sleep(500)
+end
+while getBot():getItemCount(4134) > 0 do
+getBot():drop(4134,getBot():getItemCount(4134))
+sleep(2000)
+if getBot():getItemCount(4134) == 0 then
+getBot():move(UP,1)
+sleep(200)
+break
+end
+end
+while getBot():getItemCount(3936) > 0 do
+getBot():drop(3936,getBot():getItemCount(3936)) 
+sleep(2000)
+if getBot():getItemCount(3936) == 0 then
+break
+end
+end
+end
+end
+end
+end
+
+
+
+function NextWorld()
+  ::ANJAY::
+    startFrom=startFrom+1
+    start_fossil = 1
+  start = start + 1
+    if startFrom>#worlds then
+        getBot():remove()
+    end
+    sleep(1000)
+    warp(worlds[startFrom], DoorID)
+    sleep(1000)
+    if nuked then  
+waktu[worldss[startFrom]] = "NUKED"
+botshow("Nuked")
+   nuked = false
+  goto ANJAY
+  end
+end
+
+function extracted(varlist)
+    if varlist[0] == "OnTalkBubble"and varlist[2]:find("`2I unearthed a Fossil!`` I better be careful getting it out...") then
+         find_extracted = false
+        fossil_rock = true
+    end
+end
+
+getBot():addHook(extracted,varlist)
+
+function scanFossil()
+    m=0
+    for _,tile in ipairs(getBot():getTiles())do
+        if tile.fg==3918 then
+            m=m+1
+        end
+    end
+    m=math.floor(m)
+    return m
+end
+
+function main()
+::KIRANA::
+botshow("Taking Fossil..")
+if scanFossil() == 0 then
+getBot():warp(WorldSave)
+waktu[worldss[startFrom]] = totalfossil
+botshow("World Finish")
+SaveFossil()
+NextWorld()
+goto KIRANA
+end
+for _, tile in ipairs(getBot():getTiles()) do
+if tile.fg == 3918 then
+getBot():findPath(tile.x,tile.y-1)
+sleep(8000)
+end
+end
+ find_extracted = true
+    while getBot():getTile(math.floor(getBot():getLocal().pos.x / 32),math.floor(getBot():getLocal().pos.y / 32) + 1).fg == 3918 do
+        while find_extracted and not getBot():isEquipped(3932) do
+            wear(3932)
+            sleep(1000)
+        end
+        a = 1
+        while find_extracted do
+            punch(0,1)
+            a = a + 1
+            sleep(1000)
+        if getBot():getTile(math.floor(getBot():getLocal().pos.x / 32), math.floor(getBot():getLocal().pos.y /32 + 1)).fg ~= 3918 then
+       find_extracted = false
+       break
+       end
+            if a > 25 then
+                sleep(6000)
+                a = 1
+            end
+        end
+        while fossil_rock and not getBot():isEquipped(3934) do
+            wear(3934)
+            sleep(1000)
+        end
+        while fossil_rock do
+            punch(0,1)
+            sleep(160)
+            if getBot():getTile(math.floor(getBot():getLocal().pos.x / 32),math.floor(getBot():getLocal().pos.y / 32) + 1).fg ~= 3918 then
+                fossil_rock = false
+            end
+        end
+        sleep(500)
+    end
+    place(4132, 0, 1)
+    sleep(1500)
+    getBot():autoCollect(4,true)
+    sleep(1000)
+    getBot():autoCollect(4,false)
+    start_fossil = start_fossil + 1
+    totalfossil = totalfossil + 1
+if getBot():getItemCount(2) > 0 then
+place(2, 0, 1)
+sleep(300)
+end
+if scanFossil() == 0 then
+getBot():warp(WorldSave)
+waktu[worldss[startFrom]] = totalfossil
+totalfossil = 0
+botshow("World Finish")
+SaveFossil()
+NextWorld()
+end
+end
+
+find_extracted = true
+fossil_rock = false
+
+function checkdata()
+  RequestINFO2 = {}
+  RequestINFO2.url = "https://rentry.org/kitamahkeren/raw"
+  y = httpReq(RequestINFO2)
+
+if y.success then
+if string.find(y.body, OwnerName) then
+checknya = true
+return
+else
+botshow("**OwnerName Not Found , Please Use Command First Then Run The Script **")
+return
+end
+else
+botshow("**Cant Open Database, Please Try Use Vpn To Run Script **")
+return
+end
+end
+
+function mulai()
+if not checknya then
+checkdata()
+end
+if checknya then
+::ANJAY::
+warp(worlds[startFrom], DoorID)
+if nuked then
+waktu[worlds[startFrom]] = "NUKED"
+startFrom=startFrom+1
+botshow("Nuked")
+nuked = false
+goto ANJAY
+end
+while true do
+main()
+end
+end
+end
+
+mulai()
+while true do
+print("Jopy")
+    sleep(1)
+end
