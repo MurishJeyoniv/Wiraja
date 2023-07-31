@@ -1,3 +1,4 @@
+
  --===== Encrypt ===== -- 
 
 indexWorld = 1
@@ -376,6 +377,14 @@ function generateotheracc()
     end
 end
 
+function warpotheracc(world,id)
+getBot(Growid):sendPacket("action|join_request\nname|"..world:upper().."|"..id:upper().."\ninvitedWorld|0",3)
+sleep(4000)
+getBot(Growid):sendPacket("action|join_request\nname|"..world:upper().."|"..id:upper().."\ninvitedWorld|0",3)
+sleep(4000)
+end
+
+
 function warp(world,id)
 getBot():sendPacket("action|join_request\nname|"..world:upper().."|"..id:upper().."\ninvitedWorld|0",3)
 sleep(4000)
@@ -701,25 +710,29 @@ end
 function takepick()
 if TakePick then
 if getBot():getItemCount(98) == 0 then
-getBot():autoCollect(4,false)
 botshow("Bot Taking Pickaxe..")
     warp(WorldPick,IDWorldPick)
-    if ScanItem(98) == 0 then
-    TagBan("** No Pickaxe In "..WorldPick.." , Bot Will Start With No Wear Pickaxe** @everyone")
-    else
     sleep(100)
     while getBot():getItemCount(98) == 0 do
- collectObject(98)
+           sleep(5000)
+        for _,obj in pairs(getBot():getObjects()) do
+            if obj.id == 98 then
+                getBot():findPath(math.floor(obj.pos.x / 32),math.floor(obj.pos.y / 32))
+                sleep(1000)
+                getBot():autoCollect(4,true)
+            end
+            if getBot():getItemCount(98) > 0 then
+              getBot():autoCollect(4,false)
+                break
+            end
+        end
+    end
     getBot():move(LEFT,1)
-    sleep(1000)
+    sleep(2000)
    getBot():move(UP,1)
-   sleep(500)
+   sleep(1000)
    getBot():move(DOWN,1)
-  if getBot():getItemCount(98) > 0 then
-getBot():autoCollect(4,false)
-sleep(500)
-end
-    if getBot():getItemCount(98) > 1 then
+    sleep(1000)
     getBot():sendPacket("action|drop\n|itemID|98",2)
     sleep(1000)
     getBot():sendPacket("action|dialog_return\ndialog_name|drop_item\nitemID|98|\ncount|"..(getBot():getItemCount(98) - 1),2)
@@ -727,9 +740,6 @@ end
     wear(98)
     sleep(500)
 warp(rumah,IDDoor)
-end
-end
-end
 end
 end
 end
@@ -970,15 +980,17 @@ end
 if AutoTakeJammerWhenDone and UseOtherAccToGenerate then
 addBot(Growid,Pass)
 sleep(8000)
-getBot(Growid):warp(rumah)
+warpotheracc(rumah,"")
 while getBot(Growid):getTile(math.floor(getBot(Growid):getLocal().pos.x /32 -1), math.floor(getBot(Growid):getLocal().pos.y /32 - 1)).fg == IDJammer do
 punchotheracc(-1,-1)
 sleep(200)
 end
-place(2,-1,-1)
-sleep(200)
+sleep(3000)
 getBot(Growid):remove()
 end
+sleep(1000)
+place(2,-1,-1)
+sleep(200)
 place(2,-2,1)
 sleep(300)
 place(2,2,1)
