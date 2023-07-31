@@ -287,7 +287,7 @@ if getBot():getItemCount(4134) > 0 or getBot():getItemCount(3936) > 0 then
 botshow("Saving Fossil")
 for _,pack in pairs(packitemid) do
         for _,tile in ipairs(getBot():getTiles()) do
-            if tile.fg == IDPatokan or tile.bg == IDPatokan then
+            if tile.fg == PatokanID or tile.bg == PatokanID then
                 if CekTilePack(tile.x,tile.y,getBot():getItemCount(pack)) then
                     while math.floor(getBot():getLocal().pos.x / 32) ~= (tile.x - 1) or math.floor(getBot():getLocal().pos.y / 32) ~= tile.y do
                         getBot():findPath(tile.x - 1,tile.y)
