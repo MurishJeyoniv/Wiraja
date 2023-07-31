@@ -297,6 +297,7 @@ function SaveFossil()
 if AutoSaveToOtherWorld then
 if getBot():getItemCount(4134) > 0 or getBot():getItemCount(3936) > 0 then
 botshow("Saving Fossil")
+warp(WorldSave,WorldSaveID)
 for _,pack in pairs(packitemid) do
         for _,tile in ipairs(getBot():getTiles()) do
             if tile.fg == PatokanID or tile.bg == PatokanID then
