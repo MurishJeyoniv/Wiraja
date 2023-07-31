@@ -76,12 +76,12 @@ sleep(150)
 end
   currentX = math.floor(getBot():getLocal().pos.x / 32)
         if currentX < targetX then
-            currentX = math.min(targetX, currentX + 7)
+            currentX = math.min(targetX, currentX + 5)
         else
-            currentX = math.max(targetX, currentX - 7)
+            currentX = math.max(targetX, currentX - 5)
         end
         getBot():setPos(currentX, currentY)
-        sleep(500)
+        sleep(400)
     end
 end
 
