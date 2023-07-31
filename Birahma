@@ -279,6 +279,18 @@ function CekTilePack(x,y,num)
     return false
 end
 
+function reconnect()
+if getBot():getBotStatus() ~= Success then
+repeat
+getBot():reConnect()
+sleep(8000)
+until getBot():getBotStatus() == Success
+end
+if getBot():getBotStatus() == Success then
+return
+end
+end
+
 packitemid = {4134, 3936}
 
 function SaveFossil()
@@ -292,16 +304,19 @@ for _,pack in pairs(packitemid) do
                     while math.floor(getBot():getLocal().pos.x / 32) ~= (tile.x - 1) or math.floor(getBot():getLocal().pos.y / 32) ~= tile.y do
                         getBot():findPath(tile.x - 1,tile.y)
                         sleep(100)
+                        reconnect()
                     end
                     while getBot():getItemCount(pack) > 0 and CekTilePack(tile.x,tile.y,getBot():getItemCount(pack)) do
                         getBot():sendPacket("action|drop\n|itemID|"..pack,2)
                         sleep(1000)
                         getBot():sendPacket("action|dialog_return\ndialog_name|drop_item\nitemID|"..pack.."|\ncount|"..getBot():getItemCount(pack),2)
                         sleep(1000)
+                        reconnect()
                     end
                 end
             end
             if getBot():getItemCount(pack) == 0 then
+            reconnect()
                 break
             end
         end
@@ -369,6 +384,7 @@ sleep(8000)
 end
 end
  find_extracted = true
+    getBot():autoCollect(4,false)
     while getBot():getTile(math.floor(getBot():getLocal().pos.x / 32),math.floor(getBot():getLocal().pos.y / 32) + 1).fg == 3918 do
         while find_extracted and not getBot():isEquipped(3932) do
             wear(3932)
@@ -401,6 +417,7 @@ end
         end
         sleep(500)
     end
+    sleep(1000)
     if UseFossilBrush then
     place(4132, 0, 1)
     sleep(1500)
@@ -411,6 +428,7 @@ end
     start_fossil = start_fossil + 1
     totalfossil = totalfossil + 1
 if AutoPutRock then
+sleep(500)
 place(10, 0, 1)
 sleep(700)
 end
