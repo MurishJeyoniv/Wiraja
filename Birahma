@@ -73,7 +73,7 @@ end
 function waktuWorld()
     strWaktu = ""
         for _,world in pairs(worlds) do
-strWaktu = strWaktu .."\n" .. world:upper()  .. " ( " .. ("<:Fossil:1135233556138958949> " .. (waktu[world] or "?")) .. " )"
+strWaktu = strWaktu .."\n" .. world:upper()  .. " ( " .. ("<:Fossil:1135233556138958949> : " .. (waktu[world] or "?")) .. " )"
     end
 return strWaktu
 end
@@ -375,7 +375,8 @@ function main()
 ::KIRANA::
 botshow("Taking Fossil..")
 if scanFossil() == 0 then
-getBot():warp(WorldSave)
+getBot():reConnect()
+sleep(8000)
 waktu[worldss[startFrom]] = totalfossil
 botshow("World Finish")
 SaveFossil()
@@ -423,9 +424,14 @@ end
         sleep(500)
     end
     sleep(1000)
+    local initialItemCount = getBot():getItemCount(4132)
+    local currentItemCount = initialItemCount
     if UseFossilBrush then
+    while currentItemCount == initialItemCount do
+   currentItemCount = getBot():getItemCount(4132)
     place(4132, 0, 1)
     sleep(1500)
+    end
     end
     getBot():autoCollect(4,true)
     sleep(1000)
@@ -433,12 +439,15 @@ end
     start_fossil = start_fossil + 1
     totalfossil = totalfossil + 1
 if AutoPutRock then
-sleep(500)
+while getBot():getTile(math.floor(getBot():getLocal().pos.x /32), math.floor(getBot():getLocal().pos.y /32 + 1)).fg ~= 10 do
+sleep(1000)
 place(10, 0, 1)
 sleep(700)
 end
+end
 if scanFossil() == 0 then
-getBot():warp(WorldSave)
+getBot():reConnect()
+sleep(8000)
 waktu[worldss[startFrom]] = totalfossil
 totalfossil = 0
 botshow("World Finish")
