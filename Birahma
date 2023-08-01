@@ -377,6 +377,7 @@ botshow("Taking Fossil..")
 if scanFossil() == 0 then
 getBot():reConnect()
 sleep(8000)
+reconnect()
 waktu[worldss[startFrom]] = totalfossil
 botshow("World Finish")
 SaveFossil()
@@ -448,6 +449,7 @@ end
 if scanFossil() == 0 then
 getBot():reConnect()
 sleep(8000)
+reconnect()
 waktu[worldss[startFrom]] = totalfossil
 totalfossil = 0
 botshow("World Finish")
