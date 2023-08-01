@@ -334,44 +334,81 @@ end
 function generate()
     ::BACK31::
     sleep(3000)
-    getBot():sendPacket("action|quit_to_exit",3)
+    getBot():sendPacket("action|quit_to_exit", 3)
     sleep(3000)
     local WorldsToGenerate = ""
-    for i = 1,WorldLetters do
-        WorldsToGenerate = WorldsToGenerate..string.char(math.random(97,122))
+    local letterRangeStart = 97
+    local letterRangeEnd = 122
+    local numberRangeStart = 48
+    local numberRangeEnd = 57
+
+    for i = 1, WorldLetters do
+        local charCode
+        if GenerateWithNumber then
+            local choice = math.random(1, 2) -- Randomly choose between a letter and a number
+            if choice == 1 then
+                charCode = math.random(letterRangeStart, letterRangeEnd)
+            else
+                charCode = math.random(numberRangeStart, numberRangeEnd)
+            end
+        else
+            charCode = math.random(letterRangeStart, letterRangeEnd)
+        end
+
+        WorldsToGenerate = WorldsToGenerate .. string.char(charCode)
     end
-    getBot():sendPacket("action|join_request\nname|" .. WorldsToGenerate .. "\ninvitedWorld|0",3)
+
+    getBot():sendPacket("action|join_request\nname|" .. WorldsToGenerate .. "\ninvitedWorld|0", 3)
     sleep(3000)
 
     if CheckBG() > 3600 or CheckFG() > 3601 then
         goto BACK31
     end
 
-    for _,t in ipairs(getBot():getTiles()) do
-        if t.fg== 242 or t.fg== 9640 or t.fg== 202 or t.fg== 204 or t.fg== 206 or t.fg== 1796 or t.fg== 4994 or t.fg== 7188 or t.fg== 2408 or t.fg== 2950 or t.fg== 4428 or t.fg== 4802 or t.fg== 5814 or t.fg== 5260 or t.fg== 5980 or t.fg== 8470 or t.fg== 10410 or t.fg== 11550 or t.fg== 11586 then
+    for _, t in ipairs(getBot():getTiles()) do
+        if t.fg == 242 or t.fg == 9640 or t.fg == 202 or t.fg == 204 or t.fg == 206 or t.fg == 1796 or t.fg == 4994 or t.fg == 7188 or t.fg == 2408 or t.fg == 2950 or t.fg == 4428 or t.fg == 4802 or t.fg == 5814 or t.fg == 5260 or t.fg == 5980 or t.fg == 8470 or t.fg == 10410 or t.fg == 11550 or t.fg == 11586 then
             goto BACK31
         end
     end
 end
 
+
 function generateotheracc()
     ::BACK31::
     sleep(3000)
-    getBot(Growid):sendPacket("action|quit_to_exit",3)
+    getBot(Growid):sendPacket("action|quit_to_exit", 3)
     sleep(3000)
     local WorldsToGenerate = ""
-    for i = 1,WorldLetters do
-        WorldsToGenerate = WorldsToGenerate..string.char(math.random(97,122))
+    local letterRangeStart = 97
+    local letterRangeEnd = 122
+    local numberRangeStart = 48
+    local numberRangeEnd = 57
+
+    for i = 1, WorldLetters do
+        local charCode
+        if GenerateWithNumber then
+            local choice = math.random(1, 2) -- Randomly choose between a letter and a number
+            if choice == 1 then
+                charCode = math.random(letterRangeStart, letterRangeEnd)
+            else
+                charCode = math.random(numberRangeStart, numberRangeEnd)
+            end
+        else
+            charCode = math.random(letterRangeStart, letterRangeEnd)
+        end
+
+        WorldsToGenerate = WorldsToGenerate .. string.char(charCode)
     end
-    getBot(Growid):sendPacket("action|join_request\nname|" .. WorldsToGenerate .. "\ninvitedWorld|0",3)
+
+    getBot(Growid):sendPacket("action|join_request\nname|" .. WorldsToGenerate .. "\ninvitedWorld|0", 3)
     sleep(3000)
 
     if CheckBGotheracc() > 3600 or CheckFGotheracc() > 3601 then
         goto BACK31
     end
 
-    for _,t in ipairs(getBot(Growid):getTiles()) do
-        if t.fg== 242 or t.fg== 9640 or t.fg== 202 or t.fg== 204 or t.fg== 206 or t.fg== 1796 or t.fg== 4994 or t.fg== 7188 or t.fg== 2408 or t.fg== 2950 or t.fg== 4428 or t.fg== 4802 or t.fg== 5814 or t.fg== 5260 or t.fg== 5980 or t.fg== 8470 or t.fg== 10410 or t.fg== 11550 or t.fg== 11586 then
+    for _, t in ipairs(getBot(Growid):getTiles()) do
+        if t.fg == 242 or t.fg == 9640 or t.fg == 202 or t.fg == 204 or t.fg == 206 or t.fg == 1796 or t.fg == 4994 or t.fg == 7188 or t.fg == 2408 or t.fg == 2950 or t.fg == 4428 or t.fg == 4802 or t.fg == 5814 or t.fg == 5260 or t.fg == 5980 or t.fg == 8470 or t.fg == 10410 or t.fg == 11550 or t.fg == 11586 then
             goto BACK31
         end
     end
