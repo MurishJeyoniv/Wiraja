@@ -318,8 +318,6 @@ function generate()
     local letterRangeEnd = 122
     local numberRangeStart = 48
     local numberRangeEnd = 57
-    local WorldLetters = 8 -- You can adjust the number of letters in the generated string
-    local GenerateWithNumber = true -- Set this to true if you want to include numbers in the generated string
 
     for i = 1, WorldLetters do
         local charCode
