@@ -264,6 +264,10 @@ te = os.time() - t
 end
 end
 
+function round(n)
+    return n % 1 > 0.5 and math.ceil(n) or math.floor(n)
+end
+
 function CekTilePack(x,y,num)
     local count = 0
     local stack = 0
