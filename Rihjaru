@@ -336,41 +336,67 @@ function generate()
     sleep(3000)
     getBot():sendPacket("action|quit_to_exit", 3)
     sleep(3000)
-    local WorldsToGenerate = ""
-    local letterRangeStart = 97
-    local letterRangeEnd = 122
-    local numberRangeStart = 48
-    local numberRangeEnd = 57
 
-    for i = 1, WorldLetters do
-        local charCode
-        if GenerateWithNumber then
-            local choice = math.random(1, 2) -- Randomly choose between a letter and a number
-            if choice == 1 then
-                charCode = math.random(letterRangeStart, letterRangeEnd)
+    -- Membaca isi file "JopyDf.txt" ke dalam sebuah string
+    local fileContents = ""
+    local file = io.open("JOPYDFLIST.txt", "r")
+    if file then
+        fileContents = file:read("*a")
+        file:close()
+    end
+
+    while true do
+        local WorldsToGenerate = ""
+        local letterRangeStart = 97
+        local letterRangeEnd = 122
+        local numberRangeStart = 48
+        local numberRangeEnd = 57
+
+        for i = 1, WorldLetters do
+            local charCode
+            if GenerateWithNumber then
+                local choice = math.random(1, 2) -- Memilih secara acak antara huruf dan angka
+                if choice == 1 then
+                    charCode = math.random(letterRangeStart, letterRangeEnd)
+                else
+                    charCode = math.random(numberRangeStart, numberRangeEnd)
+                end
             else
-                charCode = math.random(numberRangeStart, numberRangeEnd)
+                charCode = math.random(letterRangeStart, letterRangeEnd)
             end
-        else
-            charCode = math.random(letterRangeStart, letterRangeEnd)
+
+            WorldsToGenerate = WorldsToGenerate .. string.char(charCode)
         end
 
-        WorldsToGenerate = WorldsToGenerate .. string.char(charCode)
-    end
+        -- Memeriksa apakah hasil generate sudah ada di dalam fileContents
+        if not string.find(fileContents, WorldsToGenerate) then
+            getBot():sendPacket("action|join_request\nname|" .. WorldsToGenerate .. "\ninvitedWorld|0", 3)
+            sleep(3000)
 
-    getBot():sendPacket("action|join_request\nname|" .. WorldsToGenerate .. "\ninvitedWorld|0", 3)
-    sleep(3000)
+            if CheckBG() > 3600 or CheckFG() > 3601 then
+                goto BACK31
+            end
 
-    if CheckBG() > 3600 or CheckFG() > 3601 then
-        goto BACK31
-    end
+            for _, t in ipairs(getBot():getTiles()) do
+                if t.fg == 242 or t.fg == 9640 or t.fg == 202 or t.fg == 204 or t.fg == 206 or t.fg == 1796 or t.fg == 4994 or t.fg == 7188 or t.fg == 2408 or t.fg == 2950 or t.fg == 4428 or t.fg == 4802 or t.fg == 5814 or t.fg == 5260 or t.fg == 5980 or t.fg == 8470 or t.fg == 10410 or t.fg == 11550 or t.fg == 11586 then
+                    goto BACK31
+                end
+            end
 
-    for _, t in ipairs(getBot():getTiles()) do
-        if t.fg == 242 or t.fg == 9640 or t.fg == 202 or t.fg == 204 or t.fg == 206 or t.fg == 1796 or t.fg == 4994 or t.fg == 7188 or t.fg == 2408 or t.fg == 2950 or t.fg == 4428 or t.fg == 4802 or t.fg == 5814 or t.fg == 5260 or t.fg == 5980 or t.fg == 8470 or t.fg == 10410 or t.fg == 11550 or t.fg == 11586 then
-            goto BACK31
+            -- Menulis hasil generate ke dalam file
+            file = io.open("JOPYDFLIST.txt", "a")
+            if file then
+                file:write(WorldsToGenerate .. "\n")
+                file:close()
+            end
+
+            -- Break out of the loop jika string yang unik sudah dihasilkan
+            break
         end
     end
 end
+
+
 
 
 function generateotheracc()
@@ -378,38 +404,62 @@ function generateotheracc()
     sleep(3000)
     getBot(Growid):sendPacket("action|quit_to_exit", 3)
     sleep(3000)
-    local WorldsToGenerate = ""
-    local letterRangeStart = 97
-    local letterRangeEnd = 122
-    local numberRangeStart = 48
-    local numberRangeEnd = 57
 
-    for i = 1, WorldLetters do
-        local charCode
-        if GenerateWithNumber then
-            local choice = math.random(1, 2) -- Randomly choose between a letter and a number
-            if choice == 1 then
-                charCode = math.random(letterRangeStart, letterRangeEnd)
+    -- Membaca isi file "JopyDf.txt" ke dalam sebuah string
+    local fileContents = ""
+    local file = io.open("JOPYDFLIST.txt", "r")
+    if file then
+        fileContents = file:read("*a")
+        file:close()
+    end
+
+    while true do
+        local WorldsToGenerate = ""
+        local letterRangeStart = 97
+        local letterRangeEnd = 122
+        local numberRangeStart = 48
+        local numberRangeEnd = 57
+
+        for i = 1, WorldLetters do
+            local charCode
+            if GenerateWithNumber then
+                local choice = math.random(1, 2) -- Memilih secara acak antara huruf dan angka
+                if choice == 1 then
+                    charCode = math.random(letterRangeStart, letterRangeEnd)
+                else
+                    charCode = math.random(numberRangeStart, numberRangeEnd)
+                end
             else
-                charCode = math.random(numberRangeStart, numberRangeEnd)
+                charCode = math.random(letterRangeStart, letterRangeEnd)
             end
-        else
-            charCode = math.random(letterRangeStart, letterRangeEnd)
+
+            WorldsToGenerate = WorldsToGenerate .. string.char(charCode)
         end
 
-        WorldsToGenerate = WorldsToGenerate .. string.char(charCode)
-    end
+        -- Memeriksa apakah hasil generate sudah ada di dalam fileContents
+        if not string.find(fileContents, WorldsToGenerate) then
+            getBot(Growid):sendPacket("action|join_request\nname|" .. WorldsToGenerate .. "\ninvitedWorld|0", 3)
+            sleep(3000)
 
-    getBot(Growid):sendPacket("action|join_request\nname|" .. WorldsToGenerate .. "\ninvitedWorld|0", 3)
-    sleep(3000)
+            if CheckBGotheracc() > 3600 or CheckFGotheracc() > 3601 then
+                goto BACK31
+            end
 
-    if CheckBGotheracc() > 3600 or CheckFGotheracc() > 3601 then
-        goto BACK31
-    end
+            for _, t in ipairs(getBot(Growid):getTiles()) do
+                if t.fg == 242 or t.fg == 9640 or t.fg == 202 or t.fg == 204 or t.fg == 206 or t.fg == 1796 or t.fg == 4994 or t.fg == 7188 or t.fg == 2408 or t.fg == 2950 or t.fg == 4428 or t.fg == 4802 or t.fg == 5814 or t.fg == 5260 or t.fg == 5980 or t.fg == 8470 or t.fg == 10410 or t.fg == 11550 or t.fg == 11586 then
+                    goto BACK31
+                end
+            end
 
-    for _, t in ipairs(getBot(Growid):getTiles()) do
-        if t.fg == 242 or t.fg == 9640 or t.fg == 202 or t.fg == 204 or t.fg == 206 or t.fg == 1796 or t.fg == 4994 or t.fg == 7188 or t.fg == 2408 or t.fg == 2950 or t.fg == 4428 or t.fg == 4802 or t.fg == 5814 or t.fg == 5260 or t.fg == 5980 or t.fg == 8470 or t.fg == 10410 or t.fg == 11550 or t.fg == 11586 then
-            goto BACK31
+            -- Menulis hasil generate ke dalam file
+            file = io.open("JOPYDFLIST.txt", "a")
+            if file then
+                file:write(WorldsToGenerate .. "\n")
+                file:close()
+            end
+
+            -- Break out of the loop jika string yang unik sudah dihasilkan
+            break
         end
     end
 end
@@ -974,7 +1024,6 @@ addBot(Growid,Pass)
 sleep(8000)
 generateotheracc()
 rumah = getBot(Growid):getWorld().name:upper()
-logs("World : "..rumah.."")
 lockworldotheracc()
 getBot(Growid):remove()
 sleep(2000)
@@ -990,7 +1039,6 @@ warp(rumah,IDDoor)
 end
 if not UseOtherAccToGenerate then
 rumah = getBot():getWorld().name:upper()
-logs("World : "..rumah.."")
 lockworld()
 end
 getBot():autoCollect(4,true)
