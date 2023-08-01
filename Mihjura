@@ -49,7 +49,7 @@ currentY = math.floor(getBot():getLocal().pos.y / 32)
     end
 
 local dx = math.abs(targetX - currentX)
-if dx < 2 then
+if dx < 9 then
 local dx = math.abs(targetX - currentX)
     if getBot():getTile(math.floor(getBot():getLocal().pos.x / 32 + 2), math.floor(getBot():getLocal().pos.y / 32)).fg == 6 or getBot():getTile(math.floor(getBot():getLocal().pos.x / 32 - 2), math.floor(getBot():getLocal().pos.y / 32)).fg == 6 then
         -- Pindahkan bot ke posisi Y yang lebih rendah
@@ -57,9 +57,11 @@ local dx = math.abs(targetX - currentX)
         sleep(150)
     end
 while currentX ~= targetX do
-currentX = math.floor(getBot():getLocal().pos.x / 32)
     getBot():setPos(targetX, targetY)
-sleep(80)
+sleep(40)
+if getBot():setPos(targetX, targetY) then
+break
+end
 end
 else
     if getBot():getTile(math.floor(getBot():getLocal().pos.x / 32 + 2), math.floor(getBot():getLocal().pos.y / 32)).fg == 6 or getBot():getTile(math.floor(getBot():getLocal().pos.x / 32 - 2), math.floor(getBot():getLocal().pos.y / 32)).fg == 6 then
@@ -80,8 +82,10 @@ end
         else
             currentX = math.max(targetX, currentX - 5)
         end
-        getBot():setPos(currentX, currentY)
-        sleep(400)
+       if getBot():findPath(targetX, targetY) then
+        sleep(200)
+        break
+end
     end
 end
 
