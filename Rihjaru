@@ -656,7 +656,9 @@ end
 end
 
 function getDirt()
-    findPath(2,25)
+ybot = math.floor(getBot():getLocal().pos.y/32)
+
+    findPath(2,ybot)
     sleep(200)
     getBot():autoCollect(4,true)
     if getBot():getItemCount(3) > 0 then
@@ -667,7 +669,7 @@ function getDirt()
      sleep(200)
     end
    sleep(31 *  1000)
-  findPath(2,25)
+  findPath(2,ybot)
   for i=1,20 do 
    punch(0,0)
    sleep(120)
