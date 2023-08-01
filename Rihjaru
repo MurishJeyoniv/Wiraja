@@ -7,21 +7,18 @@ bw = 0
 rumah = ""
 checknya = false
 
-local fullName = getBot():getLocal().name:upper()
-local searchPattern = "(%w+)_"
+startbot = 1
 
-local searchName = string.match(fullName, searchPattern)
-
-if searchName == nil then
-  searchName = fullName
+for index, botname in pairs(getAllBot()) do
+   if botname:getLocal().name:upper() == getBot():getLocal().name:upper() then
+      searchName = index + ( startbot - 1 )
+      break
+   end
 end
 
 TotalWorldToGenerate = BotList[searchName].TotalWorldToGenerate
 WorldLetters = BotList[searchName].WorldLetters
 GenerateWithNumber = BotList[searchName].GenerateWithNumber
-UseOtherAccToGenerate = BotList[searchName].UseOtherAccToGenerate
-Growid = BotList[searchName].Growid
-Pass = BotList[searchName].Pass
 Lock = BotList[searchName].Lock
 UseJammer = BotList[searchName].UseJammer
 IDJammer = BotList[searchName].IDJammer
@@ -311,166 +308,48 @@ function CheckFG()
     return count
 end
 
-function CheckBGotheracc()
-    count = 0
-    for _, tile in ipairs(getBot(Growid):getTiles()) do
-        if tile.bg ~= 0 then
-            count = count + 1
-        end
-    end
-    return count
-end
-
-function CheckFGotheracc()
-    count = 0
-    for _, tile in ipairs(getBot(Growid):getTiles()) do
-        if tile.fg ~= 0 then
-            count = count + 1
-        end
-    end
-    return count
-end
-
 function generate()
     ::BACK31::
     sleep(3000)
     getBot():sendPacket("action|quit_to_exit", 3)
     sleep(3000)
+    local WorldsToGenerate = ""
+    local letterRangeStart = 97
+    local letterRangeEnd = 122
+    local numberRangeStart = 48
+    local numberRangeEnd = 57
+    local WorldLetters = 8 -- You can adjust the number of letters in the generated string
+    local GenerateWithNumber = true -- Set this to true if you want to include numbers in the generated string
 
-    -- Membaca isi file "JopyDf.txt" ke dalam sebuah string
-    local fileContents = ""
-    local file = io.open("JOPYDFLIST.txt", "r")
-    if file then
-        fileContents = file:read("*a")
-        file:close()
-    end
-
-    while true do
-        local WorldsToGenerate = ""
-        local letterRangeStart = 97
-        local letterRangeEnd = 122
-        local numberRangeStart = 48
-        local numberRangeEnd = 57
-
-        for i = 1, WorldLetters do
-            local charCode
-            if GenerateWithNumber then
-                local choice = math.random(1, 2) -- Memilih secara acak antara huruf dan angka
-                if choice == 1 then
-                    charCode = math.random(letterRangeStart, letterRangeEnd)
-                else
-                    charCode = math.random(numberRangeStart, numberRangeEnd)
-                end
-            else
+    for i = 1, WorldLetters do
+        local charCode
+        if GenerateWithNumber then
+            local choice = math.random(1, 2) -- Randomly choose between a letter and a number
+            if choice == 1 then
                 charCode = math.random(letterRangeStart, letterRangeEnd)
+            else
+                charCode = math.random(numberRangeStart, numberRangeEnd)
             end
-
-            WorldsToGenerate = WorldsToGenerate .. string.char(charCode)
+        else
+            charCode = math.random(letterRangeStart, letterRangeEnd)
         end
 
-        -- Memeriksa apakah hasil generate sudah ada di dalam fileContents
-        if not string.find(fileContents, WorldsToGenerate) then
-            getBot():sendPacket("action|join_request\nname|" .. WorldsToGenerate .. "\ninvitedWorld|0", 3)
-            sleep(3000)
-
-            if CheckBG() > 3600 or CheckFG() > 3601 then
-                goto BACK31
-            end
-
-            for _, t in ipairs(getBot():getTiles()) do
-                if t.fg == 242 or t.fg == 9640 or t.fg == 202 or t.fg == 204 or t.fg == 206 or t.fg == 1796 or t.fg == 4994 or t.fg == 7188 or t.fg == 2408 or t.fg == 2950 or t.fg == 4428 or t.fg == 4802 or t.fg == 5814 or t.fg == 5260 or t.fg == 5980 or t.fg == 8470 or t.fg == 10410 or t.fg == 11550 or t.fg == 11586 then
-                    goto BACK31
-                end
-            end
-
-            -- Menulis hasil generate ke dalam file
-            file = io.open("JOPYDFLIST.txt", "a")
-            if file then
-                file:write(WorldsToGenerate .. "\n")
-                file:close()
-            end
-
-            -- Break out of the loop jika string yang unik sudah dihasilkan
-            break
-        end
+        WorldsToGenerate = WorldsToGenerate .. string.char(charCode)
     end
-end
 
-
-
-
-function generateotheracc()
-    ::BACK31::
-    sleep(3000)
-    getBot(Growid):sendPacket("action|quit_to_exit", 3)
+    getBot():sendPacket("action|join_request\nname|" .. WorldsToGenerate .. "\ninvitedWorld|0", 3)
     sleep(3000)
 
-    -- Membaca isi file "JopyDf.txt" ke dalam sebuah string
-    local fileContents = ""
-    local file = io.open("JOPYDFLIST.txt", "r")
-    if file then
-        fileContents = file:read("*a")
-        file:close()
+    if CheckBG() > 3600 or CheckFG() > 3601 then
+        goto BACK31
     end
 
-    while true do
-        local WorldsToGenerate = ""
-        local letterRangeStart = 97
-        local letterRangeEnd = 122
-        local numberRangeStart = 48
-        local numberRangeEnd = 57
-
-        for i = 1, WorldLetters do
-            local charCode
-            if GenerateWithNumber then
-                local choice = math.random(1, 2) -- Memilih secara acak antara huruf dan angka
-                if choice == 1 then
-                    charCode = math.random(letterRangeStart, letterRangeEnd)
-                else
-                    charCode = math.random(numberRangeStart, numberRangeEnd)
-                end
-            else
-                charCode = math.random(letterRangeStart, letterRangeEnd)
-            end
-
-            WorldsToGenerate = WorldsToGenerate .. string.char(charCode)
-        end
-
-        -- Memeriksa apakah hasil generate sudah ada di dalam fileContents
-        if not string.find(fileContents, WorldsToGenerate) then
-            getBot(Growid):sendPacket("action|join_request\nname|" .. WorldsToGenerate .. "\ninvitedWorld|0", 3)
-            sleep(3000)
-
-            if CheckBGotheracc() > 3600 or CheckFGotheracc() > 3601 then
-                goto BACK31
-            end
-
-            for _, t in ipairs(getBot(Growid):getTiles()) do
-                if t.fg == 242 or t.fg == 9640 or t.fg == 202 or t.fg == 204 or t.fg == 206 or t.fg == 1796 or t.fg == 4994 or t.fg == 7188 or t.fg == 2408 or t.fg == 2950 or t.fg == 4428 or t.fg == 4802 or t.fg == 5814 or t.fg == 5260 or t.fg == 5980 or t.fg == 8470 or t.fg == 10410 or t.fg == 11550 or t.fg == 11586 then
-                    goto BACK31
-                end
-            end
-
-            -- Menulis hasil generate ke dalam file
-            file = io.open("JOPYDFLIST.txt", "a")
-            if file then
-                file:write(WorldsToGenerate .. "\n")
-                file:close()
-            end
-
-            -- Break out of the loop jika string yang unik sudah dihasilkan
-            break
+    for _, t in ipairs(getBot():getTiles()) do
+        if t.fg == 242 or t.fg == 9640 or t.fg == 202 or t.fg == 204 or t.fg == 206 or t.fg == 1796 or t.fg == 4994 or t.fg == 7188 or t.fg == 2408 or t.fg == 2950 or t.fg == 4428 or t.fg == 4802 or t.fg == 5814 or t.fg == 5260 or t.fg == 5980 or t.fg == 8470 or t.fg == 10410 or t.fg == 11550 or t.fg == 11586 then
+            goto BACK31
         end
     end
 end
-
-function warpotheracc(world,id)
-getBot(Growid):sendPacket("action|join_request\nname|"..world:upper().."|"..id:upper().."\ninvitedWorld|0",3)
-sleep(4000)
-getBot(Growid):sendPacket("action|join_request\nname|"..world:upper().."|"..id:upper().."\ninvitedWorld|0",3)
-sleep(4000)
-end
-
 
 function warp(world,id)
 getBot():sendPacket("action|join_request\nname|"..world:upper().."|"..id:upper().."\ninvitedWorld|0",3)
@@ -487,25 +366,14 @@ function punch(x,y)
     getBot():hitTile(mf(getBot():getLocal().pos.x) + x,mf(getBot():getLocal().pos.y) + y)
 end
 
-function punchotheracc(x,y)
-    getBot(Growid):hitTile(mf(getBot(Growid):getLocal().pos.x) + x,mf(getBot(Growid):getLocal().pos.y) + y)
-end
-
 function wrench(x,y)
     getBot():wrenchTile(mf(getBot():getLocal().pos.x) + x,mf(getBot():getLocal().pos.y) + y)
-end
-
-function wrenchotheracc(x,y)
-    getBot(Growid):wrenchTile(mf(getBot(Growid):getLocal().pos.x) + x,mf(getBot(Growid):getLocal().pos.y) + y)
 end
 
 function place(id,x,y)
    getBot():placeTile(mf(getBot():getLocal().pos.x) + x,mf(getBot():getLocal().pos.y) + y,id)
 end
 
-function placeotheracc(id,x,y)
-   getBot(Growid):placeTile(mf(getBot(Growid):getLocal().pos.x) + x,mf(getBot(Growid):getLocal().pos.y) + y,id)
-end
 
 
 
@@ -727,21 +595,6 @@ botshow("Clearing Dirt...")
     end
 end
 
-function clearRock()
-for _, tile in ipairs(getBot():getTiles()) do
-if tile.fg == 10 then
-findPath(tile.x,tile.y-1)
-sleep(1000)
-for i = 1,9 do
-punch(0,1)
-sleep(1000)
-end
-place(2,0,1)
-sleep(100)
-end
-end
-end
-
 function getDirt()
 ybot = math.floor(getBot():getLocal().pos.y/32)
 
@@ -837,17 +690,8 @@ function editDoor(label,world,doorid)
     getBot():sendPacket("action|dialog_return\ndialog_name|door_edit\ntilex|"..math.floor(getBot():getLocal().pos.x/32).."|\ntiley|"..math.floor(getBot():getLocal().pos.y/32).."|\ndoor_name|"..label.."\ndoor_target|"..world.."\ndoor_id|"..doorid.."\ncheckbox_locked|0",2)
 end
 
-function editDoorotheracc(label,world,doorid)
-    getBot(Growid):sendPacket("action|dialog_return\ndialog_name|door_edit\ntilex|"..math.floor(getBot(Growid):getLocal().pos.x/32).."|\ntiley|"..math.floor(getBot(Growid):getLocal().pos.y/32).."|\ndoor_name|"..label.."\ndoor_target|"..world.."\ndoor_id|"..doorid.."\ncheckbox_locked|0",2)
-end
-
 function IgnoreEmpty(x,y)
     getBot():sendPacket("action|dialog_return\ndialog_name|lock_edit\ntilex|"..(math.floor(getBot():getLocal().pos.x/32)+x).."|\ntiley|"..(math.floor(getBot():getLocal().pos.y/32)+y).."|\nbuttonClicked|recalcLock\n\ncheckbox_public|0\ncheckbox_ignore|1",2)
-    sleep(500)
-end
-
-function IgnoreEmptyotheracc(x,y)
-    getBot(Growid):sendPacket("action|dialog_return\ndialog_name|lock_edit\ntilex|"..(math.floor(getBot(Growid):getLocal().pos.x/32)+x).."|\ntiley|"..(math.floor(getBot(Growid):getLocal().pos.y/32)+y).."|\nbuttonClicked|recalcLock\n\ncheckbox_public|0\ncheckbox_ignore|1",2)
     sleep(500)
 end
 
@@ -933,115 +777,18 @@ sleep(1000)
 warp(rumah,IDDoor)
 end
 
-function lockworldotheracc()
-xbot = math.floor(getBot(Growid):getLocal().pos.x /32)
-ybot = math.floor(getBot(Growid):getLocal().pos.y /32)
-if UseJammer then
-placeotheracc(IDJammer,-1,-1)
-sleep(300)
-punchotheracc(-1,-1)
-sleep(500)
-end
-while getBot(Growid):getTile(math.floor(getBot(Growid):getLocal().pos.x /32 -1), math.floor(getBot(Growid):getLocal().pos.y / 32 + 1)).fg ~= 0 or getBot(Growid):getTile(math.floor(getBot(Growid):getLocal().pos.x /32 -1), math.floor(getBot():getLocal(Growid).pos.y / 32 + 1)).bg ~= 0 do
-punchotheracc(-1,1)
-sleep(100)
-end
-while getBot(Growid):getTile(math.floor(getBot(Growid):getLocal().pos.x /32 -2), math.floor(getBot(Growid):getLocal().pos.y / 32 + 1)).fg ~= 0 or getBot(Growid):getTile(math.floor(getBot(Growid):getLocal().pos.x /32 -2), math.floor(getBot(Growid):getLocal().pos.y / 32 + 1)).bg ~= 0 do
-punchotheracc(-2,1)
-sleep(100)
-end
-while getBot(Growid):getTile(math.floor(getBot(Growid):getLocal().pos.x /32 -2), math.floor(getBot(Growid):getLocal().pos.y / 32 + 2)).fg ~= 0 or getBot(Growid):getTile(math.floor(getBot(Growid):getLocal().pos.x /32 -2), math.floor(getBot(Growid):getLocal().pos.y / 32 + 2)).bg ~= 0 do
-punchotheracc(-2,2)
-sleep(100)
-end
-while getBot(Growid):getTile(math.floor(getBot(Growid):getLocal().pos.x /32 -1), math.floor(getBot(Growid):getLocal().pos.y / 32 + 2)).fg ~= 0 or getBot(Growid):getTile(math.floor(getBot(Growid):getLocal().pos.x /32 -1), math.floor(getBot(Growid):getLocal().pos.y / 32 + 2)).bg ~= 0 do
-punchotheracc(-1,2)
-sleep(100)
-end
-while getBot(Growid):getTile(math.floor(getBot(Growid):getLocal().pos.x /32), math.floor(getBot(Growid):getLocal().pos.y / 32 + 2)).fg ~= 0 or getBot(Growid):getTile(math.floor(getBot(Growid):getLocal().pos.x /32), math.floor(getBot(Growid):getLocal().pos.y / 32 + 2)).bg ~= 0 do
-punchotheracc(0,2)
-sleep(100)
-end
-while getBot(Growid):getTile(math.floor(getBot(Growid):getLocal().pos.x /32 + 1), math.floor(getBot(Growid):getLocal().pos.y / 32 + 2)).fg ~= 0 or getBot(Growid):getTile(math.floor(getBot(Growid):getLocal().pos.x /32 + 1), math.floor(getBot(Growid):getLocal().pos.y / 32 + 2)).bg ~= 0 do
-punchotheracc(1,2)
-sleep(100)
-end
-while getBot(Growid):getTile(math.floor(getBot(Growid):getLocal().pos.x /32 + 2), math.floor(getBot(Growid):getLocal().pos.y / 32 + 2)).fg ~= 0 or getBot(Growid):getTile(math.floor(getBot(Growid):getLocal().pos.x /32 + 2), math.floor(getBot(Growid):getLocal().pos.y / 32 + 2)).bg ~= 0 do
-punchotheracc(2,2)
-sleep(100)
-end
-while getBot(Growid):getTile(math.floor(getBot(Growid):getLocal().pos.x /32 + 2), math.floor(getBot(Growid):getLocal().pos.y / 32 + 1)).fg ~= 0 or getBot(Growid):getTile(math.floor(getBot(Growid):getLocal().pos.x /32 + 2), math.floor(getBot(Growid):getLocal().pos.y / 32 + 1)).bg ~= 0 do
-punchotheracc(2,1)
-sleep(100)
-end
-if PlaceDoor then
-getBot(Growid):move(LEFT,1)
-sleep(100)
-getBot(Growid):move(DOWN,1)
-sleep(100)
-while getBot(Growid):getTile(math.floor(getBot(Growid):getLocal().pos.x / 32), math.floor(getBot(Growid):getLocal().pos.y / 32)).fg ~= Door do
-placeotheracc(Door,0,0)
-sleep(1000)
-end
-wrenchotheracc(0,0)
-sleep(1000)
-editDoorotheracc("Jopy","Jopy",IDDoor)
-sleep(2000)
-getBot(Growid):move(UP,1)
-sleep(100)
-getBot(Growid):move(RIGHT,1)
-sleep(100)
-end
-placeotheracc(2,1,-1)
-sleep(1000)
-placeotheracc(Lock,0,-1)
-sleep(1000)
-if UseEntrance then
-placeotheracc(EntranceID,1,0)
-sleep(300)
-placeotheracc(EntranceID,-1,0)
-sleep(300)
-else
-placeotheracc(2,1,0)
-sleep(300)
-placeotheracc(2,-1,0)
-sleep(300)
-end
-wrenchotheracc(0,-1)
-sleep(2000)
-IgnoreEmptyotheracc(0,-1)
-sleep(1000)
-end
 
 
 
-
-function worldnya()
-if not UseOtherAccToGenerate then
-generate()
-else
-addBot(Growid,Pass)
-sleep(8000)
-generateotheracc()
-rumah = getBot(Growid):getWorld().name:upper()
-lockworldotheracc()
-getBot(Growid):remove()
-sleep(2000)
-end
-end
 
 function generatemode()
 for i = 1,TotalWorldToGenerate do
 botshow("Finding World..")
-worldnya()
-if UseOtherAccToGenerate then
-warp(rumah,IDDoor)
-end
-if not UseOtherAccToGenerate then
+generate()
 rumah = getBot():getWorld().name:upper()
-lockworld()
-end
 getBot():autoCollect(4,true)
+lockworld()
+getBot():autoCollect(4,false)
 takepick()
 getBot():autoCollect(4,true)
 clearSide()
@@ -1051,37 +798,23 @@ banwave()
 clearDirt()
 banwave()
 placeDirt()
-if BreakRock then
-clearRock()
-end
 getBot():sendPacket("action|respawn", 2)
 sleep(5000)
-if AutoTakeJammerWhenDone and not UseOtherAccToGenerate then
+if AutoTakeJammerWhenDone then
 while getBot():getTile(math.floor(getBot():getLocal().pos.x /32 -1), math.floor(getBot():getLocal().pos.y /32 - 1)).fg == IDJammer do
 punch(-1,-1)
 sleep(200)
 end
+while getBot():getTile(math.floor(getBot():getLocal().pos.x /32 -1), math.floor(getBot():getLocal().pos.y /32 - 1)).fg ~= 2 do
+sleep(700)
 place(2,-1,-1)
 sleep(200)
 end
-if AutoTakeJammerWhenDone and UseOtherAccToGenerate then
-addBot(Growid,Pass)
-sleep(8000)
-warpotheracc(rumah,"")
-while getBot(Growid):getTile(math.floor(getBot(Growid):getLocal().pos.x /32 -1), math.floor(getBot(Growid):getLocal().pos.y /32 - 1)).fg == IDJammer do
-punchotheracc(-1,-1)
-sleep(200)
 end
-sleep(3000)
-getBot(Growid):remove()
-end
-sleep(1000)
-place(2,-1,-1)
-sleep(200)
 place(2,-2,1)
-sleep(300)
+sleep(500)
 place(2,2,1)
-sleep(300)
+sleep(500)
 end
 botshow("All Df Has Been Created, Removing Bot...")
 getBot():remove()
