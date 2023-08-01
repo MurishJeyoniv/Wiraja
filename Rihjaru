@@ -579,9 +579,9 @@ function clear()
             tresh = nil
         end
     end
-if getBot():getItemCount(3) > 150 then
+if getBot():getItemCount(3) > 190 then
  getBot():sendPacket( "action|trash\n|itemID|3",2)
- getBot():sendPacket( "action|dialog_return\ndialog_name|trash_item\nitemID|3|\ncount|" .. (getBot():getItemCount(3) - 150),2) 
+ getBot():sendPacket( "action|dialog_return\ndialog_name|trash_item\nitemID|3|\ncount|" .. (getBot():getItemCount(3) - 185),2) 
   sleep(1000)
 end
 end
