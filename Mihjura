@@ -57,9 +57,8 @@ local dx = math.abs(targetX - currentX)
         sleep(150)
     end
 while currentX ~= targetX do
-    getBot():setPos(targetX, targetY)
-sleep(DelayFindPath)
 if getBot():setPos(targetX, targetY) then
+sleep(DelayFindPath)
 break
 end
 end
