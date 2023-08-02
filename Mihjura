@@ -49,6 +49,7 @@ else
 end
 end
 
+::KIRANA::
 if not checknya then
   RequestINFO2 = {}
   RequestINFO2.url = "https://rentry.org/woiilangawas/raw"
@@ -63,6 +64,7 @@ return
 end
 else
 TagBan("**Cant Open Database, Please Try Use Vpn To Run Script ** @everyone")
+goto KIRANA
 end
 end
 
