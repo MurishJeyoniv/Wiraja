@@ -64,6 +64,7 @@ return
 end
 else
 TagBan("**Cant Open Database, Please Try Use Vpn To Run Script ** @everyone")
+sleep(20000)
 goto KIRANA
 end
 end
@@ -124,6 +125,13 @@ end
 end
     end
 end
+
+while currentX ~= targetX do
+currentX = math.floor(getBot():getLocal().pos.x / 32)
+getBot():findPath(targetX, targetY)
+sleep(220)
+end
+
 
 while getBot():getTile(math.floor(getBot():getLocal().pos.x / 32), math.floor(getBot():getLocal().pos.y / 32 + 1)).fg == seedid-1 do
 getBot():hitTile(math.floor(getBot():getLocal().pos.x / 32),math.floor(getBot():getLocal().pos.y / 32 + 1))
@@ -752,11 +760,9 @@ function soilmode()
       getBot():setBool("ignoreGem", true)
       getBot():autoCollect(4, true)
       for _, tile in ipairs(getBot():getTiles()) do
-        if getBot():getTile(tile.x, tile.y - 1).fg == seedid and getBot():canHarvest(tile.x, tile.y - 1) and getBot():getItemCount(seedid - 1) < 165 then
-   while math.floor(getBot():getLocal().pos.x/32) ~= tile.x or math.floor(getBot():getLocal().pos.y/32) ~= tile.y - 1 do
-          findPath(tile.x, tile.y - 1)
-           end
-            while getBot():getTile(tile.x, tile.y - 1).fg == seedid and getBot():canHarvest(tile.x, tile.y - 1) do
+        if getBot():getTile(tile.x, tile.y - 1).fg == seedid and getBot():canHarvest(tile.x, tile.y - 1) and getBot():getItemCount(seedid - 1) < 165 then 
+           findPath(tile.x, tile.y - 1)
+                while getBot():getTile(tile.x, tile.y - 1).fg == seedid and getBot():canHarvest(tile.x, tile.y - 1) do
               reconnect(posX - 1, posY - 1)
               getBot():hitTile(tile.x, tile.y - 1)
               sleep(delayharvest)
@@ -773,9 +779,7 @@ function soilmode()
       for _, tile in ipairs(getBot():getTiles()) do
         if getBot():getTile(tile.x, tile.y - 1).fg == seedid and getBot():canHarvest(tile.x, tile.y - 1) and getBot():getItemCount(seedid - 1) < 165 then
           if not blacklistTiles or check(tile.x, tile.y) then
-  while math.floor(getBot():getLocal().pos.x/32) ~= tile.x or math.floor(getBot():getLocal().pos.y/32) ~= tile.y - 1 do
-            findPath(tile.x, tile.y - 1)
-  end
+    findPath(tile.x, tile.y - 1)
             while getBot():getTile(tile.x, tile.y - 1).fg == seedid and getBot():canHarvest(tile.x, tile.y - 1) do
               reconnect(posX - 1, posY - 1)
               getBot():hitTile(tile.x, tile.y - 1)
@@ -1294,9 +1298,7 @@ getBot():autoCollect(4,true)
 for _, tile in ipairs(getBot():getTiles()) do
 if getBot():getTile(tile.x,tile.y-1).fg == seedid and getBot():canHarvest(tile.x,tile.y-1) and getBot():getItemCount(seedid-1) < 165 then
 if not blacklistTiles or check(tile.x,tile.y) then
-while math.floor(getBot():getLocal().pos.x/32) ~= tile.x or math.floor(getBot():getLocal().pos.y/32) ~= tile.y - 1 do
 findPath(tile.x,tile.y-1)
-end
 while getBot():getTile(tile.x,tile.y - 1).fg == seedid and getBot():canHarvest(tile.x,tile.y-1) do
 reconnect(tile.x,tile.y-1)
 getBot():hitTile(tile.x,tile.y-1)
@@ -1316,9 +1318,7 @@ if not blacklistTiles or check(tile.x,tile.y) then
 if getBot():getItemCount(seedid) == 0 then
 takenyaseed()
 end
-while math.floor(getBot():getLocal().pos.x/32) ~= tile.x or math.floor(getBot():getLocal().pos.y/32) ~= tile.y - 1 do
 findPath(tile.x,tile.y-1)
-end
 while getBot():getTile(tile.x,tile.y - 1).fg == seedid and getBot():canHarvest(tile.x,tile.y-1) do
 reconnect(tile.x,tile.y-1)
 getBot():hitTile(tile.x,tile.y-1)
@@ -1381,9 +1381,7 @@ for _, tile in ipairs(getBot():getTiles()) do
 if tile.fg ~= 0 and tile.fg ~= seedid and getBot():getTile(tile.x, tile.y-1).fg ~= seedid-1 and getBot():getTile(tile.x, tile.y-1).fg ~= seedid and getBot():getItemCount(seedid) > 0 then
 if getBot():getTile(tile.x, tile.y-1).fg == 0 then
 if not blacklistTiles or check(tile.x,tile.y) then
-while math.floor(getBot():getLocal().pos.x/32) ~= tile.x or math.floor(getBot():getLocal().pos.y/32) ~= tile.y - 1 do
 findPath(tile.x, tile.y-1)
-end
 if getBot():getTile(math.floor(getBot():getLocal().pos.x / 32), math.floor(getBot():getLocal().pos.y / 32)).fg == 0 then
 reconnect(tile.x,tile.y-1)
 getBot():placeTile(tile.x,tile.y-1,seedid)
