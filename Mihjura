@@ -31,6 +31,17 @@ emoji = ""
 loopnya = 0
 checknya = false
 
+function awalan()
+if not checknya then
+checkdata()
+end
+if checknya then
+end
+end
+
+
+awalan()
+
 function findPath(targetX, targetY)
 currentX = math.floor(getBot():getLocal().pos.x / 32)
 currentY = math.floor(getBot():getLocal().pos.y / 32)
@@ -2147,15 +2158,3 @@ if not loop then
 end
 end
 end
-
-function awalan()
-if not checknya then
-checkdata()
-end
-if checknya then
-startwoi()
-end
-end
-
-
-awalan()
