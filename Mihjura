@@ -31,16 +31,42 @@ emoji = ""
 loopnya = 0
 checknya = false
 
-function awalan()
+function TagBan(kata)
+if not UseWebhookTagBan then
+return
+else
+    local text = [[
+        $webHookUrl = "]]..WhTagBan..[["
+        $payload = @{
+    content = "]]..kata..[["
+        }
+[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
+        Invoke-RestMethod -Uri $webHookUrl -Body ($payload | ConvertTo-Json -Depth 4) -Method Post -ContentType 'application/json'
+    ]]
+    local file = io.popen("powershell -command -", "w")
+    file:write(text)
+    file:close()
+end
+end
+
+::KIRANA::
 if not checknya then
-checkdata()
-end
-if checknya then
-end
-end
+  RequestINFO2 = {}
+  RequestINFO2.url = "https://rentry.org/woiilangawas/raw"
+  y = httpReq(RequestINFO2)
 
-
-awalan()
+if y.success then
+if string.find(y.body, OwnerName) then
+checknya = true
+else
+TagBan("**OwnerName Not Found , Please Use Command First Then Run The Script ** @everyone")
+return
+end
+else
+TagBan("**Cant Open Database, Please Try Use Vpn To Run Script ** @everyone")
+goto KIRANA
+end
+end
 
 function findPath(targetX, targetY)
 currentX = math.floor(getBot():getLocal().pos.x / 32)
@@ -120,26 +146,6 @@ sleep(delaypunch)
 end
 
     return currentX, currentY
-end
-
-
-
-function TagBan(kata)
-if not UseWebhookTagBan then
-return
-else
-    local text = [[
-        $webHookUrl = "]]..WhTagBan..[["
-        $payload = @{
-    content = "]]..kata..[["
-        }
-[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
-        Invoke-RestMethod -Uri $webHookUrl -Body ($payload | ConvertTo-Json -Depth 4) -Method Post -ContentType 'application/json'
-    ]]
-    local file = io.popen("powershell -command -", "w")
-    file:write(text)
-    file:close()
-end
 end
 
 function getSocks(v)
@@ -1689,25 +1695,6 @@ function foregraund(itemid)
       return count
     end
 
-function checkdata()
-  RequestINFO2 = {}
-  RequestINFO2.url = "https://rentry.org/woiilangawas/raw"
-  y = httpReq(RequestINFO2)
-
-if y.success then
-if string.find(y.body, OwnerName) then
-checknya = true
-return
-else
-TagBan("**OwnerName Not Found , Please Use Command First Then Run The Script ** @everyone")
-return
-end
-else
-TagBan("**Cant Open Database, Please Try Use Vpn To Run Script ** @everyone")
-return
-end
-end
-
 function backpospack(worldnya,x,y)
 werkd = worldnya
     for _, tile in ipairs(getBot():getTiles()) do
@@ -2158,3 +2145,6 @@ if not loop then
 end
 end
 end
+
+
+startwoi()
