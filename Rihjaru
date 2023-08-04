@@ -270,6 +270,44 @@ te = os.time() - t
 end
 end
 
+function backpos(x,y)
+werkd = rumah
+    for _, tile in ipairs(getBot():getTiles()) do
+       if getBot():getTile(math.floor(getBot():getLocal().pos.x / 32),math.floor(getBot():getLocal().pos.y / 32)).fg == 6 then
+            repeat
+            getBot():sendPacket("action|join_request\nname|".. werkd .. "|" .. IDDoor:upper().."\ninvitedWorld|0",3)
+            sleep(4000)
+            until getBot():getTile(math.floor(getBot():getLocal().pos.x / 32),math.floor(getBot():getLocal().pos.y / 32)).fg ~= 6
+            if x and y and getBot():getBotStatus() == Success and getBot():getWorld().name:upper() == werkd:upper() then
+                repeat
+                    findPath(x,y)
+                    sleep(400)
+                until math.floor(getBot():getLocal().pos.x / 32) == x or math.floor(getBot():getLocal().pos.y / 32) == y
+            end
+            if getBot():getBotStatus() == Success and getBot():getWorld().name:upper() == werkd:upper() then
+                if x and y then
+                    if getBot():getBotStatus() == Success and math.floor(getBot():getLocal().pos.x / 32) == x and math.floor(getBot():getLocal().pos.y / 32) == y then
+                        break
+                    end
+                elseif getBot():getBotStatus() == Success then
+                    break
+                end
+            end
+        end
+    end
+end
+
+function reconnect(x,y)
+if getBot():getBotStatus() ~= Success then
+repeat
+getBot():reConnect()
+sleep(8000)
+until getBot():getBotStatus() == Success
+warp(rumah,IDDoor)
+backpos(x,y)
+end
+end
+
 function TagBan(kata)
 if not UseWebhookTagBan then
 return
@@ -310,9 +348,9 @@ end
 
 function generate()
     ::BACK31::
-    sleep(3000)
+    sleep(5000)
     getBot():sendPacket("action|quit_to_exit", 3)
-    sleep(3000)
+    sleep(5000)
     local WorldsToGenerate = ""
     local letterRangeStart = 97
     local letterRangeEnd = 122
@@ -335,8 +373,10 @@ function generate()
         WorldsToGenerate = WorldsToGenerate .. string.char(charCode)
     end
 
+    while getBot():getWorld().name:upper() ~= WorldsToGenerate:upper() do
     getBot():sendPacket("action|join_request\nname|" .. WorldsToGenerate .. "\ninvitedWorld|0", 3)
-    sleep(3000)
+    sleep(6000)
+    end
 
     if CheckBG() > 3600 or CheckFG() > 3601 then
         goto BACK31
@@ -430,17 +470,22 @@ end
 end
 
 function clearSide()
+xbot = math.floor(getBot():getLocal().pos.x /32)
+ybot = math.floor(getBot():getLocal().pos.y /32)
+
     for i=24,53 do  
         if getBot():getTile(1,i).bg == 14 then
             while getBot():getTile(1,i).bg == 14 do
                 findPath(1,i-1)
                 punch(0,1)
                 sleep(150)
+                reconnect(xbot,ybot)
             end
             while getBot():getTile(0,i).bg == 14 do
                 findPath(1,i-1)
                 punch(-1,1)
                 sleep(150)
+                reconnect(xbot,ybot)
             end
         end
     end
@@ -450,11 +495,13 @@ function clearSide()
                 findPath(98,i-1)
                 punch(0,1)
                 sleep(150)
+               reconnect(xbot,ybot)
             end
             while getBot():getTile(99,i).bg == 14 do
                 findPath(98,i-1)
                 punch(1,1)
                 sleep(150)
+               reconnect(xbot,ybot)
             end
         end
     end
@@ -572,6 +619,8 @@ end
 end
 
 function clearDirt()
+xbot = math.floor(getBot():getLocal().pos.x/32)
+ybot = math.floor(getBot():getLocal().pos.y /32 )
 local anjay = false
 botshow("Clearing Dirt...")
     for i=23,51 do
@@ -579,6 +628,7 @@ botshow("Clearing Dirt...")
             for j=2,98 do
                 if getBot():getTile(j,i+2).bg == 0 and getBot():getTile(j,i+2).fg == 0 then
                     sleep(1)
+               reconnect(xbot,ybot)
                 else
                     findPath(j,i)
                     replaceLava(j,i + 1)
@@ -586,6 +636,7 @@ botshow("Clearing Dirt...")
                         sleep(DelayClearDirt)
                         punch(0,2)
                        clear()
+               reconnect(xbot,ybot)
                     end
                 end
             end
@@ -594,8 +645,9 @@ botshow("Clearing Dirt...")
 end
 
 function getDirt()
+xbot = math.floor(getBot():getLocal().pos.x/32)
 ybot = math.floor(getBot():getLocal().pos.y/32)
-
+ reconnect(xbot,ybot)
     findPath(2,ybot)
     sleep(200)
     getBot():autoCollect(4,true)
@@ -621,6 +673,8 @@ end
 
 function placeDirt()
 botshow("Placing Dirt...")
+xbot = math.floor(getBot():getLocal().pos.x/32)
+ybot = math.floor(getBot():getLocal().pos.y/32)
     for i=22,2,-1 do
         if i % 2 == 0 then
             for j=2,97 do
@@ -633,6 +687,7 @@ botshow("Placing Dirt...")
                     while getBot():getTile(math.floor(getBot():getLocal().pos.x /32), math.floor(getBot():getLocal().pos.y /32 -1)).fg ~= 2 do
                     place(2,0,-1)
                     sleep(DelayPlaceDirt)
+               reconnect(xbot,ybot)
                    end
                 end
             end
@@ -784,6 +839,7 @@ for i = 1,TotalWorldToGenerate do
 botshow("Finding World..")
 generate()
 rumah = getBot():getWorld().name:upper()
+logs("World : "..rumah.."")
 getBot():autoCollect(4,true)
 lockworld()
 getBot():autoCollect(4,false)
