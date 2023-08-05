@@ -479,13 +479,13 @@ ybot = math.floor(getBot():getLocal().pos.y /32)
                 findPath(1,i-1)
                 punch(0,1)
                 sleep(150)
-                reconnect(xbot,ybot)
+                reconnect(1,i-1)
             end
             while getBot():getTile(0,i).bg == 14 do
                 findPath(1,i-1)
                 punch(-1,1)
                 sleep(150)
-                reconnect(xbot,ybot)
+                reconnect(1,i-1)
             end
         end
     end
@@ -495,13 +495,13 @@ ybot = math.floor(getBot():getLocal().pos.y /32)
                 findPath(98,i-1)
                 punch(0,1)
                 sleep(150)
-               reconnect(xbot,ybot)
+               reconnect(98,i-1)
             end
             while getBot():getTile(99,i).bg == 14 do
                 findPath(98,i-1)
                 punch(1,1)
                 sleep(150)
-               reconnect(xbot,ybot)
+               reconnect(98,i-1)
             end
         end
     end
@@ -598,6 +598,7 @@ function platform()
                     sleep(150)
                     place(PlatformID,0,-1)
                     sleep(DelayPlacePlat)
+                    reconnect(1,i+1)
                 end
             end
         end
@@ -608,6 +609,7 @@ function platform()
                     sleep(150)
                     place(PlatformID,0,-1)
                     sleep(DelayPlacePlat)
+                    reconnect(98,i+1)
                 end
             end
         end
@@ -628,7 +630,6 @@ botshow("Clearing Dirt...")
             for j=2,98 do
                 if getBot():getTile(j,i+2).bg == 0 and getBot():getTile(j,i+2).fg == 0 then
                     sleep(1)
-               reconnect(xbot,ybot)
                 else
                     findPath(j,i)
                     replaceLava(j,i + 1)
@@ -636,7 +637,7 @@ botshow("Clearing Dirt...")
                         sleep(DelayClearDirt)
                         punch(0,2)
                        clear()
-               reconnect(xbot,ybot)
+               reconnect(j,i)
                     end
                 end
             end
@@ -645,9 +646,6 @@ botshow("Clearing Dirt...")
 end
 
 function getDirt()
-xbot = math.floor(getBot():getLocal().pos.x/32)
-ybot = math.floor(getBot():getLocal().pos.y/32)
- reconnect(xbot,ybot)
     findPath(2,ybot)
     sleep(200)
     getBot():autoCollect(4,true)
@@ -687,7 +685,7 @@ ybot = math.floor(getBot():getLocal().pos.y/32)
                     while getBot():getTile(math.floor(getBot():getLocal().pos.x /32), math.floor(getBot():getLocal().pos.y /32 -1)).fg ~= 2 do
                     place(2,0,-1)
                     sleep(DelayPlaceDirt)
-               reconnect(xbot,ybot)
+               reconnect(j,i+1)
                    end
                 end
             end
@@ -813,10 +811,14 @@ sleep(1000)
 place(Lock,0,-1)
 sleep(1000)
 if UseEntrance then
+while getBot():getTile(math.floor(getBot():getLocal().pos.x /32 +1), math.floor(getBot():getLocal().pos.y /32)).fg ~= EntranceID do
 place(EntranceID,1,0)
-sleep(300)
+sleep(400)
+end
+while getBot():getTile(math.floor(getBot():getLocal().pos.x /32 -1), math.floor(getBot():getLocal().pos.y /32)).fg ~= EntranceID do
 place(EntranceID,-1,0)
-sleep(300)
+sleep(400)
+end
 else
 place(2,1,0)
 sleep(300)
