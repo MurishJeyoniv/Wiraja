@@ -63,6 +63,7 @@ TagBan("**OwnerName Not Found , Please Use Command First Then Run The Script ** 
 return
 end
 else
+log("Request Failed Error Msg: ", y.failInfo)
 TagBan("**Cant Open Database, Please Try Use Vpn To Run Script ** @everyone")
 sleep(20000)
 goto KIRANA
