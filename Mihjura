@@ -359,14 +359,14 @@ for _, bot in pairs(getAllBot()) do
 table.insert(BOT, bot:getLocal().name:upper())
 end
 
-local datawebhook = #WEBHOOK
-local datamessageid = #MESSAGEID
+for z = 1,#WEBHOOK do
+        WhStatus = WEBHOOK[z]
+        MessageID = MESSAGEID[z]
+end
 
 for i = 1,#BOT do
     if string.upper(BOT[i]) == string.upper(getBot():getLocal().name) then
         WorldList = FARM[i]
-        WhStatus = WEBHOOK[datawebhook]
-        MessageID = MESSAGEID[datamessageid]
        posX = POSXBREAK[i]
       posY = POSYBREAK[i]
     end
