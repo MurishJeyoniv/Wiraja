@@ -79,9 +79,17 @@ if math.floor(getBot():getLocal().pos.y/32) == 1 then
 getBot():findPath(targetX,targetY)
 sleep(100)
 end
+if math.floor(getBot():getLocal().pos.y/32) == 2 then
+getBot():findPath(targetX,targetY)
+sleep(100)
+end
 if math.floor(getBot():getLocal().pos.y/32) == 25 then
 getBot():findPath(targetX,targetY)
 sleep(100)
+end
+if math.abs(currentY - targetY) % 1 == 0 then
+getBot():move(DOWN,1)
+sleep(1000)
 end
 if getBot():getTile(math.floor(getBot():getLocal().pos.x/32), math.floor(currentY+2)).fg == 0 or getBot():getTile(math.floor(getBot():getLocal().pos.x/32), math.floor(currentY+2)).fg == seedid  then
 if targetY > currentY then
@@ -351,11 +359,14 @@ for _, bot in pairs(getAllBot()) do
 table.insert(BOT, bot:getLocal().name:upper())
 end
 
+local datawebhook = #WEBHOOK
+local datamessageid = #MESSAGEID
+
 for i = 1,#BOT do
     if string.upper(BOT[i]) == string.upper(getBot():getLocal().name) then
         WorldList = FARM[i]
-        WhStatus = WEBHOOK[i]
-        MessageID = MESSAGEID[i]
+        WhStatus = WEBHOOK[datawebhook]
+        MessageID = MESSAGEID[datamessageid]
        posX = POSXBREAK[i]
       posY = POSYBREAK[i]
     end
