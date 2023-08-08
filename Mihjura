@@ -79,7 +79,7 @@ if math.floor(getBot():getLocal().pos.y/32) == 1 then
 getBot():findPath(targetX,targetY)
 sleep(100)
 end
-if math.floor(getBot():getLocal().pos.y/32) == 2 then
+if math.floor(getBot():getLocal().pos.y/32) == 0 then
 getBot():findPath(targetX,targetY)
 sleep(100)
 end
