@@ -38,10 +38,6 @@ function TagBan(text)
     RequestINFO.method = POST
     RequestINFO.postData = "content=" .. text
     x = httpReq(RequestINFO)
-    if x.success then
-    else
-        log("Request Failed Error Msg : ", x.failInfo)
-    end
 end
 
 ::KIRANA::
@@ -642,10 +638,6 @@ local deskripsi = verify .. "\n\n" .. activity .. "\n" .. namebot .. "\n" .. wor
         ]]
 
     x = httpReq(RequestINFO)
-    if x.success then
-    else
-        log("Request Failed Error Msg: ", x.failInfo)
-    end
     
 end
 
@@ -693,10 +685,6 @@ local deskripsi =  packname .. "\n" .. activity .. "\n" .. namebot .. "\n" .. wo
         ]]
 
     x = httpReq(RequestINFO)
-    if x.success then
-    else
-        log("Request Failed Error Msg: ", x.failInfo)
-    end
     
 end
 end
