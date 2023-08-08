@@ -1613,7 +1613,7 @@ function breaks()
         if BreakTiles == "1" then
             getBot():placeTile(posX - 2, posY - 1, seedid - 1)
             sleep(delayplace)
-            while getBot():getTile(posX - 2, posY - 1).fg == seedid - 1 do
+            while getBot():getTile(posX - 2, posY - 1).fg ~= 0 or getBot():getTile(posX - 2, posY - 1).bg ~= 0 do
                 getBot():hitTile(posX - 2, posY - 1)
                 sleep(delaypunch)
             end
@@ -1623,11 +1623,11 @@ function breaks()
             sleep(delayplace)
             getBot():placeTile(posX - 2, posY - 2, seedid - 1)
             sleep(delayplace)
-            while getBot():getTile(posX - 2, posY - 1).fg == seedid - 1 do
+            while getBot():getTile(posX - 2, posY - 1).fg ~= 0 or getBot():getTile(posX - 2, posY - 1).bg ~= 0 do
                 getBot():hitTile(posX - 2, posY - 1)
                 sleep(delaypunch)
             end
-            while getBot():getTile(posX - 2, posY - 2).fg == seedid - 1 do
+            while getBot():getTile(posX - 2, posY - 2).fg ~= 0 or getBot():getTile(posX - 2, posY - 2).bg ~= 0 do
                 getBot():hitTile(posX - 2, posY - 2)
                 sleep(delaypunch)
             end
@@ -1639,15 +1639,15 @@ function breaks()
             sleep(delayplace)
             getBot():placeTile(posX - 2, posY, seedid - 1)
             sleep(delayplace)
-            while getBot():getTile(posX - 2, posY - 2).fg == seedid - 1 do
+            while getBot():getTile(posX - 2, posY - 2).fg ~= 0 or getBot():getTile(posX - 2, posY - 2).bg ~= 0 do
                 getBot():hitTile(posX - 2, posY - 2)
                 sleep(delaypunch)
             end
-            while getBot():getTile(posX - 2, posY - 1).fg == seedid - 1 do
+            while getBot():getTile(posX - 2, posY - 1).fg ~= 0 or getBot():getTile(posX - 2, posY - 1).bg ~= 0 do
                 getBot():hitTile(posX - 2, posY - 1)
                 sleep(delaypunch)
             end
-            while getBot():getTile(posX - 2, posY).fg == seedid - 1 do
+            while getBot():getTile(posX - 2, posY).fg ~= 0 or getBot():getTile(posX - 2, posY).bg ~= 0 do
                 getBot():hitTile(posX - 2, posY)
                 sleep(delaypunch)
             end
