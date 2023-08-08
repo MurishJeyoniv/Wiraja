@@ -55,6 +55,7 @@ if string.find(y.body, OwnerName) then
 checknya = true
 else
 TagBan("**OwnerName Not Found , Please Use Command First Then Run The Script ** @everyone")
+log("Failed To Get OwnerName Data")
 return
 end
 else
