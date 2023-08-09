@@ -1,4 +1,3 @@
-
 --===JOPY STORE===--
 
 Time = {}
@@ -75,26 +74,20 @@ currentY = math.floor(getBot():getLocal().pos.y / 32)
     -- Pergerakan vertikal
     while currentY ~= targetY do
 currentY = math.floor(getBot():getLocal().pos.y / 32)
-if math.floor(getBot():getLocal().pos.y/32) == 1 then
-getBot():findPath(targetX,targetY)
-sleep(100)
-end
-if math.floor(getBot():getLocal().pos.y/32) == 0 then
-getBot():findPath(targetX,targetY)
-sleep(100)
-end
-if math.floor(getBot():getLocal().pos.y/32) == 25 then
-getBot():findPath(targetX,targetY)
-sleep(100)
-end
 if getBot():getTile(math.floor(getBot():getLocal().pos.x/32), math.floor(currentY+2)).fg == 0 or getBot():getTile(math.floor(getBot():getLocal().pos.x/32), math.floor(currentY+2)).fg == seedid  then
 if targetY > currentY then
-getBot():setPos(currentX,currentY+2)
-sleep(130)
+if getBot():setPos(currentX,currentY+2) then
+sleep(10)
+else
+getBot():findPath(targetX,targetY)
+end
 end
 if targetY < currentY then
-getBot():setPos(currentX,currentY-2)
-sleep(130)
+if getBot():setPos(currentX,currentY-2) then
+sleep(10)
+else
+getBot():findPath(targetX,targetY)
+end
 end
 else
 getBot():findPath(targetX,targetY)
@@ -371,7 +364,6 @@ for i = 1,#POSYBREAK do
       posY = POSYBREAK[i]
 end
 
-
 seedid = 0
 
 function detect2(itemid)
@@ -384,7 +376,12 @@ end
 return count
 end
 
+
 function detect()
+if SoilFarmMode then
+seedid = 8641
+return seedid
+end
     for y = 53, 1, -1 do
         for x = 98, 2, -1 do
             local tile = getBot():getTile(x, y)
@@ -393,8 +390,10 @@ function detect()
             end
         end
     end
+
     return 0
 end
+
 
 
 blockid = seedid-1
@@ -775,7 +774,7 @@ if ChangeBotWhenMaxLevel then
             oldbotworld = getBot():getWorld().name
             oldbotname = getBot():getLocal().name
             botshow("Bot Level : "..getBot():getLocal().level.." Changing Bot...")
-            warp(WorldSaveSeed,WorldSaveSeedID)
+            warp(WorldSaveSeed[IndexSaveSeed],WorldSaveSeedID)
             for _, tile in ipairs(getBot():getTiles()) do
             if tile.fg == IDPatokanSeed then
             findPath(tile.x+1,tile.y)
@@ -1100,7 +1099,7 @@ end
 
   function Take()
 botshow("Taking Seed For Planting Blank Seed")
-	warp(WorldSaveSeed, WorldSaveSeedID)
+	warp(WorldSaveSeed[IndexSaveSeed], WorldSaveSeedID)
 	for _, object in pairs(getBot():getObjects()) do
 	  if object.id == seedid then
 		if getBot():getItemCount(seedid) == 200 then
@@ -1186,7 +1185,7 @@ end
 end
 
 function takenyaseed()
-warp(WorldSaveSeed,WorldSaveSeedID)
+warp(WorldSaveSeed[IndexSaveSeed],WorldSaveSeedID)
 getBot():autoCollect(4,false)
 while getBot():getItemCount(seedid) < 120 do
         for _,obj in pairs(getBot():getObjects()) do
@@ -1218,7 +1217,7 @@ soilmode()
 coptrashs()
 getBot():autoCollect(4,true)
 for _, tile in ipairs(getBot():getTiles()) do
-if getBot():getTile(tile.x,tile.y-1).fg == seedid and getBot():canHarvest(tile.x,tile.y-1) and getBot():getItemCount(seedid-1) < 165 then
+if getBot():getTile(tile.x,tile.y-1).fg == seedid and getBot():canHarvest(tile.x,tile.y-1) and getBot():getItemCount(seedid-1) < 165 and getBot():getItemCount(seedid) < 200 then
 findPath(tile.x,tile.y-1)
 while getBot():getTile(tile.x,tile.y - 1).fg == seedid and getBot():canHarvest(tile.x,tile.y-1) do
 reconnect(tile.x,tile.y-1)
@@ -1849,7 +1848,7 @@ function CekTilePack(x,y,num)
             stack = stack + 1
         end
     end
-    if stack < 20 and count <= (3800 - num) then
+    if stack < 15 and count <= (3800 - num) then
         return true
     end
     return false
@@ -1864,7 +1863,7 @@ function CekTileSeeds(x,y,num)
             stack = stack + 1
         end
     end
-    if count <= (3800 - num) then
+    if stack < 15 and count <= (3800 - num) then
         return true
     end
     return false
@@ -1943,6 +1942,7 @@ function saveseed()
 getBot():autoCollect(4,false)
 botpack("Saving Seeds")
 atas = getBot():getWorld().name
+rara = SeedsScanner(seedid)
         warp(WorldSaveSeed[IndexSaveSeed],WorldSaveSeedID)
     for _, tile in ipairs(getBot():getTiles()) do
         if tile.fg == IDPatokanSeed or tile.bg == IDPatokanSeed then 
@@ -2156,6 +2156,7 @@ if not nuked then
 clearTable(processedTimes)
 botshow("Bot Start")
 seedid = detect()
+log(seedid)
 antiToxic()
 tt = os.time()
 gemsawal = getBot():getLocal().gems
@@ -2195,4 +2196,3 @@ end
 end
 
 startwoi()
-
