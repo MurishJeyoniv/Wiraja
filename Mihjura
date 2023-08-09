@@ -74,7 +74,6 @@ currentY = math.floor(getBot():getLocal().pos.y / 32)
     -- Pergerakan vertikal
     while currentY ~= targetY do
 currentY = math.floor(getBot():getLocal().pos.y / 32)
-if getBot():getTile(math.floor(getBot():getLocal().pos.x/32), math.floor(currentY+2)).fg == 0 or getBot():getTile(math.floor(getBot():getLocal().pos.x/32), math.floor(currentY+2)).fg == seedid  then
 if targetY > currentY then
 if getBot():setPos(currentX,currentY+2) then
 sleep(10)
@@ -88,10 +87,6 @@ sleep(10)
 else
 getBot():findPath(targetX,targetY)
 end
-end
-else
-getBot():findPath(targetX,targetY)
-sleep(150)
 end
 end
 
