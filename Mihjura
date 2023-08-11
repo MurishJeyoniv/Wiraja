@@ -653,7 +653,9 @@ local deskripsi = verify .. "\n\n" .. activity .. "\n" .. namebot .. "\n" .. wor
         ]]
 
     x = httpReq(RequestINFO)
-    
+if not x.success then
+    log("Error : ", x.failInfo)
+end
 end
 
 function botpack(Info)
@@ -701,6 +703,9 @@ local deskripsi =  packname .. "\n" .. activity .. "\n" .. namebot .. "\n" .. wo
 
     x = httpReq(RequestINFO)
     
+if not x.success then
+    log("Request Failed Error Msg : ", x.failInfo)
+end
 end
 end
 
