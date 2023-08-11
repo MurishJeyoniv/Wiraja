@@ -84,7 +84,7 @@ sleep(100)
 end
 if targetY > currentY then
 if getBot():setPos(currentX,currentY+2) then
-sleep(40)
+sleep(DelayFindPathY)
 else
 getBot():findPath(targetX,targetY)
 sleep(100)
@@ -92,7 +92,7 @@ end
 end
 if targetY < currentY then
 if getBot():setPos(currentX,currentY-2) then
-sleep(40)
+sleep(DelayFindPathY)
 else
 getBot():findPath(targetX,targetY)
 sleep(100)
@@ -111,7 +111,7 @@ local dx = math.abs(targetX - currentX)
 while currentX ~= targetX do
 currentX = math.floor(getBot():getLocal().pos.x / 32)
 getBot():setPos(targetX, targetY) 
-sleep(DelayFindPath)
+sleep(DelayFindPathX)
 end
 else
     if getBot():getTile(math.floor(getBot():getLocal().pos.x / 32 + 2), math.floor(getBot():getLocal().pos.y / 32)).fg == 6 or getBot():getTile(math.floor(getBot():getLocal().pos.x / 32 - 2), math.floor(getBot():getLocal().pos.y / 32)).fg == 6 then
@@ -133,7 +133,7 @@ end
             currentX = math.max(targetX, currentX - 8)
         end
  getBot():setPos(currentX,currentY) 
-   sleep(40)
+   sleep(50)
 end
 end
 
@@ -653,9 +653,7 @@ local deskripsi = verify .. "\n\n" .. activity .. "\n" .. namebot .. "\n" .. wor
         ]]
 
     x = httpReq(RequestINFO)
-if not x.success then
-    log("Error : ", x.failInfo)
-end
+    
 end
 
 function botpack(Info)
@@ -703,9 +701,6 @@ local deskripsi =  packname .. "\n" .. activity .. "\n" .. namebot .. "\n" .. wo
 
     x = httpReq(RequestINFO)
     
-if not x.success then
-    log("Request Failed Error Msg : ", x.failInfo)
-end
 end
 end
 
