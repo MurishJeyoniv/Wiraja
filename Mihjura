@@ -54,8 +54,8 @@ log("Failed To Get OwnerName Data")
 return
 end
 else
-TagBan("**Cant Open Database, Please Try Use Vpn To Run Script ** @everyone")
-sleep(20000)
+TagBan("**Cant Open Database, Trying To ReOpened Again.. ** @everyone")
+sleep(10000)
 goto KIRANA
 end
 end
@@ -74,18 +74,28 @@ currentY = math.floor(getBot():getLocal().pos.y / 32)
     -- Pergerakan vertikal
     while currentY ~= targetY do
 currentY = math.floor(getBot():getLocal().pos.y / 32)
+if math.floor(getBot():getLocal().pos.y/32) == 1 then
+getBot():findPath(targetX,targetY)
+sleep(100)
+end
+if math.floor(getBot():getLocal().pos.y/32) == 0 then
+getBot():findPath(targetX,targetY)
+sleep(100)
+end
 if targetY > currentY then
 if getBot():setPos(currentX,currentY+2) then
-sleep(10)
+sleep(40)
 else
 getBot():findPath(targetX,targetY)
+sleep(100)
 end
 end
 if targetY < currentY then
 if getBot():setPos(currentX,currentY-2) then
-sleep(10)
+sleep(40)
 else
 getBot():findPath(targetX,targetY)
+sleep(100)
 end
 end
 end
@@ -354,7 +364,7 @@ for i = 1,#BOT do
     end
 end
 
-for i = 1,#POSYBREAK do
+for i = 1,#BOT do
        posX = POSXBREAK[i]
       posY = POSYBREAK[i]
 end
@@ -769,7 +779,7 @@ if ChangeBotWhenMaxLevel then
             oldbotworld = getBot():getWorld().name
             oldbotname = getBot():getLocal().name
             botshow("Bot Level : "..getBot():getLocal().level.." Changing Bot...")
-            warp(WorldSaveSeed[IndexSaveSeed],WorldSaveSeedID)
+            warp(WorldSaveSeed,WorldSaveSeedID)
             for _, tile in ipairs(getBot():getTiles()) do
             if tile.fg == IDPatokanSeed then
             findPath(tile.x+1,tile.y)
@@ -1094,7 +1104,7 @@ end
 
   function Take()
 botshow("Taking Seed For Planting Blank Seed")
-	warp(WorldSaveSeed[IndexSaveSeed], WorldSaveSeedID)
+	warp(WorldSaveSeed, WorldSaveSeedID)
 	for _, object in pairs(getBot():getObjects()) do
 	  if object.id == seedid then
 		if getBot():getItemCount(seedid) == 200 then
@@ -1180,7 +1190,7 @@ end
 end
 
 function takenyaseed()
-warp(WorldSaveSeed[IndexSaveSeed],WorldSaveSeedID)
+warp(WorldSaveSeed,WorldSaveSeedID)
 getBot():autoCollect(4,false)
 while getBot():getItemCount(seedid) < 120 do
         for _,obj in pairs(getBot():getObjects()) do
@@ -1937,7 +1947,6 @@ function saveseed()
 getBot():autoCollect(4,false)
 botpack("Saving Seeds")
 atas = getBot():getWorld().name
-rara = SeedsScanner(seedid)
         warp(WorldSaveSeed[IndexSaveSeed],WorldSaveSeedID)
     for _, tile in ipairs(getBot():getTiles()) do
         if tile.fg == IDPatokanSeed or tile.bg == IDPatokanSeed then 
@@ -1947,7 +1956,7 @@ rara = SeedsScanner(seedid)
                     sleep(500)
                     reconnectseed(atas, tile.x, tile.y)
                 end
-                while getBot():getItemCount(seedid) ~= 0 and CekTileSeeds(tile.x,tile.y,getBot():getItemCount(seedid)) do
+                while getBot():getItemCount(seedid) > 0 and CekTileSeeds(tile.x,tile.y,getBot():getItemCount(seedid)) do
                     getBot():sendPacket("action|drop\n|itemID|"..seedid,2)
                     sleep(1000)
                     getBot():sendPacket("action|dialog_return\ndialog_name|drop_item\nitemID|"..seedid.."|\ncount|"..getBot():getItemCount(seedid),2)
@@ -1962,7 +1971,7 @@ rara = SeedsScanner(seedid)
     end
     sampah()
     seeddrop = SeedsScanner(seedid)
-   hasilseed = math.abs(rara - seeddrop)
+   hasilseed = 200
     botpack("Success Saving Seeds")
     hasilseed = 0
     IndexSaveSeed = IndexSaveSeed + 1
