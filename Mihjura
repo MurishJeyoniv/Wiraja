@@ -1429,7 +1429,7 @@ end
 nuked = false 
 function warp(world,id)
     cok = 0
-while getBot():getWorld().name:upper() ~= string.match(world:upper(), "([^|]+)") and not nuked do
+while getBot():getWorld().name:upper() ~= world:upper() and not nuked do
         while getBot():getBotStatus() ~= Success do
             getBot():reConnect()
             sleep(6000)
