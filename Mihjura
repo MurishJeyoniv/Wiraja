@@ -755,14 +755,14 @@ function soilmode()
         if getBot():getTile(tile.x, tile.y - 1).fg == seedid and getBot():canHarvest(tile.x, tile.y - 1) and getBot():getItemCount(seedid - 1) < 165 then 
            findPath(tile.x, tile.y - 1)
                 while getBot():getTile(tile.x, tile.y - 1).fg == seedid and getBot():canHarvest(tile.x, tile.y - 1) do
-              reconnect(posX - 1, posY - 1)
+              reconnect(tile.x, tile.y - 1)
               getBot():hitTile(tile.x, tile.y - 1)
               sleep(delayharvest)
             end
             while getBot():getTile(tile.x, tile.y).fg == (seedid + 3) and getBot():getTile(tile.x, tile.y).flags ~= 0 do
               punch(0,1)
               sleep(delayharvest + 200)
-              reconnect(posX - 1, posY - 1)
+              reconnect(tile.x, tile.y - 1)
             end
           end
       end
@@ -773,14 +773,14 @@ function soilmode()
           if not blacklistTiles or check(tile.x, tile.y) then
     findPath(tile.x, tile.y - 1)
             while getBot():getTile(tile.x, tile.y - 1).fg == seedid and getBot():canHarvest(tile.x, tile.y - 1) do
-              reconnect(posX - 1, posY - 1)
+              reconnect(tile.x, tile.y - 1)
               getBot():hitTile(tile.x, tile.y - 1)
               sleep(delayharvest)
             end
             while getBot():getTile(tile.x, tile.y).fg == (seedid + 3) and getBot():getTile(tile.x, tile.y).flags ~= 0 do
               punch(0,1)
               sleep(delayharvest + 200)
-              reconnect(posX - 1, posY - 1)
+              reconnect(tile.x, tile.y - 1)
             end
           end
       end
