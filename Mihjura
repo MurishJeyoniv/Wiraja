@@ -1681,6 +1681,7 @@ function breaks()
 ybot = math.floor(getBot():getLocal().pos.y/32)
 cekbp()
     coptrashs()
+log(ybot)
 if ybot ~= 22 or ybot ~= 24 then
 findPath(1,ybot)
 sleep(200)
