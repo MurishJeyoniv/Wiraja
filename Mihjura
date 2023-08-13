@@ -395,7 +395,7 @@ end
 
 
 
-urutanbot = rulah * MaxBotPerWorld
+urutanbot = rulah * MaxWorldPerBot
 
 
 for i = 1, MaxWorldPerBot do
