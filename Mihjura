@@ -398,7 +398,7 @@ end
 urutanbot = rulah * MaxBotPerWorld
 
 
-for i = 1, MaxBotPerWorld do
+for i = 1, MaxWorldPerBot do
    table.insert(worlds,WorldList[urutanbot])
    urutanbot = urutanbot - 1
 end
