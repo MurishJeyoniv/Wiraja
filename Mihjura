@@ -1,3 +1,4 @@
+
 --===JOPY STORE===--
 
 Time = {}
@@ -92,13 +93,58 @@ currentY = math.floor(getBot():getLocal().pos.y / 32)
     -- Pergerakan vertikal
     while currentY ~= targetY do
 currentY = math.floor(getBot():getLocal().pos.y / 32)
+if currentY == 21 then
 getBot():findPath(targetX, targetY)
 sleep(100)
+end
+if math.abs(currentY - targetY) % 1 == 0 then
+if currentY > targetY then
+if getBot():setPos(currentX, currentY - 2) then
+sleep(DelayFindPathY)
+else
+getBot():findPath(targetX, targetY)
+sleep(100)
+end
+end
+if currentY < targetY then
+if getBot():setPos(currentX, currentY + 2) then
+sleep(DelayFindPathY)
+else
+getBot():findPath(targetX, targetY)
+sleep(100)
+end
+end
+else
+if currentY > targetY then
+if getBot():setPos(currentX, currentY - 1) then
+sleep(DelayFindPathY)
+else
+getBot():findPath(targetX, targetY)
+sleep(100)
+end
+end
+if currentY < targetY then
+if getBot():setPos(currentX, currentY + 1) then
+sleep(DelayFindPathY)
+else
+getBot():findPath(targetX, targetY)
+sleep(100)
+end
+end
+end
 end
 
 local dx = math.abs(targetX - currentX)
 if dx < 8 then
 local dx = math.abs(targetX - currentX)
+    if math.floor(getBot():getLocal().pos.y / 32) == 24 then
+   getBot():findPath(targetX, targetY)
+sleep(150)
+end
+    if math.floor(getBot():getLocal().pos.y / 32) == 22 then
+   getBot():findPath(targetX, targetY)
+sleep(150)
+end
     if getBot():getTile(math.floor(getBot():getLocal().pos.x / 32 + 2), math.floor(getBot():getLocal().pos.y / 32)).fg == 6 or getBot():getTile(math.floor(getBot():getLocal().pos.x / 32 - 2), math.floor(getBot():getLocal().pos.y / 32)).fg == 6 then
         -- Pindahkan bot ke posisi Y yang lebih rendah
         getBot():findPath(targetX, targetY)
@@ -122,25 +168,23 @@ else
    getBot():findPath(targetX, targetY)
 sleep(150)
 end
+    if math.floor(getBot():getLocal().pos.y / 32) == 24 then
+   getBot():findPath(targetX, targetY)
+sleep(150)
+end
+    if math.floor(getBot():getLocal().pos.y / 32) == 22 then
+   getBot():findPath(targetX, targetY)
+sleep(150)
+end
   currentX = math.floor(getBot():getLocal().pos.x / 32)
         if currentX < targetX then
             currentX = math.min(targetX, currentX + 8)
         else
             currentX = math.max(targetX, currentX - 8)
         end
- if getBot():setPos(currentX,currentY) then
+ getBot():setPos(currentX,currentY) 
    sleep(50)
-else
-getBot():findPath(targetX, targetY)
-sleep(100)
 end
-end
-end
-
-while currentX ~= targetX do
-currentX = math.floor(getBot():getLocal().pos.x / 32)
-getBot():findPath(targetX, targetY)
-sleep(220)
 end
 
 
@@ -404,8 +448,6 @@ end
 
 
 seedid = 0
-posX = 2
-posY = 6
 
 function detect2(itemid)
 local count = 0
@@ -681,7 +723,6 @@ local deskripsi = verify .. "\n\n" .. activity .. "\n" .. namebot .. "\n" .. wor
     x = httpReq(RequestINFO)
 if not x.success then
 log(x.failInfo)
-return
 end
     
 end
@@ -1388,7 +1429,7 @@ end
 nuked = false 
 function warp(world,id)
     cok = 0
-while getBot():getWorld().name:upper() ~= world:upper() and not nuked do
+while getBot():getWorld().name:upper() ~= string.match(world:upper(), "([^|]+)") and not nuked do
         while getBot():getBotStatus() ~= Success do
             getBot():reConnect()
             sleep(6000)
@@ -1640,10 +1681,10 @@ function breaks()
 ybot = math.floor(getBot():getLocal().pos.y/32)
 cekbp()
     coptrashs()
-   while math.floor(getBot():getLocal().pos.x/32) ~= posX-1 or math.floor(getBot():getLocal().pos.y/32) ~= posY-1 do
-    findPath(posX-1, posY-1)
-    sleep(200)
- end
+posX = 2
+posY = ybot + 1
+    findPath(1,ybot)
+    sleep(100)
     getBot():autoCollect(4, true)
     while getBot():getItemCount(seedid - 1) > 0 and getBot():getItemCount(seedid) < 200 do
         reconnect(posX - 1, posY - 1)
