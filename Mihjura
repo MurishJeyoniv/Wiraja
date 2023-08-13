@@ -30,7 +30,6 @@ loopnya = 0
 checknya = false
 widreal = ""
 
-
 function TagBan(text)
     RequestINFO = {}
     RequestINFO.url = WhTagBan
@@ -60,6 +59,25 @@ goto KIRANA
 end
 end
 
+startslotbot = 1
+
+for index, namebotx in pairs(getAllBot()) do
+   if namebotx:getLocal().name:upper() == getBot():getLocal().name:upper() then
+      rulah = index + ( startslotbot - 1 )
+      break
+   end
+end
+
+
+
+urutanbot = rulah * MaxBotPerWorld
+
+
+for i = 1, MaxBotPerWorld do
+   table.insert(worlds,WorldList[urutanbot])
+   urutanbot = urutanbot - 1
+end
+
 
 function findPath(targetX, targetY)
 currentX = math.floor(getBot():getLocal().pos.x / 32)
@@ -82,6 +100,7 @@ if math.floor(getBot():getLocal().pos.y/32) == 0 then
 getBot():findPath(targetX,targetY)
 sleep(100)
 end
+if math.abs(currentY - targetY) % 1 == 0 then
 if targetY > currentY then
 if getBot():setPos(currentX,currentY+2) then
 sleep(DelayFindPathY)
@@ -96,6 +115,24 @@ sleep(DelayFindPathY)
 else
 getBot():findPath(targetX,targetY)
 sleep(100)
+end
+end
+else
+if targetY > currentY then
+if getBot():setPos(currentX,currentY+1) then
+sleep(80)
+else
+getBot():findPath(targetX,targetY)
+sleep(100)
+end
+end
+if targetY < currentY then
+if getBot():setPos(currentX,currentY-1) then
+sleep(80)
+else
+getBot():findPath(targetX,targetY)
+sleep(100)
+end
 end
 end
 end
@@ -347,29 +384,65 @@ end
   end
 end
 
-BOT = {}
 
-for _, bot in pairs(getAllBot()) do
-table.insert(BOT, bot:getLocal().name:upper())
+if AutoAddBot then
+  if AutoAddBotType == "UBICON" then
+  for i = 1, #Email do
+      if not UseProxyToAdd then
+        addBot(Email[i], Password)
+        sleep(5000)
+        if getBot():getBotStatus() ~= Success then
+          repeat
+            getBot():reConnect()
+            sleep(8000)
+          until getBot():getBotStatus() == Success or getBot():getBotStatus() == Banned or getBot():getBotStatus() == Suspended
+          if getBot():getBotStatus() == Banned or getBot():getBotStatus() == Suspended then
+            TagBan("**Fail To Add Bot ( "..getBot():getLocal().name:upper().." ) Because The Bot Is "..getBot():getBotStatus():upper().." @everyone")
+          end
+          if getBot():getBotStatus() == Success then
+            -- Lanjutkan code di bawahnya di sini
+          end
+        end
+      else
+        addBot(Email[i], Password, getSocks(ProxyList[proxyIndexAdd]))
+        sleep(5000)
+        if getBot():getBotStatus() ~= Success then
+          repeat
+            getBot():reConnect()
+            sleep(8000)
+          until getBot():getBotStatus() == Success or getBot():getBotStatus() == Banned or getBot():getBotStatus() == Suspended
+          if getBot():getBotStatus() == Banned or getBot():getBotStatus() == Suspended then
+            TagBan("**Fail To Add Bot ( "..getBot():getLocal().name:upper().." ) Because The Bot Is "..getBot():getBotStatus():upper().." @everyone")
+            getBot():remove()
+          end
+          if getBot():getBotStatus() == Success then
+            -- Lanjutkan code di bawahnya di sini
+          end
 end
-
-for z = 1,#WEBHOOK do
-        WhStatus = WEBHOOK[z]
-        MessageID = MESSAGEID[z]
-end
-
-for i = 1,#BOT do
-    if string.upper(BOT[i]) == string.upper(getBot():getLocal().name) then
-        WorldList = FARM[i]
+        proxyIndexAddAttempt = proxyIndexAddAttempt + 1
+          if proxyIndexAddAttempt == MaxBotPerProxy then
+       if proxyIndexAdd <= #ProxyList then
+          proxyIndexAdd = proxyIndexAdd + 1
+          proxyIndexAddAttempt = 0
+       else
+       TagBan("**No More Socks Can Be Used For Adding Bot, Please Check It ** @everyone ")
+        end
+          end
+      end
     end
+  end
 end
 
-for i = 1,#BOT do
-       posX = POSXBREAK[i]
-      posY = POSYBREAK[i]
+for i = 1,rulah do
+        WhStatus = WEBHOOK[i]
+        MessageID = MESSAGEID[i]
+rulah = rulah - 1
 end
+
 
 seedid = 0
+posX = 2
+posY = 6
 
 function detect2(itemid)
 local count = 0
@@ -406,21 +479,11 @@ start = 1
 stop = #WorldList
 
 
-for i = start,#WorldList do
-    table.insert(worlds,WorldList[i])
-end
-
-if loop then
-    for i = 0,start - 1 do
-        table.insert(worlds,WorldList[i])
-    end
-end
-
 function DataWorld()
     strWaktu = ""
-        for _,world in pairs(WorldList) do
-strWaktu = strWaktu .. "\n**" .. world:upper() .. " [ " .. (Time[world] or "?") .. " | " .. ":palm_tree: : " .. (pohon[world] or "0") .. " | " .. ":gem: : " .. (berlian[world] or "0") .. " ]**"
-    end
+        for _, world in pairs(worlds) do
+strWaktu = strWaktu .. "\n**" .. world:upper() .. " [ " .. (Time[world] or "?") .. " | " .. ":palm_tree: : " .. (pohon[world] or "0") .. " | " .. ":gem: : " .. (berlian[world] or "0") .. " ]**"  
+end
 return strWaktu
 end
 
@@ -653,6 +716,9 @@ local deskripsi = verify .. "\n\n" .. activity .. "\n" .. namebot .. "\n" .. wor
         ]]
 
     x = httpReq(RequestINFO)
+if not x.success then
+log(x.failInfo)
+end
     
 end
 
@@ -700,7 +766,9 @@ local deskripsi =  packname .. "\n" .. activity .. "\n" .. namebot .. "\n" .. wo
         ]]
 
     x = httpReq(RequestINFO)
-    
+    if not x.success then
+log(x.failInfo)
+end
 end
 end
 
@@ -2163,7 +2231,6 @@ if not nuked then
 clearTable(processedTimes)
 botshow("Bot Start")
 seedid = detect()
-log(seedid)
 antiToxic()
 tt = os.time()
 gemsawal = getBot():getLocal().gems
