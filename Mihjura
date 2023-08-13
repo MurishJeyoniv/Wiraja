@@ -718,6 +718,7 @@ local deskripsi = verify .. "\n\n" .. activity .. "\n" .. namebot .. "\n" .. wor
     x = httpReq(RequestINFO)
 if not x.success then
 log(x.failInfo)
+return
 end
     
 end
