@@ -169,8 +169,12 @@ end
         else
             currentX = math.max(targetX, currentX - 8)
         end
- getBot():setPos(currentX,currentY) 
+ if getBot():setPos(currentX,currentY) then
    sleep(50)
+else
+getBot():findPath(targetX, targetY)
+sleep(100)
+end
 end
 end
 
