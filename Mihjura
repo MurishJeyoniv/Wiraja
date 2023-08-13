@@ -1640,11 +1640,6 @@ function breaks()
 ybot = math.floor(getBot():getLocal().pos.y/32)
 cekbp()
     coptrashs()
-log(ybot)
-if ybot ~= 22 or ybot ~= 24 then
-findPath(1,ybot)
-sleep(200)
-end
    while math.floor(getBot():getLocal().pos.x/32) ~= posX-1 or math.floor(getBot():getLocal().pos.y/32) ~= posY-1 do
     findPath(posX-1, posY-1)
     sleep(200)
