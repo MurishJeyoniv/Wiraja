@@ -92,49 +92,8 @@ currentY = math.floor(getBot():getLocal().pos.y / 32)
     -- Pergerakan vertikal
     while currentY ~= targetY do
 currentY = math.floor(getBot():getLocal().pos.y / 32)
-if math.floor(getBot():getLocal().pos.y/32) == 1 then
-getBot():findPath(targetX,targetY)
+getBot():findPath(targetX, targetY)
 sleep(100)
-end
-if math.floor(getBot():getLocal().pos.y/32) == 0 then
-getBot():findPath(targetX,targetY)
-sleep(100)
-end
-if math.abs(currentY - targetY) % 1 == 0 then
-if targetY > currentY then
-if getBot():setPos(currentX,currentY+2) then
-sleep(DelayFindPathY)
-else
-getBot():findPath(targetX,targetY)
-sleep(100)
-end
-end
-if targetY < currentY then
-if getBot():setPos(currentX,currentY-2) then
-sleep(DelayFindPathY)
-else
-getBot():findPath(targetX,targetY)
-sleep(100)
-end
-end
-else
-if targetY > currentY then
-if getBot():setPos(currentX,currentY+1) then
-sleep(80)
-else
-getBot():findPath(targetX,targetY)
-sleep(100)
-end
-end
-if targetY < currentY then
-if getBot():setPos(currentX,currentY-1) then
-sleep(80)
-else
-getBot():findPath(targetX,targetY)
-sleep(100)
-end
-end
-end
 end
 
 local dx = math.abs(targetX - currentX)
