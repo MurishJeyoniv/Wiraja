@@ -1,4 +1,3 @@
-
 --===JOPY STORE===--
 
 Time = {}
@@ -93,45 +92,8 @@ currentY = math.floor(getBot():getLocal().pos.y / 32)
     -- Pergerakan vertikal
     while currentY ~= targetY do
 currentY = math.floor(getBot():getLocal().pos.y / 32)
-if currentY == 21 then
-getBot():findPath(targetX, targetY)
+getBot():findPath(targetX,targetY)
 sleep(100)
-end
-if math.abs(currentY - targetY) % 1 == 0 then
-if currentY > targetY then
-if getBot():setPos(currentX, currentY - 2) then
-sleep(DelayFindPathY)
-else
-getBot():findPath(targetX, targetY)
-sleep(100)
-end
-end
-if currentY < targetY then
-if getBot():setPos(currentX, currentY + 2) then
-sleep(DelayFindPathY)
-else
-getBot():findPath(targetX, targetY)
-sleep(100)
-end
-end
-else
-if currentY > targetY then
-if getBot():setPos(currentX, currentY - 1) then
-sleep(DelayFindPathY)
-else
-getBot():findPath(targetX, targetY)
-sleep(100)
-end
-end
-if currentY < targetY then
-if getBot():setPos(currentX, currentY + 1) then
-sleep(DelayFindPathY)
-else
-getBot():findPath(targetX, targetY)
-sleep(100)
-end
-end
-end
 end
 
 local dx = math.abs(targetX - currentX)
@@ -482,6 +444,12 @@ end
 blockid = seedid-1
 start = 1
 stop = #WorldList
+
+if loop then
+    for i = 0,start - 1 do
+        table.insert(worlds,WorldList[i])
+    end
+end
 
 
 function DataWorld()
@@ -1683,8 +1651,15 @@ cekbp()
     coptrashs()
 posX = 2
 posY = ybot + 1
+if getBot():getTile(1,ybot).fg == 0 then
     findPath(1,ybot)
     sleep(100)
+else
+posX = 2
+posY = 6
+findPath(1,5)
+sleep(100)
+end
     getBot():autoCollect(4, true)
     while getBot():getItemCount(seedid - 1) > 0 and getBot():getItemCount(seedid) < 200 do
         reconnect(posX - 1, posY - 1)
