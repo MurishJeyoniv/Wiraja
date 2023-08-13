@@ -1644,7 +1644,6 @@ end
 end
 
 
-
 function breaks()
 ybot = math.floor(getBot():getLocal().pos.y/32)
 cekbp()
@@ -1655,10 +1654,17 @@ if getBot():getTile(1,ybot).fg == 0 then
     findPath(1,ybot)
     sleep(100)
 else
+if not SoilFarmMode then
 posX = 2
 posY = 6
 findPath(1,5)
 sleep(100)
+else
+posX = 2
+posY = 7
+findPath(1,6)
+sleep(100)
+end
 end
     getBot():autoCollect(4, true)
     while getBot():getItemCount(seedid - 1) > 0 and getBot():getItemCount(seedid) < 200 do
