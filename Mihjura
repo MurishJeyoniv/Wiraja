@@ -59,25 +59,6 @@ goto KIRANA
 end
 end
 
-startslotbot = 1
-
-for index, namebotx in pairs(getAllBot()) do
-   if namebotx:getLocal().name:upper() == getBot():getLocal().name:upper() then
-      rulah = index + ( startslotbot - 1 )
-      break
-   end
-end
-
-
-
-urutanbot = rulah * MaxBotPerWorld
-
-
-for i = 1, MaxBotPerWorld do
-   table.insert(worlds,WorldList[urutanbot])
-   urutanbot = urutanbot - 1
-end
-
 
 function findPath(targetX, targetY)
 currentX = math.floor(getBot():getLocal().pos.x / 32)
@@ -400,6 +381,26 @@ end
       end
     end
   end
+end
+
+
+startslotbot = 1
+
+for index, namebotx in pairs(getAllBot()) do
+   if namebotx:getLocal().name:upper() == getBot():getLocal().name:upper() then
+      rulah = index + ( startslotbot - 1 )
+      break
+   end
+end
+
+
+
+urutanbot = rulah * MaxBotPerWorld
+
+
+for i = 1, MaxBotPerWorld do
+   table.insert(worlds,WorldList[urutanbot])
+   urutanbot = urutanbot - 1
 end
 
 for i = 1,rulah do
