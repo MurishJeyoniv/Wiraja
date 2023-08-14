@@ -1237,7 +1237,7 @@ end
 end
 
 function takenyaseed()
-warp(WorldSaveSeed,WorldSaveSeedID)
+warp(WorldSaveSeed[IndexSaveSeed],WorldSaveSeedID)
 getBot():autoCollect(4,false)
 while getBot():getItemCount(seedid) < 120 do
         for _,obj in pairs(getBot():getObjects()) do
