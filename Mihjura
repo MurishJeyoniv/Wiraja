@@ -1120,7 +1120,7 @@ atas = getBot():getWorld().name
 if getBot():getEnetStatus() == Connected and getBot():getWorld().name:upper() == "EXIT" then
 TagBan("**"..getBot():getLocal().name:upper().."  In EXIT, Now Back To Farm In "..rumah.." @everyone **")
 sleep(5000)
-warp(rumah,wid:upper())
+warp(rumah,widreal)
 backpos(x,y)
 jalan()
 end
@@ -1142,7 +1142,7 @@ end
 if getBot():getBotStatus() == Success and getBot():getEnetStatus() == Connected then
 TagBan("**"..getBot():getLocal().name:upper().."  Was "..enetStatus().." Now Back To Farm.. @everyone **")
 sleep(5000)
-warp(rumah,wid:upper())
+warp(rumah,widreal)
 backpos(x,y)
 jalan()
 end
