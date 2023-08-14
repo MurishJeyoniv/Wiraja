@@ -761,7 +761,8 @@ function soilmode()
       getBot():autoCollect(4, true)
       for _, tile in ipairs(getBot():getTiles()) do
         if getBot():getTile(tile.x, tile.y - 1).fg == seedid and getBot():canHarvest(tile.x, tile.y - 1) and getBot():getItemCount(seedid - 1) < 165 then 
-           findPath(tile.x, tile.y - 1)
+          if getBot():hasAccessToTile(tile.x,tile.y-1) then
+            findPath(tile.x, tile.y - 1)
                 while getBot():getTile(tile.x, tile.y - 1).fg == seedid and getBot():canHarvest(tile.x, tile.y - 1) do
               reconnect(tile.x, tile.y - 1)
               getBot():hitTile(tile.x, tile.y - 1)
@@ -774,10 +775,12 @@ function soilmode()
             end
           end
       end
+end
     else
       getBot():autoCollect(4, true)
       for _, tile in ipairs(getBot():getTiles()) do
         if getBot():getTile(tile.x, tile.y - 1).fg == seedid and getBot():canHarvest(tile.x, tile.y - 1) and getBot():getItemCount(seedid - 1) < 165 then
+   if getBot():hasAccessToTile(tile.x,tile.y-1) then
     findPath(tile.x, tile.y - 1)
             while getBot():getTile(tile.x, tile.y - 1).fg == seedid and getBot():canHarvest(tile.x, tile.y - 1) do
               reconnect(tile.x, tile.y - 1)
@@ -792,6 +795,7 @@ function soilmode()
           end
       end
     end
+end
   end
 end
 
@@ -1120,7 +1124,7 @@ atas = getBot():getWorld().name
 if getBot():getEnetStatus() == Connected and getBot():getWorld().name:upper() == "EXIT" then
 TagBan("**"..getBot():getLocal().name:upper().."  In EXIT, Now Back To Farm In "..rumah.." @everyone **")
 sleep(5000)
-warp(rumah,widreal)
+warp(rumah,wid:upper())
 backpos(x,y)
 jalan()
 end
@@ -1142,7 +1146,7 @@ end
 if getBot():getBotStatus() == Success and getBot():getEnetStatus() == Connected then
 TagBan("**"..getBot():getLocal().name:upper().."  Was "..enetStatus().." Now Back To Farm.. @everyone **")
 sleep(5000)
-warp(rumah,widreal)
+warp(rumah,wid:upper())
 backpos(x,y)
 jalan()
 end
@@ -1237,7 +1241,7 @@ end
 end
 
 function takenyaseed()
-warp(WorldSaveSeed[IndexSaveSeed],WorldSaveSeedID)
+warp(WorldSaveSeed,WorldSaveSeedID)
 getBot():autoCollect(4,false)
 while getBot():getItemCount(seedid) < 120 do
         for _,obj in pairs(getBot():getObjects()) do
@@ -1270,11 +1274,13 @@ coptrashs()
 getBot():autoCollect(4,true)
 for _, tile in ipairs(getBot():getTiles()) do
 if getBot():getTile(tile.x,tile.y-1).fg == seedid and getBot():canHarvest(tile.x,tile.y-1) and getBot():getItemCount(seedid-1) < 165 and getBot():getItemCount(seedid) < 200 then
-findPath(tile.x,tile.y-1)
+if getBot():hasAccessToTile(tile.x,tile.y-1) then
+ findPath(tile.x,tile.y-1)
 while getBot():getTile(tile.x,tile.y - 1).fg == seedid and getBot():canHarvest(tile.x,tile.y-1) do
 reconnect(tile.x,tile.y-1)
 getBot():hitTile(tile.x,tile.y-1)
 sleep(delayharvest)
+end
 end
 end
 end
@@ -1288,6 +1294,7 @@ if getBot():getTile(tile.x,tile.y-1).fg == seedid and getBot():canHarvest(tile.x
 if getBot():getItemCount(seedid) == 0 then
 takenyaseed()
 end
+if getBot():hasAccessToTile(tile.x,tile.y-1) then
 findPath(tile.x,tile.y-1)
 while getBot():getTile(tile.x,tile.y - 1).fg == seedid and getBot():canHarvest(tile.x,tile.y-1) do
 reconnect(tile.x,tile.y-1)
@@ -1297,6 +1304,7 @@ end
 while getBot():getTile(tile.x,tile.y -1).fg == 0 and getBot():getTile(tile.x,tile.y -1).flags ~= 0 do
 getBot():placeTile(tile.x,tile.y-1,seedid)
 sleep(delayplant)
+end
 end
 end
 end
@@ -1349,6 +1357,7 @@ coptrashs()
 for _, tile in ipairs(getBot():getTiles()) do
 if tile.fg ~= 0 and tile.fg ~= seedid and getBot():getTile(tile.x, tile.y-1).fg ~= seedid-1 and getBot():getTile(tile.x, tile.y-1).fg ~= seedid and getBot():getItemCount(seedid) > 0 then
 if getBot():getTile(tile.x, tile.y-1).fg == 0 then
+if getBot():hasAccessToTile(tile.x,tile.y-1) then
 findPath(tile.x, tile.y-1)
 if getBot():getTile(math.floor(getBot():getLocal().pos.x / 32), math.floor(getBot():getLocal().pos.y / 32)).fg == 0 then
 reconnect(tile.x,tile.y-1)
@@ -1361,6 +1370,7 @@ reconnect(tile.x,tile.y-1)
 getBot():placeTile(tile.x,tile.y-1,seedid)
 sleep(20)
 sleep(delayplant)
+end
 end
 end
 end
@@ -1403,7 +1413,7 @@ end
 nuked = false 
 function warp(world,id)
     cok = 0
-while getBot():getWorld().name:upper() ~= world:upper() and not nuked do
+while getBot():getWorld().name:upper() ~= string.match(world:upper(), "([^|]+)") and not nuked do
         while getBot():getBotStatus() ~= Success do
             getBot():reConnect()
             sleep(6000)
