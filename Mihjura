@@ -403,11 +403,17 @@ for i = 1, MaxWorldPerBot do
    urutanbot = urutanbot - 1
 end
 
-for i = 1,rulah do
+for i = 1, rulah do
+    if WEBHOOK[i] and MESSAGEID[i] then
         WhStatus = WEBHOOK[i]
         MessageID = MESSAGEID[i]
-rulah = rulah - 1
+        rulah = rulah - 1
+    else
+        WhStatus = ""
+        MessageID = ""
+    end
 end
+
 
 
 seedid = 0
