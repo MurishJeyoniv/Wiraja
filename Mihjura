@@ -771,7 +771,6 @@ function soilmode()
       getBot():autoCollect(4, true)
       for _, tile in ipairs(getBot():getTiles()) do
         if getBot():getTile(tile.x, tile.y - 1).fg == seedid and getBot():canHarvest(tile.x, tile.y - 1) and getBot():getItemCount(seedid - 1) < 165 then
-          if not blacklistTiles or check(tile.x, tile.y) then
     findPath(tile.x, tile.y - 1)
             while getBot():getTile(tile.x, tile.y - 1).fg == seedid and getBot():canHarvest(tile.x, tile.y - 1) do
               reconnect(tile.x, tile.y - 1)
@@ -786,7 +785,6 @@ function soilmode()
           end
       end
     end
-end
   end
 end
 
@@ -1777,9 +1775,7 @@ function foregraund(itemid)
       local count = 0
       for _, tile in ipairs(getBot():getTiles()) do
         if tile.fg == itemid and getBot():canHarvest(tile.x,tile.y) then
-      if not blacklistTiles or check(tile.x,tile.y+1) then
           count = count + 1
-        end
       end
    end
       return count
