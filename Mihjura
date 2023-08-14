@@ -403,6 +403,7 @@ for i = 1, MaxWorldPerBot do
    urutanbot = urutanbot - 1
 end
 
+log(#WEBHOOK)
 for i = 1, #WEBHOOK do
         WhStatus = WEBHOOK[i]
         MessageID = MESSAGEID[i]
