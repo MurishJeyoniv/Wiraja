@@ -170,97 +170,52 @@ function ceknya()
   return lineCount
 end
 
+
 function botshow(Info)
 if not UseWebhookStatus then
 return
-else
+end
 te = os.time() - t
-    local text = [[
-        $webHookUrl = "]]..WhStatus..[[/messages/]]..MessageID..[["
-        $CPU = Get-WmiObject Win32_Processor | Measure-Object -Property LoadPercentage -Average | Select -ExpandProperty Average
-        $CompObject =  Get-WmiObject -Class WIN32_OperatingSystem
-        $Memory = ((($CompObject.TotalVisibleMemorySize - $CompObject.FreePhysicalMemory)*100)/ $CompObject.TotalVisibleMemorySize)
-        $RAM = [math]::Round($Memory, 0)
-        $imageObject = @{
-            url = "https://cdn.discordapp.com/attachments/1083626331515920404/1134097487448244234/standard.gif"
+ local verify = "<a:cham:849841924734976000> **Status Verify: "..nungguverify().."**"
+local activity = "**<:Pickaxe:1109395511661830176> Activity: "..Info.."**"
+local namebot = "**<:bot:1049606018008612874> Name: "..getBot():getLocal().name:upper().." ( "..getBot():getLocal().level.." )**"
+local world = "**<:World:1006699847308546109> World:** ||**"..getBot():getWorld().name:upper().."**||"
+local statusbot = "**<a:Online:1063444758783078480> Status: "..status().."**"
+local ping = "**<:Ping:1136942362103402566> Ping: "..getBot():getMs().." Ms**"
+local fossilinfo = "**<:fossilrock:1064165167992156240> Fossil: "..Fossil().."**"
+local uptime = "**<:pro_timeout:1100160755287982150>  Up Time**\n**"..math.floor(te/86400).." Days "..math.floor(te%86400/3600).." Hours "..math.floor(te%86400%3600/60).." Minutes "..math.floor(te%86400%3600%60).." Seconds**"
+
+local deskripsi = verify .. "\n\n" .. activity .. "\n" .. namebot .. "\n" .. world .. "\n" .. statusbot .. "\n" .. ping .. "\n" .. fossilinfo .. "\n" ..waktuWorld().. "\n\n" ..uptime
+
+    RequestINFO = {}
+    RequestINFO.url = WhStatus.."/messages/"..MessageID
+    RequestINFO.json = true
+    RequestINFO.method = PATCH
+    RequestINFO.postData =
+        [[
+        {
+            "content": "Script Running",
+            "embeds": [
+                {
+                    "title": "Jopy Rotation ( Total Buyer: ]]..ceknya()..[[ )",
+                    "description": "]]..deskripsi:gsub("\n", "\\n")..[[",
+                    "color": "]] .. math.random(0, 16777215) .. [[",
+                    "footer": {
+                        "text": "]]..(os.date("!%a %b %d, %Y at %I:%M %p", os.time() + 7 * 60 * 60))..[[",
+                        "icon_url": "https://share.creavite.co/9ugoY1REemeb0nVZ.gif"
+                    },
+                    "thumbnail": {
+                        "url": "https://cdn.discordapp.com/icons/1051427884369195038/6ed93146c99457ad1f5002adb676bcb1.png?size=4096" 
+                    }
+                }
+            ]
         }
-        $footerObject = @{
-        text = "]]..(os.date("!%a %b %d, %Y | %I:%M %p", os.time() + 7 * 60 * 60))..[[ "
-        }
-        $fieldArray = @(
-            @{
-                name = "**<:kannasip:1016295102882250823> ]]..nungguverify()..[[**"
-                value = "**<@]]..cekbuyer(OwnerName)..[[>**"
-                inline = "true"
-            }
-            @{
-                name = "**<:suaongtho:1070039313674412063> Total Buyers**"
-                value = "**]]..ceknya()..[[**"
-                inline = "true"
-            }
-            @{
-                name = "**<:Pickaxe:1109395511661830176> Bot Info**"
-                value = "**]]..Info..[[**"
-                inline = "false"
-            }
-            @{
-                name = "**<:bot:1049606018008612874> Bot Name**"
-                value = "**]]..getBot():getLocal().name:upper()..[[ ( ]]..getBot():getLocal().level..[[ )**"
-                inline = "true"
-            }
-            @{
-                name = "**<a:Online:1063444758783078480> Bot Status**"
-                value = "**]]..status()..[[**"
-                inline = "true"
-            }
-            @{
-                name = "**<:World:1006699847308546109> World ( ]]..start..[[ / ]]..stop..[[ )**"
-                value = "||**]]..getBot():getWorld().name:upper()..[[**||"
-                inline = "true"
-            }
-            @{ 
-                name = "**<:fossilrock:1064165167992156240>  Fossil**"
-                value = "**]]..Fossil()..[[**"
-                inline = "true"
-            }
-            @{ 
-                name = "**<:cpu:994228771014070372>  Cpu And Ram **"
-                value = "**$CPU% | $RAM%**"
-                inline = "true"
-            } 
-           @{
-                name = "**<:discord_stage:1021386571909447680>  Ping** "
-                value = "**]]..getBot():getMs()..[[ MS**"
-                inline = "true"
-            }
-            @{
-                name = "**<:Scroll:1083965766187110460> World List**"
-                value = "**]]..waktuWorld()..[[**"
-                inline = "false"
-            }
-            @{
-                name = "**<:pro_timeout:1100160755287982150>  Up Time**"
-                value = "**]]..math.floor(te/86400)..[[ Days ]]..math.floor(te%86400/3600)..[[ Hours ]]..math.floor(te%86400%3600/60)..[[ Minutes ]]..math.floor(te%86400%3600%60)..[[ Seconds**"
-                inline = "false"
-            }
-        )
-        $embedObject = @{
-            title = "**<:FOSSIL:1057331856275689472> Jopy Auto Take Fossil ( Surfer ) <:FOSSIL:1057331856275689472> **"
-            color = "]]..math.random(111111,999999)..[["
-            footer = $footerObject
-            image = $imageObject
-            fields = $fieldArray
-        }
-        $embedArray = @($embedObject)
-        $payload = @{
-            embeds = $embedArray
-        }
-        [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
-        Invoke-RestMethod -Uri $webHookUrl -Body ($payload | ConvertTo-Json -Depth 4) -Method Patch -ContentType 'application/json'
-    ]]
-    local file = io.popen("powershell -command -", "w")
-    file:write(text)
-    file:close()
+        ]]
+
+    x = httpReq(RequestINFO)
+if not x.success then
+log(x.failInfo)
+end
 end
 end
 
