@@ -830,7 +830,7 @@ if ChangeBotWhenMaxLevel then
             oldbotworld = getBot():getWorld().name
             oldbotname = getBot():getLocal().name
             botshow("Bot Level : "..getBot():getLocal().level.." Changing Bot...")
-            warp(WorldSaveSeed,WorldSaveSeedID)
+            warp(WorldSaveSeed[IndexSaveSeed],WorldSaveSeedID)
             for _, tile in ipairs(getBot():getTiles()) do
             if tile.fg == IDPatokanSeed then
             findPath(tile.x+1,tile.y)
@@ -1155,7 +1155,7 @@ end
 
   function Take()
 botshow("Taking Seed For Planting Blank Seed")
-	warp(WorldSaveSeed, WorldSaveSeedID)
+	warp(WorldSaveSeed[IndexSaveSeed], WorldSaveSeedID)
 	for _, object in pairs(getBot():getObjects()) do
 	  if object.id == seedid then
 		if getBot():getItemCount(seedid) == 200 then
@@ -1241,7 +1241,7 @@ end
 end
 
 function takenyaseed()
-warp(WorldSaveSeed,WorldSaveSeedID)
+warp(WorldSaveSeed[IndexSaveSeed],WorldSaveSeedID)
 getBot():autoCollect(4,false)
 while getBot():getItemCount(seedid) < 120 do
         for _,obj in pairs(getBot():getObjects()) do
