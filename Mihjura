@@ -1580,14 +1580,13 @@ botshow("Bot Taking Pickaxe..")
    getBot():move(UP,1)
    sleep(1000)
    getBot():move(DOWN,1)
-    sleep(1000)
+    sleep(1500)
     getBot():sendPacket("action|drop\n|itemID|98",2)
     sleep(1000)
     getBot():sendPacket("action|dialog_return\ndialog_name|drop_item\nitemID|98|\ncount|"..(getBot():getItemCount(98) - 1),2)
     sleep(1000)
     wear(98)
     sleep(500)
-botshow("Bot Start")
 end
 end
 end
