@@ -1795,9 +1795,11 @@ function foregraund(itemid)
       local count = 0
       for _, tile in ipairs(getBot():getTiles()) do
         if tile.fg == itemid and getBot():canHarvest(tile.x,tile.y) then
+      if getBot():hasAccessToTile(tile.x,tile.y) then
           count = count + 1
       end
    end
+end
       return count
     end
 
