@@ -125,8 +125,12 @@ end
         else
             currentX = math.max(targetX, currentX - 8)
         end
- getBot():setPos(currentX,currentY) 
-   sleep(50)
+ if getBot():setPos(currentX,currentY) then
+   sleep(DelayFindPathX)
+else
+getBot():findPath(targetX, targetY)
+sleep(150)
+end
 end
 end
 
