@@ -217,7 +217,6 @@ if not x.success then
 log(x.failInfo)
 end
 end
-end
 
 function round(n)
     return n % 1 > 0.5 and math.ceil(n) or math.floor(n)
