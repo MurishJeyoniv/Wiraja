@@ -806,8 +806,10 @@ sleep(100)
 getBot():move(RIGHT,1)
 sleep(100)
 end
+while getBot():getTile(math.floor(getBot():getLocal().pos.x /32 +1), math.floor(getBot():getLocal().pos.y /32 -1)).fg ~= 2 do
 place(2,1,-1)
 sleep(1000)
+end
 place(Lock,0,-1)
 sleep(1000)
 if UseEntrance then
