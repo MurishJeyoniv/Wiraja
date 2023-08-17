@@ -1,4 +1,3 @@
-
 --=== [ JOPY STORE ] ===--
 
 worldss = {}
@@ -52,23 +51,48 @@ getBot():sendPacketRaw(packet)
 end
 
 nuked = false
+steal = false
 
-function warp(world,id)
-rok = 0
-    while getBot():getWorld().name:upper() ~= world:upper() or getBot():getTile(math.floor(getBot():getLocal().pos.x / 32),math.floor(getBot():getLocal().pos.y / 32)).fg == 6 do
-        while getBot():getBotStatus() ~= Success do
-            sleep(1000)
+function warp(world, id)
+    local rok = 0
+    local cak = 0
+    
+    while true do
+        local botStatus = getBot():getBotStatus()
+        if botStatus == Success then
+            local tile = getBot():getTile(math.floor(getBot():getLocal().pos.x / 32), math.floor(getBot():getLocal().pos.y / 32))
+            
+            if tile.fg == 6 then
+                if cak == 10 then
+                    steal = true
+                    cak = 0
+                    return
+                end
+                
+                getBot():sendPacket("action|join_request\nname|" .. world .. "|" .. id .. "\ninvitedWorld|0", 3)
+                sleep(5000)
+                cak = cak + 1
+            elseif tile.fg ~= 6 then
+                if rok == 10 then
+                    nuked = true
+                    rok = 0
+                    return
+                end
+                
+                if getBot():getWorld().name:upper() ~= world:upper() then
+                    getBot():sendPacket("action|join_request\nname|" .. world .. "\ninvitedWorld|0", 3)
+                    sleep(5000)
+                else
+                 return
+                end
+                
+                rok = rok + 1
+            end
         end
-        getBot():sendPacket("action|join_request\nname|"..world.."|"..id.."\ninvitedWorld|0", 3)
-        sleep(4000)      
-      rok = rok + 1
-     if rok == 10 then
-    nuked = true
- rok = 0
- return
- end
+        sleep(1000)
     end
 end
+
 
 function waktuWorld()
     strWaktu = ""
@@ -171,53 +195,6 @@ function ceknya()
 end
 
 
-function botshow(Info)
-if not UseWebhookStatus then
-return
-end
-te = os.time() - t
- local verify = "<a:cham:849841924734976000> **Status Verify: "..nungguverify().."**"
-local activity = "**<:Pickaxe:1109395511661830176> Activity: "..Info.."**"
-local namebot = "**<:bot:1049606018008612874> Name: "..getBot():getLocal().name:upper().." ( "..getBot():getLocal().level.." )**"
-local world = "**<:World:1006699847308546109> World:** ||**"..getBot():getWorld().name:upper().."**||"
-local statusbot = "**<a:Online:1063444758783078480> Status: "..status().."**"
-local ping = "**<:Ping:1136942362103402566> Ping: "..getBot():getMs().." Ms**"
-local fossilinfo = "**<:fossilrock:1064165167992156240> Fossil: "..Fossil().."**"
-local uptime = "**<:pro_timeout:1100160755287982150>  Up Time**\n**"..math.floor(te/86400).." Days "..math.floor(te%86400/3600).." Hours "..math.floor(te%86400%3600/60).." Minutes "..math.floor(te%86400%3600%60).." Seconds**"
-
-local deskripsi = verify .. "\n\n" .. activity .. "\n" .. namebot .. "\n" .. world .. "\n" .. statusbot .. "\n" .. ping .. "\n" .. fossilinfo .. "\n" ..waktuWorld().. "\n\n" ..uptime
-
-    RequestINFO = {}
-    RequestINFO.url = WhStatus.."/messages/"..MessageID
-    RequestINFO.json = true
-    RequestINFO.method = PATCH
-    RequestINFO.postData =
-        [[
-        {
-            "content": "Script Running",
-            "embeds": [
-                {
-                    "title": "Jopy Rotation ( Total Buyer: ]]..ceknya()..[[ )",
-                    "description": "]]..deskripsi:gsub("\n", "\\n")..[[",
-                    "color": "]] .. math.random(0, 16777215) .. [[",
-                    "footer": {
-                        "text": "]]..(os.date("!%a %b %d, %Y at %I:%M %p", os.time() + 7 * 60 * 60))..[[",
-                        "icon_url": "https://share.creavite.co/9ugoY1REemeb0nVZ.gif"
-                    },
-                    "thumbnail": {
-                        "url": "https://cdn.discordapp.com/icons/1051427884369195038/6ed93146c99457ad1f5002adb676bcb1.png?size=4096" 
-                    }
-                }
-            ]
-        }
-        ]]
-
-    x = httpReq(RequestINFO)
-if not x.success then
-log(x.failInfo)
-end
-end
-
 function round(n)
     return n % 1 > 0.5 and math.ceil(n) or math.floor(n)
 end
@@ -305,15 +282,6 @@ botshow("Nuked")
   end
 end
 
-function extracted(varlist)
-    if varlist[0] == "OnTalkBubble"and varlist[2]:find("`2I unearthed a Fossil!`` I better be careful getting it out...") then
-         find_extracted = false
-        fossil_rock = true
-    end
-end
-
-getBot():addHook(extracted,varlist)
-
 function scanFossil()
     m=0
     for _,tile in ipairs(getBot():getTiles())do
@@ -325,7 +293,56 @@ function scanFossil()
     return m
 end
 
+
+function botshow(Info)
+if not UseWebhookStatus then
+return
+end
+te = os.time() - t
+ local verify = "<a:cham:849841924734976000> **Status Verify: "..nungguverify().."**"
+local activity = "**<:Pickaxe:1109395511661830176> Activity: "..Info.."**"
+local namebot = "**<:bot:1049606018008612874> Name: "..getBot():getLocal().name:upper().." ( "..getBot():getLocal().level.." )**"
+local world = "**<:World:1006699847308546109> World:** ||**"..getBot():getWorld().name:upper().."**||"
+local statusbot = "**<a:Online:1063444758783078480> Status: "..status().."**"
+local ping = "**<:Ping:1136942362103402566> Ping: "..getBot():getMs().." Ms**"
+local fossilinfo = "**<:fossilrock:1064165167992156240> Fossil: "..Fossil().."**"
+local uptime = "**<:pro_timeout:1100160755287982150>  Up Time**\n**"..math.floor(te/86400).." Days "..math.floor(te%86400/3600).." Hours "..math.floor(te%86400%3600/60).." Minutes "..math.floor(te%86400%3600%60).." Seconds**"
+
+local deskripsi = verify .. "\n\n" .. activity .. "\n" .. namebot .. "\n" .. world .. "\n" .. statusbot .. "\n" .. ping .. "\n" .. fossilinfo .. "\n" ..waktuWorld().. "\n\n" ..uptime
+
+    RequestINFO = {}
+    RequestINFO.url = WhStatus.."/messages/"..MessageID
+    RequestINFO.json = true
+    RequestINFO.method = PATCH
+    RequestINFO.postData =
+        [[
+        {
+            "content": "Script Running",
+            "embeds": [
+                {
+                    "title": "Jopy Rotation ( Total Buyer: ]]..ceknya()..[[ )",
+                    "description": "]]..deskripsi:gsub("\n", "\\n")..[[",
+                    "color": "]] .. math.random(0, 16777215) .. [[",
+                    "footer": {
+                        "text": "]]..(os.date("!%a %b %d, %Y at %I:%M %p", os.time() + 7 * 60 * 60))..[[",
+                        "icon_url": "https://share.creavite.co/9ugoY1REemeb0nVZ.gif"
+                    },
+                    "thumbnail": {
+                        "url": "https://cdn.discordapp.com/icons/1051427884369195038/6ed93146c99457ad1f5002adb676bcb1.png?size=4096" 
+                    }
+                }
+            ]
+        }
+        ]]
+
+    x = httpReq(RequestINFO)
+if not x.success then
+log(x.failInfo)
+end
+end
+
 function main()
+while true do
 ::KIRANA::
 botshow("Taking Fossil..")
 if scanFossil() == 0 then
@@ -406,6 +423,7 @@ SaveFossil()
 NextWorld()
 end
 end
+end
 
 find_extracted = true
 fossil_rock = false
@@ -420,11 +438,11 @@ if string.find(y.body, OwnerName) then
 checknya = true
 return
 else
-botshow("**OwnerName Not Found , Please Use Command First Then Run The Script **")
+log("OwnerName Not Found , Please Use Command First Then Run The Script")
 return
 end
 else
-botshow("**Cant Open Database, Please Try Use Vpn To Run Script **")
+log("Cant Open Database, Please Try Use Vpn To Run Script")
 return
 end
 end
@@ -443,14 +461,15 @@ botshow("Nuked")
 nuked = false
 goto ANJAY
 end
-while true do
-main()
+if steal then
+waktu[worlds[startFrom]] = "GOT STEAL"
+startFrom=startFrom+1
+botshow("World Got Steal, Cant Go To DoorID, Please Check It")
+steal = false
+goto ANJAY
 end
+main()
 end
 end
 
 mulai()
-while true do
-print("Jopy")
-    sleep(1)
-end
