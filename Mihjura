@@ -1,6 +1,8 @@
 --===JOPY STORE===--
 
 Time = {}
+AutoChangeBotProxy = {}
+ProxyBackUp = {}
 berlian = {}
 pohon = {}
 worlds = {}
@@ -17,6 +19,7 @@ seeddata = ""
 rumah = ""
 totaldropnya = 0
 ChangeIndex = 1
+ChangeProxyIndex = 1
 proxyIndex = 1
 proxyIndexAdd = 1
 proxyIndexAddAttempt = 0
@@ -78,25 +81,15 @@ sleep(DelayFindPathY)
 end
 
 local dx = math.abs(targetX - currentX)
-if dx < 8 then
+if dx < 7 then
 local dx = math.abs(targetX - currentX)
-    if math.floor(getBot():getLocal().pos.y / 32) == 24 then
-   getBot():findPath(targetX, targetY)
-sleep(150)
-end
-    if math.floor(getBot():getLocal().pos.y / 32) == 22 then
-   getBot():findPath(targetX, targetY)
-sleep(150)
-end
-    if getBot():getTile(math.floor(getBot():getLocal().pos.x / 32 + 2), math.floor(getBot():getLocal().pos.y / 32)).fg == 6 or getBot():getTile(math.floor(getBot():getLocal().pos.x / 32 - 2), math.floor(getBot():getLocal().pos.y / 32)).fg == 6 then
-        -- Pindahkan bot ke posisi Y yang lebih rendah
-        getBot():findPath(targetX, targetY)
-        sleep(150)
-    end
 while currentX ~= targetX do
 currentX = math.floor(getBot():getLocal().pos.x / 32)
-getBot():setPos(targetX, targetY) 
+if getBot():setPos(targetX, targetY) then
 sleep(DelayFindPathX)
+else
+getBot():findPath(targetX,targetY)
+end
 end
 else
     if getBot():getTile(math.floor(getBot():getLocal().pos.x / 32 + 2), math.floor(getBot():getLocal().pos.y / 32)).fg == 6 or getBot():getTile(math.floor(getBot():getLocal().pos.x / 32 - 2), math.floor(getBot():getLocal().pos.y / 32)).fg == 6 then
@@ -107,18 +100,6 @@ else
 
 
     while currentX ~= targetX do
-    if math.floor(getBot():getLocal().pos.y / 32) == 23 then
-   getBot():findPath(targetX, targetY)
-sleep(150)
-end
-    if math.floor(getBot():getLocal().pos.y / 32) == 24 then
-   getBot():findPath(targetX, targetY)
-sleep(150)
-end
-    if math.floor(getBot():getLocal().pos.y / 32) == 22 then
-   getBot():findPath(targetX, targetY)
-sleep(150)
-end
   currentX = math.floor(getBot():getLocal().pos.x / 32)
         if currentX < targetX then
             currentX = math.min(targetX, currentX + 7)
@@ -395,6 +376,21 @@ for index, namebotx in pairs(getAllBot()) do
       rulah = index + ( startslotbot - 1 )
       break
    end
+end
+
+urutanproxybackup = rulah * BotsPerProxy
+
+for i = 1,BotsPerProxy do
+    table.insert(ProxyBackUp, proxy[urutanproxybackup])
+    urutanproxybackup = urutanproxybackup - 1
+end
+
+
+urutanproxychange = rulah * MaxBotPerSocks
+
+for i = 1, MaxBotPerSocks do
+    table.insert(AutoChangeBotProxy, SocksList[urutanproxychange])
+    urutanproxychange = urutanproxychange - 1
 end
 
 
@@ -856,15 +852,15 @@ if ChangeBotWhenMaxLevel then
             getBot():remove()
             sleep(5000)
              for _, botnama in pairs(BotListChange) do
-                        if useproxy then
-             local proxy = proxy[proxyIndex]
-                            addBot(botnama, PassBotList, proxy)
+                        if UsingProxy then
+                            addBot(botnama, PassBotList, getSocks(AutoChangeBotProxy[ChangeProxyIndex]))
                             sleep(3000)
                             if getBot():getBotStatus() ~= Success then
                                 repeat
                                     getBot():reConnect()
                                     sleep(8000)
                                 until getBot():getBotStatus() == Success or getBot():getBotStatus() == Suspended or getBot():getBotStatus() == Banned
+                             ChangeProxyIndex = ChangeProxyIndex + 1
                             end
                         else
                             addBot(botnama, PassBotList)
@@ -884,11 +880,13 @@ if ChangeBotWhenMaxLevel then
                         end
                     if getBot():getLocal().level >= maxlevel then
                    getBot():remove()
+                  if UsingProxy then 
+            ChangeProxyIndex = ChangeProxyIndex - 1
                      end
                     elseif getBot():getLocal().level < maxlevel then
                         botshow("Success Changing Bot")
                         sleep(100)
-                        warp(rumah,wid)
+                        warp(rumah,widreal)
                         sleep(4000)
                         getBot():autoCollect(4,true)
                         sleep(50)
@@ -898,6 +896,7 @@ if ChangeBotWhenMaxLevel then
                 end 
         end
     end
+end
 end
 
 local processedTimes = {} -- Tabel untuk menyimpan waktu yang telah diproses
@@ -996,25 +995,34 @@ sleep(1000)
         botshow("Bot Back Online..")
         getBot():reConnect()
         sleep(10000)
-        warp(waras,wid:upper())
+        warp(waras,widreal)
 end
 end
 end
 
 
 function addnyaproxy()
-  local proxyAttempts = 0
+  local ReConnectAttempt = 0
   while true do
-    if proxyIndex <= #proxy then
+::KIRANA::
+    if proxyIndex <= #ProxyBackUp then
       if growidIndex <= #BotGrowid then
-        addBot(growidcuy, PassBot, getSocks(proxy[proxyIndex]))
+        addBot(growidcuy, PassBot, getSocks(ProxyBackUp[proxyIndex]))
         sleep(10000)
-        if getBot():getBotStatus() ~= Success then
+        while getBot():getBotStatus() ~= Success do
           getBot():reConnect()
           sleep(8000)
+          ReConnectAttempt = ReConnectAttempt + 1
+          if ReConnectAttempt == 20 then
+        ReConnectAttempt = 0
+         getBot():remove()
+        proxyIndex = proxyIndex + 1
+      goto KIRANA
+      break
+      end
         end
         if getBot():getBotStatus() == Success then
-          warp(rumah, wid:upper())
+          warp(rumah, widreal)
           jalan()
           break
         end
@@ -1023,14 +1031,10 @@ function addnyaproxy()
           getBot():remove()
           growidIndex = growidIndex + 1
         end
-        proxyAttempts = proxyAttempts + 1
-        if proxyAttempts == BotsPerProxy then
-          proxyIndex = proxyIndex + 1
-          proxyAttempts = 0
-        end
       end
    else
    TagBan("**No More Socks Can Be Used For BackupBot** @everyone")
+return
   end
 end
 end
@@ -1048,7 +1052,7 @@ getBot():reConnect()
 sleep(8000)
 end
 if getBot():getBotStatus() == Success then
-warp(rumah,wid:upper())
+warp(rumah,widreal)
 jalan()
 break
 end
@@ -1059,6 +1063,7 @@ growidIndex = growidIndex  + 1
 end
 else
 TagBan("**No More Bot Can Be Used For BackUpBot** @everyone")
+return
 end
 end
 end
@@ -1124,6 +1129,9 @@ function enetStatus()
 end
 
 function reconnect(x,y)
+      if getBot():getTile(math.floor(getBot():getLocal().pos.x / 32),math.floor(getBot():getLocal().pos.y / 32)).fg == 6 then
+backpos(x,y)
+end
 atas = getBot():getWorld().name
 if getBot():getEnetStatus() == Connected and getBot():getWorld().name:upper() == "EXIT" then
 TagBan("**"..getBot():getLocal().name:upper().."  In EXIT, Now Back To Farm In "..rumah.." @everyone **")
@@ -1420,10 +1428,10 @@ function warp(world,id)
 while getBot():getWorld().name:upper() ~= string.match(world:upper(), "([^|]+)") and not nuked do
         while getBot():getBotStatus() ~= Success do
             getBot():reConnect()
-            sleep(6000)
+            sleep(8000)
         end
         getBot():sendPacket("action|join_request\nname|"..world:upper().."\ninvitedWorld|0",3)
-        sleep(6000)
+        sleep(8000)
         if cok == 10 then
             nuked = true
         else
@@ -1437,7 +1445,7 @@ while getBot():getWorld().name:upper() ~= string.match(world:upper(), "([^|]+)")
                 sleep(5500)
             end
             getBot():sendPacket("action|join_request\nname|"..world:upper().."|"..id:upper().."\ninvitedWorld|0",3)
-            sleep(4000)
+            sleep(5000)
         end
     else
      while getBot():getTile(math.floor(getBot():getLocal().pos.x / 32),math.floor(getBot():getLocal().pos.y / 32)).fg == 6 and not nuked do
@@ -1446,7 +1454,7 @@ while getBot():getWorld().name:upper() ~= string.match(world:upper(), "([^|]+)")
                 sleep(5000)
             end
    getBot():sendPacket("action|join_request\nname|"..world:upper().."|"..id:upper().."\ninvitedWorld|0",3)
-            sleep(4000)
+            sleep(5000)
     end
 end
 getBot():say(totalsay)
@@ -1457,10 +1465,10 @@ function warpfarm(world,id)
 while getBot():getWorld().name:upper() ~= world:upper() and not nuked do
         while getBot():getBotStatus() ~= Success do
             getBot():reConnect()
-            sleep(6000)
+            sleep(8000)
         end
         getBot():sendPacket("action|join_request\nname|"..world:upper().."\ninvitedWorld|0",3)
-        sleep(6000)
+        sleep(8000)
         if cok == 10 then
             nuked = true
         else
@@ -1476,7 +1484,7 @@ widreal = wid[i]
                 sleep(5500)
             end
             getBot():sendPacket("action|join_request\nname|"..world:upper().."|"..wid[i].."\ninvitedWorld|0",3)
-            sleep(4000)
+            sleep(5000)
 if getBot():getTile(math.floor(getBot():getLocal().pos.x / 32),math.floor(getBot():getLocal().pos.y / 32)).fg ~= 6 then
 break
 end
@@ -1686,13 +1694,14 @@ findPath(1,6)
 sleep(100)
 end
     while getBot():getItemCount(seedid - 1) > 0 and getBot():getItemCount(seedid) < 200 do
-        reconnect(posX - 1, posY - 1)
+      reconnect(posX - 1, posY - 1)
         if BreakTiles == "1" then
             getBot():placeTile(posX - 2, posY - 1, seedid - 1)
             sleep(delayplace)
             while getBot():getTile(posX - 2, posY - 1).fg ~= 0 or getBot():getTile(posX - 2, posY - 1).bg ~= 0 do
                 getBot():hitTile(posX - 2, posY - 1)
                 sleep(delaypunch)
+            reconnect(posX - 1, posY - 1)
             end
         end
         if BreakTiles == "2" then
@@ -1703,10 +1712,12 @@ end
             while getBot():getTile(posX - 2, posY - 1).fg ~= 0 or getBot():getTile(posX - 2, posY - 1).bg ~= 0 do
                 getBot():hitTile(posX - 2, posY - 1)
                 sleep(delaypunch)
+      reconnect(posX - 1, posY - 1)
             end
             while getBot():getTile(posX - 2, posY - 2).fg ~= 0 or getBot():getTile(posX - 2, posY - 2).bg ~= 0 do
                 getBot():hitTile(posX - 2, posY - 2)
                 sleep(delaypunch)
+      reconnect(posX - 1, posY - 1)
             end
         end
         if BreakTiles == "3" then
@@ -1719,14 +1730,17 @@ end
             while getBot():getTile(posX - 2, posY - 2).fg ~= 0 or getBot():getTile(posX - 2, posY - 2).bg ~= 0 do
                 getBot():hitTile(posX - 2, posY - 2)
                 sleep(delaypunch)
+           reconnect(posX - 1, posY - 1)
             end
             while getBot():getTile(posX - 2, posY - 1).fg ~= 0 or getBot():getTile(posX - 2, posY - 1).bg ~= 0 do
                 getBot():hitTile(posX - 2, posY - 1)
                 sleep(delaypunch)
+           reconnect(posX - 1, posY - 1)
             end
             while getBot():getTile(posX - 2, posY).fg ~= 0 or getBot():getTile(posX - 2, posY).bg ~= 0 do
                 getBot():hitTile(posX - 2, posY)
                 sleep(delaypunch)
+            reconnect(posX - 1, posY - 1)
             end
         end
 if BreakTiles == "4" then
@@ -1741,18 +1755,22 @@ sleep(delayplace)
 while getBot():getTile(posX-2,posY-3).fg ~= 0 or getBot():getTile(posX-2,posY-3).bg ~= 0 do
 getBot():hitTile(posX-2,posY-3)
 sleep(delaypunch)
+reconnect(posX - 1, posY - 1)
 end
 while getBot():getTile(posX-2,posY-2).fg ~= 0 or getBot():getTile(posX-2,posY-2).bg ~= 0 do
 getBot():hitTile(posX-2,posY-2)
 sleep(delaypunch)
+reconnect(posX - 1, posY - 1)
 end
 while getBot():getTile(posX-2,posY-1).fg ~= 0 or getBot():getTile(posX-2,posY-1).bg ~= 0 do
 getBot():hitTile(posX-2,posY-1)
 sleep(delaypunch)
+reconnect(posX - 1, posY - 1)
 end
 while getBot():getTile(posX-2,posY).fg ~= 0 or getBot():getTile(posX-2,posY).bg ~= 0 do
 getBot():hitTile(posX-2,posY)
 sleep(delaypunch)
+reconnect(posX - 1, posY - 1)
 end
 end
 if BreakTiles == "5" then
@@ -1769,22 +1787,27 @@ sleep(delayplace)
 while getBot():getTile(posX-2,posY-3).fg ~= 0 or getBot():getTile(posX-2,posY-3).bg ~= 0 do
 getBot():hitTile(posX-2,posY-3)
 sleep(delaypunch)
+reconnect(posX - 1, posY - 1)
 end
 while getBot():getTile(posX-2,posY-2).fg ~= 0 or getBot():getTile(posX-2,posY-2).bg ~= 0 do
 getBot():hitTile(posX-2,posY-2)
 sleep(delaypunch)
+reconnect(posX - 1, posY - 1)
 end
 while getBot():getTile(posX-2,posY-1).fg ~= 0 or getBot():getTile(posX-2,posY-1).bg ~= 0 do
 getBot():hitTile(posX-2,posY-1)
 sleep(delaypunch)
+reconnect(posX - 1, posY - 1)
 end
 while getBot():getTile(posX-2,posY).fg ~= 0 or getBot():getTile(posX-2,posY).bg ~= 0 do
 getBot():hitTile(posX-2,posY)
 sleep(delaypunch)
+reconnect(posX - 1, posY - 1)
 end
 while getBot():getTile(posX-2,posY+1).fg ~= 0 or getBot():getTile(posX-2,posY+1).bg ~= 0 do
 getBot():hitTile(posX-2,posY+1)
 sleep(delaypunch)
+reconnect(posX - 1, posY - 1)
 end
 end
 end
