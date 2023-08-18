@@ -85,6 +85,10 @@ if dx < 7 then
 local dx = math.abs(targetX - currentX)
 while currentX ~= targetX do
 currentX = math.floor(getBot():getLocal().pos.x / 32)
+    if getBot():getTile(math.floor(getBot():getLocal().pos.x / 32 + 2), math.floor(getBot():getLocal().pos.y / 32)).fg == 6 or getBot():getTile(math.floor(getBot():getLocal().pos.x / 32 - 2), math.floor(getBot():getLocal().pos.y / 32)).fg == 6 then
+        getBot():findPath(targetX, targetY)
+        sleep(150)
+    end
 if getBot():setPos(targetX, targetY) then
 sleep(DelayFindPathX)
 else
