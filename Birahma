@@ -282,6 +282,16 @@ botshow("Nuked")
   end
 end
 
+function extracted(varlist)
+    if varlist[0]:find("OnTalkBubble") and varlist[2]:find("I unearthed a Fossil!") then
+        find_extracted = false
+        fossil_rock = true
+    end
+end
+
+getBot():addHook(extracted,varlist)
+
+
 function scanFossil()
     m=0
     for _,tile in ipairs(getBot():getTiles())do
@@ -473,3 +483,6 @@ end
 end
 
 mulai()
+while true do
+sleep(1)
+end
