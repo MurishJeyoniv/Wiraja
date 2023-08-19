@@ -1094,12 +1094,13 @@ getBot():remove()
 end
 
 function backpos(x,y)
+sleep(7000)
 werkd = rumah
     for _, tile in ipairs(getBot():getTiles()) do
        if getBot():getTile(math.floor(getBot():getLocal().pos.x / 32),math.floor(getBot():getLocal().pos.y / 32)).fg == 6 then
             repeat
             getBot():sendPacket("action|join_request\nname|".. werkd .. "|" .. widreal.."\ninvitedWorld|0",3)
-            sleep(4000)
+            sleep(7000)
             until getBot():getTile(math.floor(getBot():getLocal().pos.x / 32),math.floor(getBot():getLocal().pos.y / 32)).fg ~= 6
             if x and y and getBot():getBotStatus() == Success and getBot():getWorld().name:upper() == werkd:upper() then
                 repeat
