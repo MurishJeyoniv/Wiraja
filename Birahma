@@ -8,6 +8,10 @@ checknya = false
 t = os.time()
 totalfossil = 0
 
+if OwnerName == "" then
+return
+end
+
 startbot = 1
 
 for index, botname in pairs(getAllBot()) do
