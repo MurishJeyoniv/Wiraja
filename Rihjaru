@@ -7,6 +7,10 @@ bw = 0
 rumah = ""
 checknya = false
 
+if Ownername == "" then
+return
+end
+
 startbot = 1
 
 for index, botname in pairs(getAllBot()) do
@@ -188,7 +192,7 @@ te = os.time() - t
         $Memory = ((($CompObject.TotalVisibleMemorySize - $CompObject.FreePhysicalMemory)*100)/ $CompObject.TotalVisibleMemorySize)
         $RAM = [math]::Round($Memory, 0)
         $imageObject = @{
-            url = "https://cdn.discordapp.com/attachments/1083626331515920404/1134097487448244234/standard.gif"
+            url = ""https://cdn.discordapp.com/icons/1083626271038263357/8e34c12fcd52fa363eeb14c2e401a26b.png?size=4096""
         }
         $footerObject = @{
         text = "]]..(os.date("!%a %b %d, %Y | %I:%M %p", os.time() + 7 * 60 * 60))..[["
