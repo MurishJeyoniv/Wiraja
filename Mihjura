@@ -1631,7 +1631,9 @@ if getBot():getItemCount(3066) == 0 then
     sleep(1000)
     getBot():sendPacket("action|dialog_return\ndialog_name|drop_item\nitemID|3066|\ncount|"..(getBot():getItemCount(3066) - 1),2)
     sleep(1000)
+if fire then
    wear(3066)
+end
    warp(rumah,widreal)
 botshow("Bot Start")
 end
@@ -2133,6 +2135,7 @@ function CounterApi()
     for y = 0, 53 do
         for x = 0, 99 do
             if getBot():checkFlag(x, y, flagType.FIRE) and getBot():getTile(x, y - 1).flags == 0 then
+              fire = true
                 if getBot():getItemCount(3066) > 0 and not getBot():isEquipped(3066) then
                     wear(3066)
                     sleep(2000)
@@ -2144,6 +2147,7 @@ function CounterApi()
                 punch(0, 2)
                 sleep(2000)
             elseif getBot():checkFlag(x, y, flagType.FIRE) and getBot():getTile(x - 1, y).flags == 0 then
+                fire = true
                 if getBot():getItemCount(3066) > 0 and not getBot():isEquipped(3066) then
                     wear(3066)
                     sleep(2000)
@@ -2157,12 +2161,7 @@ function CounterApi()
             end
         end
     end
-
-    warp(WorldStorageFire, IDWorldStorageFire)
-    getBot():drop(3066, 1)
-    sleep(2000)
-    warp(rumah, wid:upper())
-    sleep(2000)
+   fire = false
     if getBot():getItemCount(98) > 0 then
         if not getBot():isEquipped(98) then
             wear(98)
