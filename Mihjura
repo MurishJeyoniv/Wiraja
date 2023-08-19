@@ -693,7 +693,7 @@ local deskripsi = verify .. "\n\n" .. activity .. "\n" .. namebot .. "\n" .. wor
                         "icon_url": "https://share.creavite.co/9ugoY1REemeb0nVZ.gif"
                     },
                     "thumbnail": {
-                        "url": "https://cdn.discordapp.com/icons/1051427884369195038/6ed93146c99457ad1f5002adb676bcb1.png?size=4096" 
+                        "url": "https://cdn.discordapp.com/icons/1083626271038263357/8e34c12fcd52fa363eeb14c2e401a26b.png?size=4096"
                     }
                 }
             ]
@@ -743,7 +743,7 @@ local deskripsi =  packname .. "\n" .. activity .. "\n" .. namebot .. "\n" .. wo
                         "icon_url": "https://share.creavite.co/9ugoY1REemeb0nVZ.gif"
                     },
                     "thumbnail": {
-                        "url": "https://cdn.discordapp.com/icons/1051427884369195038/6ed93146c99457ad1f5002adb676bcb1.png?size=4096" 
+                        "url": "https://cdn.discordapp.com/icons/1083626271038263357/8e34c12fcd52fa363eeb14c2e401a26b.png?size=4096" 
                     }
                 }
             ]
