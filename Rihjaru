@@ -7,7 +7,7 @@ bw = 0
 rumah = ""
 checknya = false
 
-if Ownername == "" then
+if OwnerName == "" then
 return
 end
 
