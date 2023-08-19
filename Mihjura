@@ -386,6 +386,12 @@ for index, namebotx in pairs(getAllBot()) do
    end
 end
 
+sleepwarp = 0
+
+for i = 1,rulah do
+sleepwarp = sleepwarp + 9000
+end
+
 urutanproxybackup = rulah * BotsPerProxy
 
 for i = 1,BotsPerProxy do
@@ -1575,6 +1581,7 @@ end
 function takepick()
 if TakePick then
 if getBot():getItemCount(98) == 0 then
+sleep(sleepwarp)
 botshow("Bot Taking Pickaxe..")
     warp(WorldPick,WorldPickID)
     sleep(100)
