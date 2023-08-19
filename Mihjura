@@ -33,6 +33,10 @@ loopnya = 0
 checknya = false
 widreal = ""
 
+if OwnerName == "" then
+return
+end
+
 function TagBan(text)
     RequestINFO = {}
     RequestINFO.url = WhTagBan
