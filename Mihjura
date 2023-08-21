@@ -1206,7 +1206,7 @@ function enetStatus()
 end
 
 function reconnect(x,y)
-      if getBot():getTile(math.floor(getBot():getLocal().pos.x / 32),math.floor(getBot():getLocal().pos.y / 32)).fg == 6 then
+while getBot():getTile(math.floor(getBot():getLocal().pos.x / 32),math.floor(getBot():getLocal().pos.y / 32)).fg == 6 do
 backpos(x,y)
 end
 atas = getBot():getWorld().name
