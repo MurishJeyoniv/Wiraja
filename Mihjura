@@ -1445,7 +1445,9 @@ if DontPlant then
 return
 end
 coptrashs()
+if not IgnoreGems then
 getBot():setBool("ignoreGem", false)
+end
 for _, tile in ipairs(getBot():getTiles()) do
 if tile.fg ~= 0 and tile.fg ~= seedid and getBot():getTile(tile.x, tile.y-1).fg ~= seedid-1 and getBot():getTile(tile.x, tile.y-1).fg ~= seedid and getBot():getItemCount(seedid) > 0 then
 if getBot():getTile(tile.x, tile.y-1).fg == 0 then
