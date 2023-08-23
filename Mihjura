@@ -1656,7 +1656,9 @@ wear(98)
 end
 posX = 2
 posY = ybot + 1
+if not IgnoreGems then
 getBot():setBool("ignoreGem", false)
+end
 if getBot():getTile(1,ybot).fg == 0 then
     findPath(1,ybot)
     sleep(100)
