@@ -1224,6 +1224,7 @@ sleep(1000)
 getBot():reConnect()
 sleep(8000)
 until getBot():getEnetStatus() == Connected or getBot():getBotStatus() == Suspended or getBot():getBotStatus() == Banned 
+end
 if getBot():getBotStatus() == Suspended then 
 TagBan("**"..getBot():getLocal().name:upper().."  Was "..status().." Removing Bot... @everyone**")
 banned()
@@ -1238,7 +1239,6 @@ sleep(5000)
 warp(rumah,widreal)
 backpos(x,y)
 jalan()
-end
 end
 end
 
