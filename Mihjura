@@ -1,7 +1,6 @@
 --===JOPY STORE===--
 
 Time = {}
-AutoChangeBotProxy = {}
 ProxyBackUp = {}
 berlian = {}
 pohon = {}
@@ -406,14 +405,6 @@ urutanproxybackup = rulah * MaxProxyPerBot
 for i = 1,MaxProxyPerBot do
     table.insert(ProxyBackUp, proxy[urutanproxybackup])
     urutanproxybackup = urutanproxybackup - 1
-end
-
-
-urutanproxychange = rulah * MaxSocksPerBot
-
-for i = 1, MaxSocksPerBot do
-    table.insert(AutoChangeBotProxy, SocksList[urutanproxychange])
-    urutanproxychange = urutanproxychange - 1
 end
 
 
@@ -877,102 +868,6 @@ end
         end
     end
 
-function changeBot()
-    rara = 0
-    if ChangeBotWhenMaxLevel then
-        if getBot():getLocal().level >= maxlevel then
-            oldbotworld = getBot():getWorld().name
-            oldbotname = getBot():getLocal().name
-            botshow("Bot Level : "..getBot():getLocal().level.." Mengganti Bot...")
-            warp(WorldSaveSeed[IndexSaveSeed], WorldSaveSeedID)
-            for _, tile in ipairs(getBot():getTiles()) do
-                if tile.fg == IDPatokanSeed then
-                    findPath(tile.x+1, tile.y)
-                    sleep(500)
-                end
-            end
-            seedid_count = getBot():getItemCount(seedid)
-            blockid_count = getBot():getItemCount(blockid)
-            getBot():drop(blockid, blockid_count)
-            sleep(1000)
-            getBot():move(RIGHT, 1)
-            sleep(500)
-            getBot():drop(seedid, seedid_count)
-            sleep(1000)
-            if getBot():getLocal().gems >= packgems then
-                belicuy()
-            end
-            sleep(100)
-            getBot():remove()
-            sleep(5000)
-
-            ::LAGI::
-            while IndexBotChange <= #BotListChange do
-                botnama = BotListChange[IndexBotChange]
-                if UsingProxy then
-                    if ChangeProxyIndex > #AutoChangeBotProxy then
-                        log("Tidak Ada Socks Lagi yang Dapat Digunakan untuk Auto Ganti Bot")
-                        log("Skrip Berhenti...")
-                        TagBan("**Tidak Ada Socks Lagi yang Dapat Digunakan untuk Auto Ganti Bot**")
-                    end
-                    addBot(botnama, PassBotList, getSocks(AutoChangeBotProxy[ChangeProxyIndex]))
-                    sleep(7000)
-                    if getBot():getBotStatus() ~= Success then
-                        repeat
-                            getBot():reConnect()
-                            sleep(8000)
-                            rara = rara + 1
-                            if rara == 15 then  
-                                ChangeProxyIndex = ChangeProxyIndex + 1
-                                getBot():remove()
-                                sleep(2000)
-                                rara = 0
-                                goto LAGI
-                            end
-                        until getBot():getBotStatus() == Success or getBot():getBotStatus() == Suspended or getBot():getBotStatus() == Banned
-                    end
-                else
-                    addBot(botnama, PassBotList)
-                    sleep(3000)
-                    if getBot():getBotStatus() ~= Success then
-                        repeat
-                            getBot():reConnect()
-                            sleep(8000)
-                        until getBot():getBotStatus() == Success or getBot():getBotStatus() == Suspended or getBot():getBotStatus() == Banned
-                    end
-
-                    if getBot():getBotStatus() == Suspended or getBot():getBotStatus() == Banned then
-                        if getBot():getBotStatus() == Suspended or getBot():getBotStatus() == Banned then
-                            botshow(getBot():getLocal().name:upper().." = "..getBot():getBotStatus():upper())
-                            sleep(100)
-                            getBot():remove()
-                            IndexBotChange = IndexBotChange + 1
-                        end
-                  end
-             if getBot():getBotStatus() == Wrong_Password then
-           log(getBot():getLocal().name:upper().." Was Wrong Password, Skipping Bot..")
-           getBot():remove()
-                 IndexBotChange = IndexBotChange + 1
-               end
-                  if getBot():getLocal().level >= maxlevel then
-                   getBot():remove()
-                 IndexBotChange = IndexBotChange + 1
-                    elseif getBot():getLocal().level < maxlevel then
-                        botshow("Success ChangeBot")
-                        sleep(100)
-                        warp(rumah, widreal)
-                        sleep(4000)
-                        getBot():autoCollect(4, true)
-                        sleep(50)
-                        jalan()
-                       break
-                    end
-                end
-            end
-        end
-    end
-end
-
 
 
 local processedTimes = {} -- Tabel untuk menyimpan waktu yang telah diproses
@@ -1228,7 +1123,6 @@ sleep(1000)
 getBot():reConnect()
 sleep(8000)
 until getBot():getEnetStatus() == Connected or getBot():getBotStatus() == Suspended or getBot():getBotStatus() == Banned 
-end
 if getBot():getBotStatus() == Suspended then 
 TagBan("**"..getBot():getLocal().name:upper().."  Was "..status().." Removing Bot... @everyone**")
 banned()
@@ -1243,6 +1137,7 @@ sleep(5000)
 warp(rumah,widreal)
 backpos(x,y)
 jalan()
+end
 end
 end
 
@@ -2277,9 +2172,6 @@ harvest()
 if AutoBan then
 autoban()
 end
-if ChangeBotWhenMaxLevel then
-changeBot()
-end
 if AutoLeave then
 autoleave()
 end
@@ -2306,9 +2198,6 @@ if AutoOffBot then
 banwave()
 end
 rotisan()
-if ChangeBotWhenMaxLevel then
-changeBot()
-end
 cukcuk1(letus)
 end
 end
