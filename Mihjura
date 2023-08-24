@@ -725,7 +725,7 @@ local deskripsi = verify .. "\n\n" .. activity .. "\n" .. namebot .. "\n" .. wor
             "content": "Script Running",
             "embeds": [
                 {
-                    "title": "Jopy Rotation ( Total Buyer: ]]..ceknya()..[[ )",
+                    "title": "Jopy Rotation Surfer ( Total Buyer: ]]..ceknya()..[[ )",
                     "description": "]]..deskripsi:gsub("\n", "\\n")..[[",
                     "color": "]] .. math.random(0, 16777215) .. [[",
                     "footer": {
@@ -775,7 +775,7 @@ local deskripsi =  packname .. "\n" .. activity .. "\n" .. namebot .. "\n" .. wo
             "content": "Script Running",
             "embeds": [
                 {
-                    "title": "Jopy Rotation ( Total Buyer: ]]..ceknya()..[[ )",
+                    "title": "Jopy Rotation Surfer ( Total Buyer: ]]..ceknya()..[[ )",
                     "description": "]]..deskripsi:gsub("\n", "\\n")..[[",
                     "color": "]] .. math.random(0, 16777215) .. [[",
                     "footer": {
