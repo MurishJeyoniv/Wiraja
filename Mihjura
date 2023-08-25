@@ -78,10 +78,14 @@ currentY = math.floor(getBot():getLocal().pos.y / 32)
     end
 
     -- Pergerakan vertikal
-    while currentY ~= targetY do
+    if currentY ~= targetY then
 currentY = math.floor(getBot():getLocal().pos.y / 32)
-getBot():findPath(targetX,targetY)
+if getBot():findPath(targetX,targetY) then
 sleep(100)
+else
+getBot():findPath(targetX, targetY)
+sleep(100)
+end
 end
 
 local dx = math.abs(targetX - currentX)
@@ -124,7 +128,7 @@ end
             currentX = math.max(targetX, currentX - 7)
         end
  if getBot():setPos(currentX,currentY) then
-   sleep(250)
+   sleep(350)
 else
 getBot():findPath(targetX, targetY)
 sleep(100)
@@ -762,7 +766,7 @@ local ping = "**<:Ping:1136942362103402566> Ping: "..getBot():getMs().." Ms**"
 local gems = "**<:gems:1083907540242407547> Gems: "..getBot():getLocal().gems.."**"
 local uptime = "**<:pro_timeout:1100160755287982150>  Up Time**\n**"..math.floor(te/86400).." Days "..math.floor(te%86400/3600).." Hours "..math.floor(te%86400%3600/60).." Minutes "..math.floor(te%86400%3600%60).." Seconds**"
 local totalseed = "**"..emoji.." Total Seed: "..seeddrop.."  "..cekhasilseed().." **"
-local totalpacknya = "**<:small_seed_pack:1098848345956560997> Total Pack: "..totalpack.."  "..cekhasilpack().." **"
+local totalpacknya = "**<:small_seed_pack:1144029525399842906> Total Pack: "..totalpack.."  "..cekhasilpack().." **"
 
 local deskripsi =  packname .. "\n" .. activity .. "\n" .. namebot .. "\n" .. world .. "\n" .. statusbot .. "\n" .. ping .. "\n" .. gems .. "\n" .. totalseed .. "\n" .. totalpacknya .. "\n\n" ..uptime
 
@@ -883,16 +887,17 @@ function botRest()
             getBot():disconnect()
             botshow("Bot Rest.. For " .. SleepRest .. " Minutes")
             sleep(SleepRest * 60 * 1000)
-            getBot():setBool("autoReconnect", true)
             getBot():reConnect()
             botshow("Bot Done Rest, Starting Back...")
             if getBot():getBotStatus() ~= Success then
+          getBot():setBool("autoReconnect", true)
                 repeat
                     getBot():reConnect()
                     sleep(10000)
                 until getBot():getBotStatus() == Success
             end
             if getBot():getBotStatus() == Success then
+            getBot():setBool("autoReconnect", true)
                 table.insert(processedTimes, curah) -- Menyimpan waktu yang telah diproses
                 warp(rumah, widreal)
              botshow("Bot Start ")
@@ -1168,6 +1173,7 @@ if tile.fg ~= 0 and tile.fg ~= seedid and getBot():getTile(tile.x, tile.y-1).fg 
 if getBot():getItemCount(seedid) == 0 then		
 Take()
 end
+if getBot():hasAccessToTile(tile.x, tile.y-1) then
 if getBot():getTile(tile.x, tile.y-1).fg == 0 then
 findPath(tile.x, tile.y-1)
 if getBot():getTile(math.floor(getBot():getLocal().pos.x / 32), math.floor(getBot():getLocal().pos.y / 32)).fg == 0 then
@@ -1193,6 +1199,7 @@ reconnect(tile.x,tile.y-1)
 getBot():placeTile(tile.x,tile.y-1,seedid)
 sleep(20)
 sleep(delayplant)
+end
 end
 end
 end
@@ -1471,8 +1478,13 @@ if getBot():getTile(math.floor(getBot():getLocal().pos.x / 32),math.floor(getBot
 break
 end
         end
+   for i=1, #wid do
+widreal = wid[i]
+           getBot():sendPacket("action|join_request\nname|"..world:upper().."|"..wid[i].."\ninvitedWorld|0",3)
+            sleep(5000)
 if getBot():getTile(math.floor(getBot():getLocal().pos.x / 32),math.floor(getBot():getLocal().pos.y / 32)).fg ~= 6 then
 break
+end
 end
 end
 end
@@ -2228,8 +2240,8 @@ takehose()
 warpfarm(world,wid)
 if not nuked then
 clearTable(processedTimes)
-botshow("Bot Start")
 seedid = detect()
+botshow("Bot Start")
 antiToxic()
 tt = os.time()
 gemsawal = getBot():getLocal().gems
