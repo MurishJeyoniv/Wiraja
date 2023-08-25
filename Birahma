@@ -35,6 +35,14 @@ for i = start,#worlds do
     table.insert(worldss,worlds[i])
 end
 
+function cekposfossil()
+for _,tile in ipairs(getBot():getTiles())do
+    if tile.fg == 3918 then
+        ffossil[#ffossil+1]={posX=tile.x,posY=tile.y}
+    end
+end
+end
+
 function mf(xy)
     return math.floor(xy / 32)
 end
@@ -101,7 +109,7 @@ end
 function waktuWorld()
     strWaktu = ""
         for _,world in pairs(worlds) do
-strWaktu = strWaktu .."\n" .. world:upper()  .. " ( " .. ("<:Fossil:1135233556138958949> : " .. (waktu[world] or "?")) .. " )"
+strWaktu = strWaktu .."\n**" .. world:upper()  .. " ( " .. ("<:Fossil:1135233556138958949> : " .. (waktu[world] or "?")) .. " )**"
     end
 return strWaktu
 end
@@ -218,7 +226,46 @@ function CekTilePack(x,y,num)
     return false
 end
 
-function reconnect()
+function backpos(x,y)
+sleep(7000)
+werkd = getBot():getWorld().name
+    for _, tile in ipairs(getBot():getTiles()) do
+       if getBot():getTile(math.floor(getBot():getLocal().pos.x / 32),math.floor(getBot():getLocal().pos.y / 32)).fg == 6 then
+            repeat
+            getBot():sendPacket("action|join_request\nname|".. werkd .. "|" .. DoorID.."\ninvitedWorld|0",3)
+            sleep(7000)
+            until getBot():getTile(math.floor(getBot():getLocal().pos.x / 32),math.floor(getBot():getLocal().pos.y / 32)).fg ~= 6
+            if x and y and getBot():getBotStatus() == Success and getBot():getWorld().name:upper() == werkd:upper() then
+                repeat
+                    getBot():findPath(x,y)
+                    sleep(400)
+                until math.floor(getBot():getLocal().pos.x / 32) == x or math.floor(getBot():getLocal().pos.y / 32) == y
+            end
+            if getBot():getBotStatus() == Success and getBot():getWorld().name:upper() == werkd:upper() then
+                if x and y then
+                    if getBot():getBotStatus() == Success and math.floor(getBot():getLocal().pos.x / 32) == x and math.floor(getBot():getLocal().pos.y / 32) == y then
+                        break
+                    end
+                elseif getBot():getBotStatus() == Success then
+                    break
+                end
+            end
+        end
+    end
+end
+
+function reconnect(world,x,y)
+if getBot():getBotStatus() ~= Success then
+repeat
+getBot():reConnect()
+sleep(8000)
+until getBot():getBotStatus() == Success
+warp(world,DoorID)
+backpos(x,y)
+end
+end
+
+function reconnectsave(world,x,y)
 if getBot():getBotStatus() ~= Success then
 repeat
 getBot():reConnect()
@@ -226,7 +273,8 @@ sleep(8000)
 until getBot():getBotStatus() == Success
 end
 if getBot():getBotStatus() == Success then
-return
+warp(world,WorldSaveID)
+backpos(x,y)
 end
 end
 
@@ -244,19 +292,19 @@ for _,pack in pairs(packitemid) do
                     while math.floor(getBot():getLocal().pos.x / 32) ~= (tile.x - 1) or math.floor(getBot():getLocal().pos.y / 32) ~= tile.y do
                         getBot():findPath(tile.x - 1,tile.y)
                         sleep(100)
-                        reconnect()
+                        reconnectsave(WorldSave,tile.x -1, tile.y)
                     end
                     while getBot():getItemCount(pack) > 0 and CekTilePack(tile.x,tile.y,getBot():getItemCount(pack)) do
                         getBot():sendPacket("action|drop\n|itemID|"..pack,2)
                         sleep(1000)
                         getBot():sendPacket("action|dialog_return\ndialog_name|drop_item\nitemID|"..pack.."|\ncount|"..getBot():getItemCount(pack),2)
                         sleep(1000)
-                        reconnect()
+                        reconnectsave(WorldSave,tile.x -1, tile.y)
                     end
                 end
             end
             if getBot():getItemCount(pack) == 0 then
-            reconnect()
+            reconnectsave(WorldSave,tile.x -1, tile.y)
                 break
             end
         end
@@ -334,7 +382,7 @@ local deskripsi = verify .. "\n\n" .. activity .. "\n" .. namebot .. "\n" .. wor
             "content": "Script Running",
             "embeds": [
                 {
-                    "title": "Jopy Rotation ( Total Buyer: ]]..ceknya()..[[ )",
+                    "title": "Jopy Auto Take Fossil Surfer ( Total Buyer: ]]..ceknya()..[[ )",
                     "description": "]]..deskripsi:gsub("\n", "\\n")..[[",
                     "color": "]] .. math.random(0, 16777215) .. [[",
                     "footer": {
@@ -357,8 +405,14 @@ end
 
 function main()
 while true do
+rumah = getBot():getWorld().name:upper()
 ::KIRANA::
 botshow("Taking Fossil..")
+if getBot():getItemCount(4132) == 0 and UseFossilBrush then
+botshow("No More Brush, Script Stopped")
+log("No More Brush, Script Stopped")
+break
+end
 if scanFossil() == 0 then
 getBot():reConnect()
 sleep(8000)
@@ -369,12 +423,8 @@ SaveFossil()
 NextWorld()
 goto KIRANA
 end
-for _, tile in ipairs(getBot():getTiles()) do
-if tile.fg == 3918 then
-getBot():findPath(tile.x,tile.y-1)
-sleep(8000)
-end
-end
+cekposfossil()
+getBot():findPath(ffossil[start_fossil].posX,ffossil[start_fossil].posY-1)
  find_extracted = true
     getBot():autoCollect(4,false)
     while getBot():getTile(math.floor(getBot():getLocal().pos.x / 32),math.floor(getBot():getLocal().pos.y / 32) + 1).fg == 3918 do
@@ -384,6 +434,7 @@ end
         end
         a = 1
         while find_extracted do
+    reconnect(rumah,ffossil[start_fossil].posX,ffossil[start_fossil].posY-1)
             punch(0,1)
             a = a + 1
             sleep(1000)
@@ -401,6 +452,7 @@ end
             sleep(1000)
         end
         while fossil_rock do
+      reconnect(rumah,ffossil[start_fossil].posX,ffossil[start_fossil].posY-1)
             punch(0,1)
             sleep(160)
             if getBot():getTile(math.floor(getBot():getLocal().pos.x / 32),math.floor(getBot():getLocal().pos.y / 32) + 1).fg ~= 3918 then
@@ -411,8 +463,10 @@ end
     end
     sleep(2000)
     if UseFossilBrush then
+    for i=1,3 do
     place(4132, 0, 1)
     sleep(1500)
+    end
     end
     getBot():autoCollect(4,true)
     sleep(1000)
@@ -424,12 +478,16 @@ while getBot():getTile(math.floor(getBot():getLocal().pos.x /32), math.floor(get
 sleep(1000)
 place(10, 0, 1)
 sleep(700)
+reconnect(rumah,ffossil[start_fossil].posX,ffossil[start_fossil].posY-1)
 end
 end
 if scanFossil() == 0 then
 getBot():reConnect()
 sleep(8000)
-reconnect()
+while getBot():getBotStatus() ~= Success do
+getBot():reConnect()
+sleep(8000)
+end
 waktu[worldss[startFrom]] = totalfossil
 totalfossil = 0
 botshow("World Finish")
