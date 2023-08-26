@@ -66,14 +66,6 @@ for i = start,#worlds do
     table.insert(worldss,worlds[i])
 end
 
-function cekposfossil()
-for _,tile in ipairs(getBot():getTiles())do
-    if tile.fg == 3918 then
-        ffossil[#ffossil+1]={posX=tile.x,posY=tile.y}
-    end
-end
-end
-
 function mf(xy)
     return math.floor(xy / 32)
 end
@@ -452,9 +444,14 @@ SaveFossil()
 NextWorld()
 goto KIRANA
 end
-cekposfossil()
-getBot():findPath(ffossil[start_fossil].posX,ffossil[start_fossil].posY-1)
-backpos(ffossil[start_fossil].posX,ffossil[start_fossil].posY-1)
+for _, tile in ipairs(getBot():getTiles()) do
+if tile.fg == 3918 then
+getBot():findPath(tile.x,tile.y-1)
+end
+end
+xbot = math.floor(getBot():getLocal().pos.x/32)
+ybot = math.floor(getBot():getLocal().pos.y/32)
+backpos(xbot,ybot)
  find_extracted = true
     getBot():autoCollect(4,false)
     while getBot():getTile(math.floor(getBot():getLocal().pos.x / 32),math.floor(getBot():getLocal().pos.y / 32) + 1).fg == 3918 do
@@ -464,7 +461,7 @@ backpos(ffossil[start_fossil].posX,ffossil[start_fossil].posY-1)
         end
         a = 1
         while find_extracted do
-    reconnect(rumah,ffossil[start_fossil].posX,ffossil[start_fossil].posY-1)
+     backpos(xbot,ybot)
             punch(0,1)
             a = a + 1
             sleep(1000)
@@ -482,7 +479,7 @@ backpos(ffossil[start_fossil].posX,ffossil[start_fossil].posY-1)
             sleep(1000)
         end
         while fossil_rock do
-      reconnect(rumah,ffossil[start_fossil].posX,ffossil[start_fossil].posY-1)
+      reconnect(rumah,xbot,ybot)
             punch(0,1)
             sleep(160)
             if getBot():getTile(math.floor(getBot():getLocal().pos.x / 32),math.floor(getBot():getLocal().pos.y / 32) + 1).fg ~= 3918 then
@@ -508,7 +505,7 @@ while getBot():getTile(math.floor(getBot():getLocal().pos.x /32), math.floor(get
 sleep(1000)
 place(10, 0, 1)
 sleep(700)
-reconnect(rumah,ffossil[start_fossil].posX,ffossil[start_fossil].posY-1)
+reconnect(rumah,xbot,ybot)
 if getBot():getTile(math.floor(getBot():getLocal().pos.x /32), math.floor(getBot():getLocal().pos.y /32 + 1)).fg == 2 then
 break
 end
