@@ -60,8 +60,6 @@ end
 
 anjaynya = 0
 
-log(rulah)
-
     if rulah > 1 then
         anjaynya = anjaynya + 0
     elseif rulah == 1 then
@@ -69,7 +67,7 @@ log(rulah)
     end
 
 for i = 1,anjaynya do
-msgBox("Script Fossil Jopy","Script Has Running Successfully")
+msgBox("Script Geiger Jopy","Script Has Running Successfully")
 end
 
 for i = 1, rulah do
@@ -112,7 +110,7 @@ function botshow(Info)
             "content": "Script Running",
             "embeds": [
                 {
-                    "title": "Jopy Auto Geiger Surfer ( Total Buyer : 0 )",
+                    "title": "Jopy Auto Geiger Surfer ( Total Buyer : "..ceknya().." )",
                     "color": "]] .. math.random(0, 16777215) .. [[",
                     "footer": {
                         "text": "]]..(os.date("!%a %b %d, %Y at %I:%M %p", os.time() + 7 * 60 * 60))..[[",
@@ -351,7 +349,7 @@ end
     repeat
 botx = math.floor(getBot():getLocal().pos.x/32)
 boty = math.floor(getBot():getLocal().pos.y/32)
-     if 1 == getBot():getItemCount(2286) > 0 then
+     if getBot():getItemCount(2286) > 0 then
      nunggu()
      end
       if 0 == getBot():getItemCount(2204) then
