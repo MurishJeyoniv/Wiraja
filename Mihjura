@@ -2050,6 +2050,7 @@ getBot():autoCollect(4,false)
 botpack("Saving Seeds")
 atas = getBot():getWorld().name
         warp(WorldSaveSeed[IndexSaveSeed],WorldSaveSeedID)
+rara = SeedsScanner(seedid)
     for _, tile in ipairs(getBot():getTiles()) do
         if tile.fg == IDPatokanSeed or tile.bg == IDPatokanSeed then 
            if CekTileSeeds(tile.x,tile.y,getBot():getItemCount(seedid)) then
@@ -2073,7 +2074,7 @@ atas = getBot():getWorld().name
     end
     sampah()
     seeddrop = SeedsScanner(seedid)
-   hasilseed = 200
+   hasilseed = math.abs(rara - seeddrop)
     botpack("Success Saving Seeds")
     hasilseed = 0
     IndexSaveSeed = IndexSaveSeed + 1
@@ -2124,7 +2125,7 @@ end
 end
 
 function rotisan()
-if getBot():getItemCount(seedid) == 200 then
+if getBot():getItemCount(seedid) > 150 then
 saveseed()
 end
 end
