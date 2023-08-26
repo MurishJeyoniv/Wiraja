@@ -12,6 +12,24 @@ if OwnerName == "" then
 return
 end
 
+if not checknya then
+ RequestINFO2 = {}
+  RequestINFO2.url = "https://rentry.org/kitamahkeren/raw"
+  y = httpReq(RequestINFO2)
+
+if y.success then
+if string.find(y.body, OwnerName) then
+checknya = true
+else
+log("OwnerName Not Found , Please Use Command First Then Run The Script")
+return
+end
+else
+log("Cant Open Database, Please Try Use Vpn To Run Script")
+return
+end
+end
+
 startbot = 1
 
 for index, botname in pairs(getAllBot()) do
@@ -20,6 +38,19 @@ for index, botname in pairs(getAllBot()) do
       break
    end
 end
+
+anjaynya = 0
+
+    if searchName > 1 then
+        anjaynya = anjaynya + 0
+    elseif searchName == 1 then
+        anjaynya = anjaynya + 1
+    end
+
+for i = 1,anjaynya do
+msgBox("Script Fossil Jopy","Script Has Running Successfully")
+end
+
 
 worlds = BotList[searchName].worlds
 startFrom = BotList[searchName].startFrom
@@ -271,8 +302,6 @@ repeat
 getBot():reConnect()
 sleep(8000)
 until getBot():getBotStatus() == Success
-end
-if getBot():getBotStatus() == Success then
 warp(world,WorldSaveID)
 backpos(x,y)
 end
@@ -425,6 +454,7 @@ goto KIRANA
 end
 cekposfossil()
 getBot():findPath(ffossil[start_fossil].posX,ffossil[start_fossil].posY-1)
+backpos(ffossil[start_fossil].posX,ffossil[start_fossil].posY-1)
  find_extracted = true
     getBot():autoCollect(4,false)
     while getBot():getTile(math.floor(getBot():getLocal().pos.x / 32),math.floor(getBot():getLocal().pos.y / 32) + 1).fg == 3918 do
@@ -473,7 +503,7 @@ getBot():findPath(ffossil[start_fossil].posX,ffossil[start_fossil].posY-1)
     getBot():autoCollect(4,false)
     start_fossil = start_fossil + 1
     totalfossil = totalfossil + 1
-if AutoPutRock then
+if AutoPutRock and getBot():getItemCount(10) > 0 then
 while getBot():getTile(math.floor(getBot():getLocal().pos.x /32), math.floor(getBot():getLocal().pos.y /32 + 1)).fg ~= 10 do
 sleep(1000)
 place(10, 0, 1)
@@ -490,6 +520,7 @@ sleep(8000)
 end
 waktu[worldss[startFrom]] = totalfossil
 totalfossil = 0
+start_fossil = 1
 botshow("World Finish")
 SaveFossil()
 NextWorld()
@@ -500,30 +531,7 @@ end
 find_extracted = true
 fossil_rock = false
 
-function checkdata()
-  RequestINFO2 = {}
-  RequestINFO2.url = "https://rentry.org/kitamahkeren/raw"
-  y = httpReq(RequestINFO2)
-
-if y.success then
-if string.find(y.body, OwnerName) then
-checknya = true
-return
-else
-log("OwnerName Not Found , Please Use Command First Then Run The Script")
-return
-end
-else
-log("Cant Open Database, Please Try Use Vpn To Run Script")
-return
-end
-end
-
 function mulai()
-if not checknya then
-checkdata()
-end
-if checknya then
 ::ANJAY::
 warp(worlds[startFrom], DoorID)
 if nuked then
@@ -541,7 +549,6 @@ steal = false
 goto ANJAY
 end
 main()
-end
 end
 
 mulai()
