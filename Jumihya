@@ -60,9 +60,9 @@ end
 
 anjaynya = 0
 
-    if searchName > 1 then
+    if rulah > 1 then
         anjaynya = anjaynya + 0
-    elseif searchName == 1 then
+    elseif rulah == 1 then
         anjaynya = anjaynya + 1
     end
 
