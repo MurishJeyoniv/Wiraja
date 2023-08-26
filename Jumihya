@@ -58,6 +58,18 @@ for index, namebotx in pairs(getAllBot()) do
    end
 end
 
+anjaynya = 0
+
+    if searchName > 1 then
+        anjaynya = anjaynya + 0
+    elseif searchName == 1 then
+        anjaynya = anjaynya + 1
+    end
+
+for i = 1,anjaynya do
+msgBox("Script Fossil Jopy","Script Has Running Successfully")
+end
+
 for i = 1, rulah do
     if WEBHOOK[i] and MESSAGEID[i] then
         WhStatus = WEBHOOK[i]
