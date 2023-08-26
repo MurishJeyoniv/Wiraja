@@ -509,6 +509,9 @@ sleep(1000)
 place(10, 0, 1)
 sleep(700)
 reconnect(rumah,ffossil[start_fossil].posX,ffossil[start_fossil].posY-1)
+if getBot():getTile(math.floor(getBot():getLocal().pos.x /32), math.floor(getBot():getLocal().pos.y /32 + 1)).fg == 2 then
+break
+end
 end
 end
 if scanFossil() == 0 then
