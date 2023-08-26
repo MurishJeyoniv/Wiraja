@@ -78,18 +78,14 @@ currentY = math.floor(getBot():getLocal().pos.y / 32)
     end
 
     -- Pergerakan vertikal
-    if currentY ~= targetY then
+    while currentY ~= targetY do
 currentY = math.floor(getBot():getLocal().pos.y / 32)
-if getBot():findPath(targetX,targetY) then
-sleep(100)
-else
-getBot():findPath(targetX, targetY)
-sleep(100)
-end
+ getBot():findPath(targetX,targetY) 
+sleep(DelayFindPathY)
 end
 
 local dx = math.abs(targetX - currentX)
-if dx < 7 then
+if dx < 5 then
 local dx = math.abs(targetX - currentX)
 while currentX ~= targetX do
 currentX = math.floor(getBot():getLocal().pos.x / 32)
@@ -102,7 +98,7 @@ getBot():findPath(targetX, targetY)
 sleep(100)
 end
 if getBot():setPos(targetX, targetY) then
-sleep(100)
+sleep(DelayFindPathX)
 else
 getBot():findPath(targetX,targetY)
 sleep(100)
@@ -123,12 +119,12 @@ sleep(100)
 end
   currentX = math.floor(getBot():getLocal().pos.x / 32)
         if currentX < targetX then
-            currentX = math.min(targetX, currentX + 7)
+            currentX = math.min(targetX, currentX + 5)
         else
-            currentX = math.max(targetX, currentX - 7)
+            currentX = math.max(targetX, currentX - 5)
         end
  if getBot():setPos(currentX,currentY) then
-   sleep(350)
+   sleep(450)
 else
 getBot():findPath(targetX, targetY)
 sleep(100)
@@ -399,6 +395,19 @@ for index, namebotx in pairs(getAllBot()) do
    end
 end
 
+anjaynya = 0
+
+    if rulah > 1 then
+        anjaynya = anjaynya + 0
+    elseif rulah == 1 then
+        anjaynya = anjaynya + 1
+    end
+
+for i = 1,anjaynya do
+msgBox("Script Rotation Jopy","Script Has Running Successfully")
+end
+
+
 sleepwarp = 0
 
 for i = 1,rulah do
@@ -432,6 +441,8 @@ for i = 1, rulah do
         rulah = rulah - 1
     end
 end
+
+
 
 
 
