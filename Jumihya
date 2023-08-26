@@ -110,7 +110,7 @@ function botshow(Info)
             "content": "Script Running",
             "embeds": [
                 {
-                    "title": "Jopy Auto Geiger Surfer ( Total Buyer : "..ceknya().." )",
+                    "title": "Jopy Auto Geiger Surfer ( Total Buyer : ]]..ceknya()..[[ )",
                     "color": "]] .. math.random(0, 16777215) .. [[",
                     "footer": {
                         "text": "]]..(os.date("!%a %b %d, %Y at %I:%M %p", os.time() + 7 * 60 * 60))..[[",
