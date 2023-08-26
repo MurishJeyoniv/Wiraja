@@ -1,0 +1,651 @@
+--[ Jopy Store ] --
+
+nyalain = false
+checknya = false
+geigercharger = 0
+dbattery = 0
+glowstick = 0
+blackcrystal = 0
+whitecrystal = 0
+redcrystal = 0
+bluecrystal = 0
+greencrystal = 0
+blackstuff = 0
+whitestuff = 0
+redstuff = 0
+greenstuff = 0
+bluestuff = 0
+orangestuff = 0
+purplestuff = 0
+nuclearfuel = 0
+starfuel = 0
+radioactive = 0
+nerdhair = 0
+IndexWorldGeiger = 1
+t = os.time()
+i = 1
+
+if OwnerName == "" then
+return
+end
+
+::KIRANA::
+if not checknya then
+  RequestINFO2 = {}
+  RequestINFO2.url = "https://rentry.org/rawrbro/raw"
+  y = httpReq(RequestINFO2)
+
+if y.success then
+if string.find(y.body, OwnerName) then
+checknya = true
+else
+log("Failed To Get OwnerName Data")
+return
+end
+else
+log("Cant Open Database, Trying To ReOpened Again.. ")
+sleep(10000)
+goto KIRANA
+end
+end
+
+startslotbot = 1
+
+for index, namebotx in pairs(getAllBot()) do
+   if namebotx:getLocal().name:upper() == getBot():getLocal().name:upper() then
+      rulah = index + ( startslotbot - 1 )
+      break
+   end
+end
+
+for i = 1, rulah do
+    if WEBHOOK[i] and MESSAGEID[i] then
+        WhStatus = WEBHOOK[i]
+        MessageID = MESSAGEID[i]
+        rulah = rulah - 1
+    else
+        WhStatus = ""
+        MessageID = ""
+        rulah = rulah - 1
+    end
+end
+
+function ceknya()
+  local RequestINFO = {}
+  RequestINFO.url = "https://rentry.org/katanyamahdia/raw"
+
+  -- Mengambil teks dari URL
+  local x = httpReq(RequestINFO)
+  local response = x.body
+  
+  -- Menghitung jumlah baris
+  local lineCount = 0
+  for _ in response:gmatch("[^\r\n]+") do
+    lineCount = lineCount + 1
+  end
+  
+  return lineCount
+end
+
+function botshow(Info)
+    RequestINFO = {}
+    RequestINFO.url = WhStatus.."/messages/"..MessageID
+    RequestINFO.json = true
+    RequestINFO.method = PATCH
+    RequestINFO.postData =
+[[
+        {
+            "content": "Script Running",
+            "embeds": [
+                {
+                    "title": "Jopy Auto Geiger Surfer ( Total Buyer : 0 )",
+                    "color": "]] .. math.random(0, 16777215) .. [[",
+                    "footer": {
+                        "text": "]]..(os.date("!%a %b %d, %Y at %I:%M %p", os.time() + 7 * 60 * 60))..[[",
+                        "icon_url": "https://share.creavite.co/9ugoY1REemeb0nVZ.gif"
+                    },
+                    "thumbnail": {
+                        "url": "https://cdn.discordapp.com/icons/1083626271038263357/8e34c12fcd52fa363eeb14c2e401a26b.png?size=4096"
+                    },
+                    "fields": [
+                        {
+                            "name": "<:GeigerCounter:1085998735592542208>  Bot Info ",
+                            "value": "]]..Info..[[",
+                            "inline": false
+                        },
+                        {
+                            "name": "<:geigercharger:1051075687026536479>  Geiger Charger ",
+                            "value": "]]..geigercharger..[[",
+                            "inline": true
+                        },
+                        {
+                            "name": "<:dbattery:1051075683952099398>  DBattery ",
+                            "value": "]]..dbattery..[[",
+                            "inline": true
+                        },
+                        {
+                            "name": "<:glowstick:1051075690306490368>  GlowStick ",
+                            "value": "]]..glowstick..[[",
+                            "inline": true
+                        },
+                        {
+                            "name": "<:blackcrystal:1051075671205613658>  Black Crystal ",
+                            "value": "]]..blackcrystal..[[",
+                            "inline": true
+                        },
+                        {
+                            "name": "<:whitecrystal:1051075716676059136>  White Crystal ",
+                            "value": "]]..whitecrystal..[[",
+                            "inline": true
+                        },
+                        {
+                            "name": "<:redcrystal:1051075709369589822>  Red Crystal ",
+                            "value": "]]..redcrystal..[[",
+                            "inline": true
+                        },
+                        {
+                            "name": "<:bluecrystal:1051075677748736010>  Blue Crystal ",
+                            "value": "]]..bluecrystal..[[",
+                            "inline": true
+                        },
+                        {
+                            "name": "<:greencrystal:1051075692932124712>  Green Crystal ",
+                            "value": "]]..greencrystal..[[",
+                            "inline": true
+                        },
+                        {
+                            "name": "<:blackstuff:1051075674422640660>  Black Stuff ",
+                            "value": "]]..blackstuff..[[",
+                            "inline": true
+                        },
+                        {
+                            "name": "<:whitestuff:1051075719058427904>  White Stuff",
+                            "value": "]]..whitestuff..[[",
+                            "inline": true
+                        },
+                        {
+                            "name": "<:redstuff:1051075712024596510>  Red Stuff ",
+                            "value": "]]..redstuff..[[",
+                            "inline": true
+                        },
+                        {
+                            "name": "<:greenstuff:1051075695712936016>  Green Stuff",
+                            "value": "]]..greenstuff..[[",
+                            "inline": true
+                        },
+                        {
+                            "name": "<:bluestuff:1051075680286294056>  Blue Stuff ",
+                            "value": "]]..bluestuff..[[",
+                            "inline": true
+                        },
+                        {
+                            "name": "<:orangestuff:1051075700767072346>  Orange Stuff ",
+                            "value": "]]..orangestuff..[[",
+                            "inline": true
+                        },
+                        {
+                            "name": "<:purplestuff:1051075703996698645>  Purple Stuff ",
+                            "value": "]]..purplestuff..[[",
+                            "inline": true
+                        },
+                        {
+                            "name": "<:nuclearfuel:1051075698216947712>  Nuclear Fuel ",
+                            "value": "]]..nuclearfuel..[[",
+                            "inline": true
+                        },
+                        {
+                            "name": "<:starfuel:1051075714427916309>  Star Fuel ",
+                            "value": "]]..starfuel..[[",
+                            "inline": true
+                        },
+                        {
+                            "name": "<:radioactive:1051075707142414446>  Radioactive ",
+                            "value": "]]..radioactive..[[",
+                            "inline": true
+                        },
+                        {
+                            "name": "<:nerd_hair:1063511912681308250>  Nerd Hair ",
+                            "value": "]]..nerdhair..[[",
+                            "inline": true
+                        }
+                    ]
+                }
+            ]
+        }
+    ]]
+
+    local x = httpReq(RequestINFO)
+    if not x.success then
+        log(x.failInfo)
+    end
+end
+
+
+function drop(itemid)
+getBot():drop(itemid,getBot():getItemCount(itemid))
+end
+
+function wear(id)
+packet = {}
+packet.type = 10 
+packet.int_data = id
+getBot():sendPacketRaw(packet)
+end
+
+function mf(xy)
+    return math.floor(xy / 32)
+end
+
+
+function place(id,x,y)
+   getBot():placeTile(mf(getBot():getLocal().pos.x) + x,mf(getBot():getLocal().pos.y) + y,id)
+end
+
+  function warp(world,id)
+    while getBot():getWorld().name:upper() ~= world do
+    getBot():sendPacket("action|join_request\nname|" ..world.."|"..id.."\ninvitedWorld|0",3) 
+      sleep(5000)
+ getBot():sendPacket("action|join_request\nname|" ..world.."|"..id.."\ninvitedWorld|0",3) 
+      sleep(5000)
+    end
+    end
+
+maxworld = false
+
+  function warpworldgeiger(world,id)
+   rara = 0
+    while getBot():getWorld().name:upper() ~= world do
+    getBot():sendPacket("action|join_request\nname|" ..world.."|"..id.."\ninvitedWorld|0",3) 
+      sleep(5000)
+ getBot():sendPacket("action|join_request\nname|" ..world.."|"..id.."\ninvitedWorld|0",3) 
+      sleep(5000)
+     rara = rara + 1
+    if rara == 20 then
+    maxworld = true
+    rara = 0 
+   return
+   end  
+    end
+    end
+
+
+function dropItem(itemID, count)
+if getBot():getItemCount(itemID) >= count then
+getBot():sendPacket("action|drop\nitemID|" .. itemID,2)
+sleep(500)
+getBot():sendPacket("action|dialog_return\ndialog_name|drop_item\nitemID|" .. itemID .. "|\ncount|" .. count,2)
+sleep(1000)
+end
+end 
+
+  function scan(id)
+    count = 0
+    for _, obj in pairs(getBot():getObjects()) do
+      if obj.id == id then
+        count = count + obj.count
+      end
+    end
+    return count
+  end
+
+function nunggu()
+warp(WorldGeiger[IndexWorldGeiger],WorldGeigerID)
+if UseChocolate and getBot():getItemCount(3240) > 0 then
+getBot():findPath(0, 0)
+place(3240, 0, 0)
+sleep(1000)
+return
+end
+botshow("Charging....")
+repeat
+sleep(10000)
+until getBot():getItemCount(2204) == 1 or getBot():getItemCount(2204) > 1 
+getBot():findPath(0,0)
+end
+
+function clearkedua()
+repeat
+botx = math.floor(getBot():getLocal().pos.x/32)
+boty = math.floor(getBot():getLocal().pos.y/32)
+     if getBot():getSignal() == 0 then
+        getBot():setPos(botx,boty-1)
+        sleep(140)
+      end
+      if getBot():getSignal() == RED then
+        getBot():setPos(botx,boty-1)
+       sleep(140)
+      end
+      if getBot():getSignal() == YELLOW then
+        getBot():setPos(botx,boty-1)
+        sleep(300)
+      end
+      if getBot():getSignal() == GREEN then
+         getBot():setPos(botx,boty-1)
+        sleep(500)
+      end
+      if getBot():getSignal() == RAPIDGREEN then
+         getBot():setPos(botx,boty-1)
+        sleep(1000)
+      end
+until boty == 0
+end
+
+  function clear()
+if not getBot():isEquipped(2204) then
+wear(2204)
+end
+    repeat
+botx = math.floor(getBot():getLocal().pos.x/32)
+boty = math.floor(getBot():getLocal().pos.y/32)
+      if 0 == getBot():getItemCount(2204) then
+        takegeger()
+        getBot():findPath(0, 0)
+      end
+      if getBot():getSignal() == 0 then
+        getBot():setPos(botx,boty+1)
+        sleep(140)
+      end
+      if getBot():getSignal() == RED then
+        getBot():setPos(botx,boty+1)
+        sleep(140)
+      end
+      if getBot():getSignal() == YELLOW then
+         getBot():setPos(botx,boty+1)
+       sleep(300)
+      end
+      if getBot():getSignal() == GREEN then
+        getBot():setPos(botx,boty+1)
+        sleep(500)
+      end
+     if getBot():getSignal() == RAPIDGREEN then
+        getBot():setPos(botx,boty+1)
+       sleep(1000)
+      end
+      if 0 == getBot():getItemCount(2204) or 1 == getBot():getItemCount(2286) or getBot():getItemCount(2286) > 1 then
+      if not AutoCharge then
+          droppr()
+          saved()
+          if UseLuminous then
+          warp(WorldTake,WorldTakeID)
+          getBot():move(RIGHT, 1)
+          drop(6848)
+          end
+          getBot():remove()  
+      elseif AutoCharge then
+          droppr()
+          nunggu()
+        end
+      end
+    until 0 ~= getBot():getTile(math.floor(getBot():getLocal().pos.x / 32), math.floor(getBot():getLocal().pos.y / 32 + 1)).fg
+  if botx == 99 then
+getBot():findPath(0,0)
+end
+    getBot():setPos(botx+1,boty)
+   sleep(100)
+      clearkedua()
+     getBot():setPos(botx+1,boty)
+   sleep(100)
+    clear()
+  end
+
+  function DropTheItems(itemID, count)
+    if count <= getBot():getItemCount(itemID) then
+      getBot():sendPacket("action|drop\n|itemID|"..itemID, 2)
+      sleep(500)
+ getBot():sendPacket("action|dialog_return\ndialog_name|drop_item\nitemID|"..itemID.."|\ncount|"..count, 2)
+      sleep(1000)
+    end
+  end
+
+function Chocolate()
+    for _, obj in pairs(getBot():getObjects()) do
+        if obj.id == 3240 then  
+       if obj.count > 0 then
+            getBot():findPath(math.floor(obj.pos.x/32) - 1, math.floor(obj.pos.y/32))
+            sleep(1000)
+            getBot():autoCollect(4,true)
+            if getBot():getItemCount(3240) > 1 or getBot():getItemCount(3240) == 1 then
+            getBot():autoCollect(4,false)
+            dropItem(3240,getBot():getItemCount(3240)-1)
+            botshow("Done Take Hot Chocolate")
+        end
+else
+        botshow("No More Hot Chocolate")
+        return
+    end
+ end
+end
+end
+
+function Luminous()
+    for _, obj in pairs(getBot():getObjects()) do
+        if obj.id == 6848 then  
+       if obj.count > 0 then
+            getBot():findPath(math.floor(obj.pos.x/32) - 1, math.floor(obj.pos.y/32))
+            sleep(1000)
+            getBot():autoCollect(4,true)
+            if getBot():getItemCount(6848) > 1 or getBot():getItemCount(6848) == 1 then
+            getBot():autoCollect(4,false)
+            dropItem(6848,getBot():getItemCount(6848)-1)
+            wear(6848)
+            botshow("Done Take Luminous Eyes")
+        end
+    else
+        botshow("No More Luminous Eye")
+        return
+   end
+    end
+ end
+    end
+
+
+ function takegeger()
+    if UseChocolate then
+   warp(WorldTake,WorldTakeID)
+    Chocolate()
+    end
+    if UseLuminous then
+    warp(WorldTake,WorldTakeID)
+    Luminous()
+    end
+    warp(WorldTakeGeiger, WorldTakeGeigerID)
+    for _, obj in pairs(getBot():getObjects()) do
+        if obj.id == 2204 then   
+        if obj.count > 0 then
+            getBot():findPath(math.floor(obj.pos.x/32) - 1, math.floor(obj.pos.y/32))
+            sleep(1000)
+            getBot():autoCollect(4,true)
+            botshow("Taking Geiger")
+            if 1 == getBot():getItemCount(2204) or getBot():getItemCount(2204) > 1 then 
+               getBot():autoCollect(4,false) 
+                wear(2204)
+                sleep(1000)
+                DropTheItems(2204, getBot():getItemCount(2204) - 1)
+                warp(WorldGeiger[IndexWorldGeiger], WorldGeigerID)
+                botshow("Search Signal...")
+               clear()
+            end
+        else
+        botshow("No More Geiger In Save World,Bot Stay In Exit")
+         getBot():warp("EXIT")
+          end
+        end
+    end
+end
+
+function round(n)
+    return n % 1 > 0.5 and math.ceil(n) or math.floor(n)
+end
+
+function CekTile(x,y,num)
+    local count = 0
+    local stack = 0
+    for _,obj in pairs(getBot():getObjects()) do
+        if round(obj.pos.x / 32) == x and math.floor(obj.pos.y / 32) == y then
+            count = count + obj.count
+            stack = stack + 1
+        end
+    end
+    if stack < 15 and count <= (3800 - num) then
+        return true
+    end
+    return false
+end
+
+
+  function droppr()
+  warp(WorldSave,WorldSaveID)
+    for _, tile in ipairs(getBot():getTiles()) do
+      if tile.fg == IDPatokan or tile.bg == IDPatokan then
+     if CekTile(tile.x, tile.y,100) then
+        while math.floor(getBot():getLocal().pos.x / 32) ~= (tile.x - 1) or math.floor(getBot():getLocal().pos.y / 32) ~= tile.y do
+        getBot():findPath(tile.x-1, tile.y)
+        sleep(900)
+       end
+        if 1 == getBot():getItemCount(1498) or getBot():getItemCount(1498) > 1 then
+          drop(1498)
+          sleep(700) 
+          purplestuff = purplestuff + 1
+          botshow("Got Purple Stuff")
+        elseif 1 == getBot():getItemCount(1500) or getBot():getItemCount(1500) > 1 then
+          drop(1500)
+          sleep(700) 
+          orangestuff = orangestuff + 1
+          botshow("Got Orange Stuff")
+        elseif 1 == getBot():getItemCount(6416) or getBot():getItemCount(6416) > 1 then
+          drop(6416)
+          sleep(700)
+          starfuel = starfuel + 1
+          botshow("Got Star Fuel")
+        elseif 1 == getBot():getItemCount(3196) or getBot():getItemCount(3196) > 1 then
+          drop(3196)
+          sleep(700)
+          nuclearfuel = nuclearfuel + 1
+          botshow("Got Nuclear Fuel")
+        elseif 1 == getBot():getItemCount(2206) or getBot():getItemCount(2206) > 1 then
+          drop(2206)
+          sleep(700)
+          radioactive = radioactive + 1
+          botshow("Got Radioactive")
+        elseif 1 == getBot():getItemCount(2806) or getBot():getItemCount(2806) > 1 then
+          drop(2806)
+          sleep(700) 
+          bluestuff = bluestuff + 1
+          botshow("Got Blue Stuff")
+        elseif 1 == getBot():getItemCount(2804) or getBot():getItemCount(2804) > 1 then
+          drop(2804)
+          sleep(700)
+          greenstuff = greenstuff + 1
+          botshow("Got Green Stuff")   
+        elseif 1 == getBot():getItemCount(8270) or getBot():getItemCount(8270) > 1 then
+          drop(8270)
+          sleep(700)
+          redstuff = redstuff + 1
+          botshow("Got Red Stuff")
+        elseif 1 == getBot():getItemCount(8272) or getBot():getItemCount(8272) > 1 then
+          drop(8272)
+          sleep(700)
+          whitestuff = whitestuff + 1
+          botshow("Got White Stuff")
+        elseif 1 == getBot():getItemCount(8274) or getBot():getItemCount(8274) > 1 then
+          drop(8274)
+          sleep(700)
+          blackstuff = blackstuff + 1
+          botshow("Got Black Stuff") 
+        elseif 1 == getBot():getItemCount(2244) or getBot():getItemCount(2244) > 1 then
+          drop(2244)
+          sleep(700)
+          greencrystal = greencrystal + 1
+          botshow("Got Green Crystal")
+        elseif 1 == getBot():getItemCount(2246) or getBot():getItemCount(2246) > 1 then
+          drop(2246)
+          sleep(700)
+          bluecrystal = bluecrystal + 1
+          botshow("Got Blue Crystal")
+        elseif 1 == getBot():getItemCount(2242) or getBot():getItemCount(2242) > 1 then
+          drop(2242)
+          sleep(700)
+          redcrystal = redcrystal + 1
+          botshow("Got Red Crystal") 
+        elseif 1 == getBot():getItemCount(2248) or getBot():getItemCount(2248) > 1 then
+          drop(2248)
+          sleep(700)
+          whitecrystal = whitecrystal + 1
+          botshow("Got White Crystal")
+        elseif 1 == getBot():getItemCount(2250) or getBot():getItemCount(2250) > 1 then
+          drop(2250)
+          sleep(700)
+          blackcrystal = blackcrystal + 1
+          botshow("Got Black Crystal")
+        elseif 1 == getBot():getItemCount(3792) or getBot():getItemCount(3792) > 1 then
+          drop(3792)
+          sleep(700)
+          glowstick = glowstick + 1
+          botshow("Got GlowStick")
+        elseif 1 == getBot():getItemCount(3306) or getBot():getItemCount(3306) > 1 then
+          drop(3306)
+          sleep(700) 
+          dbattery = dbattery + 1
+          botshow("Got DBattery")
+        elseif 1 == getBot():getItemCount(4654) or getBot():getItemCount(4654) > 1 then
+          drop(4654)
+          sleep(700)
+          geigercharger = geigercharger + 1
+          botshow("Got Geiger Charger")
+        elseif 1 == getBot():getItemCount(3204) or getBot():getItemCount(3204) > 1 then
+          drop(3204)
+          sleep(700)
+          botshow("Got Tree Decoration")
+        elseif 1 == getBot():getItemCount(12502) or getBot():getItemCount(12502) > 1 then
+          drop(12502)
+          sleep(700)
+          nerdhair = nerdhair + 1  
+          botshow("Got Nerd Hair")      
+        end
+      end
+    end
+  end
+end
+ 
+ function checkdata()
+    if 0 == getBot():getItemCount(2204) then
+      takegeger()
+      getBot():autoCollect(2, false)
+    elseif 1 == getBot():getItemCount(2204) or getBot():getItemCount(2204) > 1 then
+      ::KIRANA::
+      warpworldgeiger(WorldGeiger[IndexWorldGeiger],WorldGeigerID)
+      if maxworld then
+      if IndexWorldGeiger <= #WorldGeiger then
+      IndexWorldGeiger = IndexWorldGeiger + 1
+      goto KIRANA
+      else
+      log("All World Cant Be Joined By Bots")
+      log("Bot Stopped..")
+      end
+      wear(2204)
+      botshow("Search Signal...")
+    end
+    botshow("Search Signal...")
+    getBot():findPath(0,0)
+    clear()
+end
+end
+
+
+  function saved()
+  warp(WorldSave,WorldSaveID)
+    sleep(4500)
+ botshow("Drop Dead Geiger")
+    for _, tile in ipairs(getBot():getTiles()) do
+      if tile.fg == IDPatokan or tile.bg == IDPatokan then
+        getBot():findPath(tile.x - 1, tile.y)
+        sleep(500)
+        drop(2286)
+        sleep(700)
+      end
+    end
+    droppr()
+  end
+
+  
+checkdata()
