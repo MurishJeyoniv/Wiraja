@@ -349,6 +349,9 @@ end
     repeat
 botx = math.floor(getBot():getLocal().pos.x/32)
 boty = math.floor(getBot():getLocal().pos.y/32)
+     if 1 == getBot():getItemCount(2286) > 0 then
+     nunggu()
+     end
       if 0 == getBot():getItemCount(2204) then
         takegeger()
         getBot():findPath(0, 0)
