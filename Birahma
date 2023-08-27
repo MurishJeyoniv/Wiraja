@@ -437,7 +437,7 @@ end
 if scanFossil() == 0 then
 getBot():reConnect()
 sleep(8000)
-reconnect()
+reconnect(rumah,xbot,ybot)
 waktu[worldss[startFrom]] = totalfossil
 botshow("World Finish")
 SaveFossil()
@@ -461,7 +461,6 @@ backpos(xbot,ybot)
         end
         a = 1
         while find_extracted do
-     backpos(xbot,ybot)
             punch(0,1)
             a = a + 1
             sleep(1000)
@@ -479,7 +478,6 @@ backpos(xbot,ybot)
             sleep(1000)
         end
         while fossil_rock do
-      reconnect(rumah,xbot,ybot)
             punch(0,1)
             sleep(160)
             if getBot():getTile(math.floor(getBot():getLocal().pos.x / 32),math.floor(getBot():getLocal().pos.y / 32) + 1).fg ~= 3918 then
@@ -498,16 +496,20 @@ backpos(xbot,ybot)
     getBot():autoCollect(4,true)
     sleep(1000)
     getBot():autoCollect(4,false)
-    start_fossil = start_fossil + 1
     totalfossil = totalfossil + 1
 if AutoPutRock and getBot():getItemCount(10) > 0 then
+if getBot():getTile(math.floor(getBot():getLocal().pos.x /32), math.floor(getBot():getLocal().pos.y /32 + 1)).fg == 0 then
 while getBot():getTile(math.floor(getBot():getLocal().pos.x /32), math.floor(getBot():getLocal().pos.y /32 + 1)).fg ~= 10 do
 sleep(1000)
 place(10, 0, 1)
 sleep(700)
 reconnect(rumah,xbot,ybot)
+if getBot():getTile(math.floor(getBot():getLocal().pos.x /32), math.floor(getBot():getLocal().pos.y /32 + 1)).fg == 10 then
+break
+end
 if getBot():getTile(math.floor(getBot():getLocal().pos.x /32), math.floor(getBot():getLocal().pos.y /32 + 1)).fg == 2 then
 break
+end
 end
 end
 end
@@ -520,7 +522,6 @@ sleep(8000)
 end
 waktu[worldss[startFrom]] = totalfossil
 totalfossil = 0
-start_fossil = 1
 botshow("World Finish")
 SaveFossil()
 NextWorld()
