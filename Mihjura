@@ -1420,6 +1420,7 @@ sleep(6000)
 getBot():sendPacket("action|join_request\nname|"..world:upper().."|"..id:upper().."\ninvitedWorld|0",3)
 sleep(6000)
 getBot():say(totalsay)
+sleep(1000)
 end
 
 nuked = false 
@@ -1458,6 +1459,7 @@ while getBot():getWorld().name:upper() ~= string.match(world:upper(), "([^|]+)")
     end
 end
 getBot():say(totalsay)
+sleep(1000)
 end
 
 function warpfarm(world,id)
@@ -1500,7 +1502,7 @@ end
 end
 end
 getBot():say(totalsay)
-sleep(100)
+sleep(1000)
 end
 
 function restoretime()
