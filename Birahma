@@ -503,6 +503,7 @@ while getBot():getTile(math.floor(getBot():getLocal().pos.x /32), math.floor(get
 sleep(1000)
 place(10, 0, 1)
 sleep(700)
+backpos(xbot,ybot)
 reconnect(rumah,xbot,ybot)
 if getBot():getTile(math.floor(getBot():getLocal().pos.x /32), math.floor(getBot():getLocal().pos.y /32 + 1)).fg == 10 then
 break
