@@ -128,6 +128,30 @@ function warp(world, id)
     end
 end
 
+function takebrush()
+if getBot():getItemCount(4132) == 0 then
+botshow("Taking Brush..")
+    warp(WorldTakeBrush,WorldTakeBrushID)
+    sleep(100)
+    while getBot():getItemCount(4132) == 0 do
+           sleep(5000)
+        for _,obj in pairs(getBot():getObjects()) do
+            if obj.id == 4132 then
+                getBot():findPath(math.floor(obj.pos.x / 32),math.floor(obj.pos.y / 32))
+                sleep(1000)
+                getBot():autoCollect(4,true)
+            end
+            if getBot():getItemCount(4132) > 0 then
+              getBot():autoCollect(4,false)
+                break
+            end
+        end
+    end
+    sleep(500)
+warp(worlds[startFrom], DoorID)
+end
+end
+
 
 function waktuWorld()
     strWaktu = ""
@@ -430,9 +454,7 @@ rumah = getBot():getWorld().name:upper()
 ::KIRANA::
 botshow("Taking Fossil..")
 if getBot():getItemCount(4132) == 0 and UseFossilBrush then
-botshow("No More Brush, Script Stopped")
-log("No More Brush, Script Stopped")
-break
+takebrush()
 end
 if scanFossil() == 0 then
 getBot():reConnect()
@@ -488,9 +510,13 @@ backpos(xbot,ybot)
     end
     sleep(2000)
     if UseFossilBrush then
+    if getBot():getItemCount(4132) > 0 then
     for i=1,3 do
     place(4132, 0, 1)
     sleep(1500)
+    end
+    else
+    takebrush()
     end
     end
     getBot():autoCollect(4,true)
