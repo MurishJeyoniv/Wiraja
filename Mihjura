@@ -1439,6 +1439,7 @@ while getBot():getWorld().name:upper() ~= string.match(world:upper(), "([^|]+)")
             cok = cok + 1
         end
     end
+::AFGAN::
     if id ~= "" and not nuked then
         while getBot():getTile(math.floor(getBot():getLocal().pos.x / 32),math.floor(getBot():getLocal().pos.y / 32)).fg == 6 and not nuked do
             while getBot():getBotStatus() ~= Success do
@@ -1457,6 +1458,9 @@ while getBot():getWorld().name:upper() ~= string.match(world:upper(), "([^|]+)")
    getBot():sendPacket("action|join_request\nname|"..world:upper().."|"..id:upper().."\ninvitedWorld|0",3)
             sleep(5000)
     end
+end
+if getBot():getTile(math.floor(getBot():getLocal().pos.x / 32),math.floor(getBot():getLocal().pos.y / 32)).fg == 6 then
+goto AFGAN
 end
 getBot():say(totalsay)
 sleep(1000)
@@ -1477,6 +1481,7 @@ while getBot():getWorld().name:upper() ~= world:upper() and not nuked do
             cok = cok + 1
         end
     end
+::AFGAN::
     if id ~= "" and not nuked then
   while getBot():getTile(math.floor(getBot():getLocal().pos.x / 32),math.floor(getBot():getLocal().pos.y / 32)).fg == 6 and not nuked do
    for i=1, #wid do
@@ -1500,6 +1505,9 @@ break
 end
 end
 end
+end
+if getBot():getTile(math.floor(getBot():getLocal().pos.x / 32),math.floor(getBot():getLocal().pos.y / 32)).fg == 6 then
+goto AFGAN
 end
 getBot():say(totalsay)
 sleep(1000)
