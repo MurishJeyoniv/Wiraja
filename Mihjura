@@ -900,14 +900,14 @@ function botRest()
             sleep(SleepRest * 60 * 1000)
             getBot():reConnect()
             botshow("Bot Done Rest, Starting Back...")
-            if getBot():getBotStatus() ~= Success then
+            if getBot():getEnetStatus() ~= Connected then
           getBot():setBool("autoReconnect", true)
                 repeat
                     getBot():reConnect()
                     sleep(10000)
-                until getBot():getBotStatus() == Success
+                until getBot():getEnetStatus() == Connected
             end
-            if getBot():getBotStatus() == Success then
+            if getBot():getEnetStatus() == Connected then
             getBot():setBool("autoReconnect", true)
                 table.insert(processedTimes, curah) -- Menyimpan waktu yang telah diproses
                 warp(rumah, widreal)
