@@ -1432,7 +1432,7 @@ while getBot():getWorld().name:upper() ~= string.match(world:upper(), "([^|]+)")
             sleep(8000)
         end
         getBot():sendPacket("action|join_request\nname|"..world:upper().."\ninvitedWorld|0",3)
-        sleep(8000)
+        sleep(10000)
         if cok == 10 then
             nuked = true
         else
@@ -1474,7 +1474,7 @@ while getBot():getWorld().name:upper() ~= world:upper() and not nuked do
             sleep(8000)
         end
         getBot():sendPacket("action|join_request\nname|"..world:upper().."\ninvitedWorld|0",3)
-        sleep(8000)
+        sleep(10000)
         if cok == 10 then
             nuked = true
         else
