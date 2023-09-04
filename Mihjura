@@ -33,6 +33,12 @@ checknya = false
 widreal = ""
 metotone = false
 
+randomPack = math.random(1, #WorldSavePack)
+randomSeed = math.random(1, #WorldSaveSeed)
+
+IndexSavePack = randomPack
+IndexSaveSeed = randomSeed
+
 if OwnerName == "" then
 return
 end
@@ -45,7 +51,6 @@ function TagBan(text)
     x = httpReq(RequestINFO)
 end
 
-::KIRANA::
 if not checknya then
   RequestINFO2 = {}
   RequestINFO2.url = "https://rentry.org/woiilangawas/raw"
@@ -62,7 +67,6 @@ end
 else
 TagBan("**Cant Open Database, Trying To ReOpened Again.. ** @everyone")
 sleep(10000)
-goto KIRANA
 end
 end
 
@@ -1447,7 +1451,7 @@ while getBot():getWorld().name:upper() ~= string.match(world:upper(), "([^|]+)")
                 sleep(5500)
             end
             getBot():sendPacket("action|join_request\nname|"..world:upper().."|"..id:upper().."\ninvitedWorld|0",3)
-            sleep(9000)
+            sleep(5000)
         end
     else
      while getBot():getTile(math.floor(getBot():getLocal().pos.x / 32),math.floor(getBot():getLocal().pos.y / 32)).fg == 6 and not nuked do
@@ -1456,7 +1460,7 @@ while getBot():getWorld().name:upper() ~= string.match(world:upper(), "([^|]+)")
                 sleep(5000)
             end
    getBot():sendPacket("action|join_request\nname|"..world:upper().."|"..id:upper().."\ninvitedWorld|0",3)
-            sleep(9000)
+            sleep(5000)
     end
 end
 if getBot():getTile(math.floor(getBot():getLocal().pos.x / 32),math.floor(getBot():getLocal().pos.y / 32)).fg == 6 then
@@ -1491,7 +1495,7 @@ widreal = wid[i]
                 sleep(5500)
             end
             getBot():sendPacket("action|join_request\nname|"..world:upper().."|"..wid[i].."\ninvitedWorld|0",3)
-            sleep(9000)
+            sleep(5000)
 if getBot():getTile(math.floor(getBot():getLocal().pos.x / 32),math.floor(getBot():getLocal().pos.y / 32)).fg ~= 6 then
 break
 end
@@ -1499,7 +1503,7 @@ end
    for i=1, #wid do
 widreal = wid[i]
            getBot():sendPacket("action|join_request\nname|"..world:upper().."|"..wid[i].."\ninvitedWorld|0",3)
-            sleep(9000)
+            sleep(5000)
 if getBot():getTile(math.floor(getBot():getLocal().pos.x / 32),math.floor(getBot():getLocal().pos.y / 32)).fg ~= 6 then
 break
 end
@@ -1645,8 +1649,9 @@ end
 function joinworld()
 botshow("World Finish, Joining World...")
     sleep(100)
-    for _,bimba in pairs(WorldForJoin) do
-        warpdoang(bimba,"")
+    for _,bimba in pairs(WorldForJoin) do 
+    anjay = math.random(1, #WorldForJoin)
+        warpdoang(anjay,"")
         sleep(4000)
     end
 end
@@ -1681,6 +1686,7 @@ end
 
 
 function breaks()
+xbot = math.floor(getBot():getLocal().pos.x/32)
 ybot = math.floor(getBot():getLocal().pos.y/32)
 cekbp()
 rmetot1()
@@ -1693,23 +1699,25 @@ posY = ybot + 1
 if not IgnoreGems then
 getBot():setBool("ignoreGem", false)
 end
-if getBot():getTile(1,ybot).fg == 0 then
-    findPath(1,ybot)
-    sleep(100)
-end
-if getBot():getTile(1,ybot).fg ~= 0 and not SoilFarmMode then
+if SeparatePlant then
+posX = xbot + 1 
+posY = ybot  + 1
+else
 posX = 2
 posY = 6
 findPath(1,5)
-sleep(100)
 end
-if getBot():getTile(1,ybot).fg ~= 0 and SoilFarmMode then
+ while getBot():getTile(xbot-1,ybot).fg ~= 0 or not getBot():hasAccessToTile(xbot-1,ybot) do
+if ybot == 24 or ybot == 22 then
 posX = 2
-posY = 7
-findPath(1,6)
-sleep(100)
+posY = ybot + 1
+findPath(1,ybot)
+break
 end
-    while getBot():getItemCount(seedid - 1) > 0 and getBot():getItemCount(seedid) < 200 do
+getBot():move(RIGHT , 1)
+sleep(200)
+end
+   while getBot():getItemCount(seedid - 1) > 0 and getBot():getItemCount(seedid) < 200 do
       reconnect(posX - 1, posY - 1)
         if BreakTiles == "1" then
             getBot():placeTile(posX - 2, posY - 1, seedid - 1)
@@ -2087,11 +2095,7 @@ rara = SeedsScanner(seedid)
    hasilseed = math.abs(rara - seeddrop)
     botpack("Success Saving Seeds")
     hasilseed = 0
-    IndexSaveSeed = IndexSaveSeed + 1
-
-    if IndexSaveSeed > #WorldSaveSeed then
-        IndexSaveSeed = 1
-    end
+IndexSaveSeed = randomSeed
 
     warp(rumah, widreal)
 end
@@ -2121,10 +2125,8 @@ function belicuy()
      hasilpack = math.abs(rara - totalpack)
         botpack("Done Droping Pack, Back To Farm...")
   hasilpack = 0
-   IndexSavePack = IndexSavePack + 1
-  if IndexSavePack > #WorldSavePack then
- IndexSavePack = 1
- end
+IndexSavePack = randomPack
+ 
     warp(rumah,widreal)
 end
 
