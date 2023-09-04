@@ -947,7 +947,7 @@ end
 function cariblock()
 for _, tila in ipairs(getBot():getTiles()) do
 if tila.fg == seedid-1 then
-getBot():findPath(tile.x,tile.y)
+getBot():findPath(tila.x,tila.y)
 sleep(100)
 while getBot():getTile(math.floor(getBot():getLocal().pos.x/32), math.floor(getBot():getLocal().pos.y/32)).fg == seedid-1 do
 punch(0,0)
