@@ -1716,23 +1716,27 @@ end
 if not IgnoreGems then
 getBot():setBool("ignoreGem", false)
 end
-if getBot():getTile(1,ybot).fg == 0 and getBot():getTile(0,ybot).fg == 0 then
+if getBot():getTile(1,ybot).fg == 0 or getBot():getTile(0,ybot).fg == 0 then
     getBot():findPath(1,ybot)
     sleep(100)
 posX = 2
 posY = ybot + 1
 end
-if getBot():getTile(1,ybot).fg ~= 0 or getBot():getTile(0,ybot).fg ~= 0 and not SoilFarmMode then
+if getBot():getTile(1,ybot).fg ~= 0 or getBot():getTile(0,ybot).fg ~= 0 then
+if not SoilFarmMode then
 posX = 2
 posY = 6
 findPath(1,5)
 sleep(100)
 end
-if getBot():getTile(1,ybot).fg ~= 0 or getBot():getTile(0,ybot).fg ~= 0 and SoilFarmMode then
+end
+if getBot():getTile(1,ybot).fg ~= 0 or getBot():getTile(0,ybot).fg ~= 0 then
+if SoilFarmMode then
 posX = 2
 posY = 7
 findPath(1,6)
 sleep(100)
+end
 end
    while getBot():getItemCount(seedid - 1) > 0 and getBot():getItemCount(seedid) < 200 do
       reconnect(posX - 1, posY - 1)
