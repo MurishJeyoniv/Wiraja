@@ -1669,8 +1669,8 @@ function joinworld()
 botshow("World Finish, Joining World...")
     sleep(100)
     for _,bimba in pairs(WorldForJoin) do 
-    anjay = math.random(1, #WorldForJoin)
-        warpdoang(WorldForJoin[anjay],"")
+    kasep = math.random(1, #WorldForJoin)
+        warpdoang(WorldForJoin[kasep],"")
         sleep(4000)
     end
 end
