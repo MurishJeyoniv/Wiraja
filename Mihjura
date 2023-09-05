@@ -1670,7 +1670,7 @@ botshow("World Finish, Joining World...")
     sleep(100)
     for _,bimba in pairs(WorldForJoin) do 
     anjay = math.random(1, #WorldForJoin)
-        warpdoang(anjay,"")
+        warpdoang(WorldForJoin[anjay],"")
         sleep(4000)
     end
 end
