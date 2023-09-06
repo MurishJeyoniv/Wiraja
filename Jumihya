@@ -21,7 +21,6 @@ nuclearfuel = 0
 starfuel = 0
 radioactive = 0
 nerdhair = 0
-IndexWorldGeiger = 1
 t = os.time()
 i = 1
 
@@ -70,17 +69,21 @@ for i = 1,anjaynya do
 msgBox("Script Geiger Jopy","Script Has Running Successfully")
 end
 
-for i = 1, rulah do
-    if WEBHOOK[i] and MESSAGEID[i] then
-        WhStatus = WEBHOOK[i]
-        MessageID = MESSAGEID[i]
-        rulah = rulah - 1
-    else
-        WhStatus = ""
-        MessageID = ""
-        rulah = rulah - 1
-    end
-end
+WorldGeiger = BotList[rulah].WorldGeiger
+WorldGeigerID = BotList[rulah].WorldGeigerID
+WhStatus = BotList[rulah].Webhook
+UseWebhook = BotList[rulah].UseWebhook
+MessageID = BotList[rulah].MessageID
+UseChocolate = BotList[rulah].UseChocolate
+UseLominous = BotList[rulah].UseLominous
+WorldTake = BotList[rulah].WorldTake
+WorldTakeID = BotList[rulah].WorldTakeID
+WorldTakeGeiger = BotList[rulah].WorldTakeGeiger
+WorldTakeGeigerID = BotList[rulah].WorldTakeGeigerID
+WorldSave = BotList[rulah].WorldSave
+WorldSaveID = BotList[rulah].WorldSaveID
+PatokanID = BotList[rulah].PatokanID
+AutoCharge = BotList[rulah].AutoCharge
 
 function ceknya()
   local RequestINFO = {}
@@ -100,6 +103,9 @@ function ceknya()
 end
 
 function botshow(Info)
+if not UseWebhook then
+return
+end
     RequestINFO = {}
     RequestINFO.url = WhStatus.."/messages/"..MessageID
     RequestINFO.json = true
@@ -262,24 +268,6 @@ end
     end
     end
 
-maxworld = false
-
-  function warpworldgeiger(world,id)
-   rara = 0
-    while getBot():getWorld().name:upper() ~= world do
-    getBot():sendPacket("action|join_request\nname|" ..world.."|"..id.."\ninvitedWorld|0",3) 
-      sleep(5000)
- getBot():sendPacket("action|join_request\nname|" ..world.."|"..id.."\ninvitedWorld|0",3) 
-      sleep(5000)
-     rara = rara + 1
-    if rara == 20 then
-    maxworld = true
-    rara = 0 
-   return
-   end  
-    end
-    end
-
 
 function dropItem(itemID, count)
 if getBot():getItemCount(itemID) >= count then
@@ -301,7 +289,7 @@ end
   end
 
 function nunggu()
-warp(WorldGeiger[IndexWorldGeiger],WorldGeigerID)
+warp(WorldGeiger,WorldGeigerID)
 if UseChocolate and getBot():getItemCount(3240) > 0 then
 getBot():findPath(0, 0)
 place(3240, 0, 0)
@@ -321,23 +309,23 @@ botx = math.floor(getBot():getLocal().pos.x/32)
 boty = math.floor(getBot():getLocal().pos.y/32)
      if getBot():getSignal() == 0 then
         getBot():setPos(botx,boty-1)
-        sleep(140)
+        sleep(DelayFindPath)
       end
       if getBot():getSignal() == RED then
         getBot():setPos(botx,boty-1)
-       sleep(140)
+       sleep(DelayFindPath)
       end
       if getBot():getSignal() == YELLOW then
         getBot():setPos(botx,boty-1)
-        sleep(300)
+        sleep(DelayFindPath + 160)
       end
       if getBot():getSignal() == GREEN then
          getBot():setPos(botx,boty-1)
-        sleep(500)
+        sleep(DelayFindPath + 360)
       end
       if getBot():getSignal() == RAPIDGREEN then
          getBot():setPos(botx,boty-1)
-        sleep(1000)
+        sleep(DelayFindPath + 860)
       end
 until boty == 0
 end
@@ -358,23 +346,23 @@ boty = math.floor(getBot():getLocal().pos.y/32)
       end
       if getBot():getSignal() == 0 then
         getBot():setPos(botx,boty+1)
-        sleep(140)
+        sleep(DelayFindPath)
       end
       if getBot():getSignal() == RED then
         getBot():setPos(botx,boty+1)
-        sleep(140)
+        sleep(DelayFindPath)
       end
       if getBot():getSignal() == YELLOW then
          getBot():setPos(botx,boty+1)
-       sleep(300)
+       sleep(DelayFindPath + 160)
       end
       if getBot():getSignal() == GREEN then
         getBot():setPos(botx,boty+1)
-        sleep(500)
+        sleep(DelayFindPath + 360)
       end
      if getBot():getSignal() == RAPIDGREEN then
         getBot():setPos(botx,boty+1)
-       sleep(1000)
+       sleep(DelayFindPath + 860)
       end
       if 0 == getBot():getItemCount(2204) or 1 == getBot():getItemCount(2286) or getBot():getItemCount(2286) > 1 then
       if not AutoCharge then
@@ -476,7 +464,7 @@ function Luminous()
                 wear(2204)
                 sleep(1000)
                 DropTheItems(2204, getBot():getItemCount(2204) - 1)
-                warp(WorldGeiger[IndexWorldGeiger], WorldGeigerID)
+                warp(WorldGeiger, WorldGeigerID)
                 botshow("Search Signal...")
                clear()
             end
@@ -628,18 +616,7 @@ end
       getBot():autoCollect(2, false)
     elseif 1 == getBot():getItemCount(2204) or getBot():getItemCount(2204) > 1 then
       ::KIRANA::
-      warpworldgeiger(WorldGeiger[IndexWorldGeiger],WorldGeigerID)
-      if maxworld then
-      if IndexWorldGeiger <= #WorldGeiger then
-      IndexWorldGeiger = IndexWorldGeiger + 1
-      goto KIRANA
-      else
-      log("All World Cant Be Joined By Bots")
-      log("Bot Stopped..")
-      end
-      wear(2204)
-      botshow("Search Signal...")
-    end
+      warp(WorldGeiger,WorldGeigerID)
     botshow("Search Signal...")
     getBot():findPath(0,0)
     clear()
