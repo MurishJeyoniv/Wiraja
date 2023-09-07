@@ -933,7 +933,7 @@ function botRest()
             if getBot():getEnetStatus() == Connected then
             getBot():setBool("autoReconnect", true)
                 table.insert(processedTimes, curah) -- Menyimpan waktu yang telah diproses
-                warp(rumah, widreal)
+                warpdoang(rumah, widreal)
              botshow("Bot Start ")
                 jalan()
                 break -- Keluar dari loop jika jam cocok
@@ -1006,7 +1006,7 @@ sleep(1000)
         botshow("Bot Back Online..")
         getBot():reConnect()
         sleep(10000)
-        warp(waras,widreal)
+        warpdoang(waras,widreal)
 end
 end
 end
@@ -1033,7 +1033,7 @@ function addnyaproxy()
       end
         end
         if getBot():getBotStatus() == Success then
-          warp(rumah, widreal)
+          warpdoang(rumah, widreal)
           jalan()
           break
         end
@@ -1063,7 +1063,7 @@ getBot():reConnect()
 sleep(8000)
 end
 if getBot():getBotStatus() == Success then
-warp(rumah,widreal)
+warpdoang(rumah,widreal)
 jalan()
 break
 end
@@ -1152,7 +1152,7 @@ atas = getBot():getWorld().name
 if getBot():getEnetStatus() == Connected and getBot():getWorld().name:upper() == "EXIT" then
 TagBan("**"..getBot():getLocal().name:upper().."  In EXIT, Now Back To Farm In "..rumah.." @everyone **")
 sleep(5000)
-warp(rumah,widreal)
+warpdoang(rumah,widreal)
 backpos(x,y)
 jalan()
 end
@@ -1174,7 +1174,7 @@ end
 if getBot():getBotStatus() == Success and getBot():getEnetStatus() == Connected then
 TagBan("**"..getBot():getLocal().name:upper().."  Was "..enetStatus().." Now Back To Farm.. @everyone **")
 sleep(5000)
-warp(rumah,widreal)
+warpdoang(rumah,widreal)
 backpos(x,y)
 jalan()
 end
@@ -1183,7 +1183,7 @@ end
 
   function Take()
 botshow("Taking Seed For Planting Blank Seed")
-	warp(WorldSaveSeed[IndexSaveSeed], WorldSaveSeedID)
+	warpdoang(WorldSaveSeed[IndexSaveSeed], WorldSaveSeedID)
 	for _, object in pairs(getBot():getObjects()) do
 	  if object.id == seedid then
 		if getBot():getItemCount(seedid) == 200 then
@@ -1197,7 +1197,7 @@ botshow("Taking Seed For Planting Blank Seed")
              end
 	  end
 	end
-	  warp(rumah,widreal)
+	  warpdoang(rumah,widreal)
 	end
 
   function tambal()
@@ -1262,7 +1262,7 @@ local playerNumber = tonumber(x.body:match("%d+"))
     end
     end
     if getBot():getEnetStatus() == Connected then
-    warp(rumah,widreal)
+    warpdoang(rumah,widreal)
     botshow("Bot Start")
     jalan()
   end
@@ -1271,7 +1271,7 @@ end
 end
 
 function takenyaseed()
-warp(WorldSaveSeed[IndexSaveSeed],WorldSaveSeedID)
+warpdoang(WorldSaveSeed[IndexSaveSeed],WorldSaveSeedID)
 getBot():autoCollect(4,false)
 while getBot():getItemCount(seedid) < 120 do
         for _,obj in pairs(getBot():getObjects()) do
@@ -1293,7 +1293,7 @@ if getBot():getItemCount(seedid) > 121 then
     getBot():sendPacket("action|dialog_return\ndialog_name|drop_item\nitemID|"..seedid.."|\ncount|"..(getBot():getItemCount(seedid) - 120),2)
     sleep(1000)
 end
-warp(rumah,widreal)
+warpdoang(rumah,widreal)
 end
 
 function harvest()
@@ -1449,7 +1449,7 @@ end
 nuked = false 
 function warp(world,id)
     cok = 0
-while getBot():getWorld().name:upper() ~= string.match(world:upper(), "([^|]+)") and not nuked do
+while getBot():getWorld().name:upper() ~= world:upper() and not nuked do
         while getBot():getBotStatus() ~= Success do
             getBot():reConnect()
             sleep(8000)
@@ -1597,7 +1597,7 @@ if TakePick then
 if getBot():getItemCount(98) == 0 then
 sleep(sleepwarp)
 botshow("Bot Taking Pickaxe..")
-    warp(WorldPick,WorldPickID)
+    warpdoang(WorldPick,WorldPickID)
     sleep(100)
     while getBot():getItemCount(98) == 0 do
            sleep(5000)
@@ -1632,7 +1632,7 @@ end
 function takehose()
 if CounterFire then
 if getBot():getItemCount(3066) == 0 then
-    warp(WorldStorageFire,IDWorldStorageFire)
+    warpdoang(WorldStorageFire,IDWorldStorageFire)
     sleep(100)
     while getBot():getItemCount(3066) == 0 do
         for _,obj in pairs(getBot():getObjects()) do
@@ -1659,7 +1659,7 @@ if getBot():getItemCount(3066) == 0 then
 if fire then
    wear(3066)
 end
-   warp(rumah,widreal)
+   warpdoang(rumah,widreal)
 botshow("Bot Start")
 end
 end
@@ -1694,7 +1694,7 @@ for _, own in pairs(WhiteList) do
 if peler > MaxPeople then
 getBot():sendPacket(3,"action|join_request\nname|" .. EXIT .. "\ninvitedWorld|0")
 sleep(DelayLeave)
-warp(rumah,wid)
+warpdoang(rumah,wid)
 jalan()
 end
 end
@@ -1924,7 +1924,7 @@ function reconnectpack(world,x,y)
 if getBot():getBotStatus() == Success and getBot():getWorld().name:upper() == "EXIT" then
 TagBan("**"..getBot():getLocal().name:upper().."  In EXIT, Now Back Saving "..pack.." In "..world.." @everyone **")
 sleep(5000)
-warp(world,WorldSavePackID)
+warpdoang(world,WorldSavePackID)
 sleep(500)
 backpospack(world,x,y)
 end
@@ -1943,7 +1943,7 @@ banned()
 elseif getBot():getBotStatus() == Success and getBot():getEnetStatus() == Connected then
 TagBan("**"..getBot():getLocal().name:upper().."  Was "..status().." Now Back To Saving "..pack.." In "..world.." @everyone **")
 sleep(5000)
-warp(world,WorldSavePackID)
+warpdoang(world,WorldSavePackID)
 sleep(500)
 backpospack(world,x,y)
 end
@@ -1954,7 +1954,7 @@ function reconnectseed(world,x,y)
 if getBot():getBotStatus() == Success and getBot():getWorld().name:upper() == "EXIT" then
 TagBan("**"..getBot():getLocal().name:upper().." In EXIT, Now Back Saving Seed In "..world.." @everyone **")
 sleep(5000)
-warp(world,WorldSaveSeedID)
+warpdoang(world,WorldSaveSeedID)
 sleep(500)
 backposseed(world,x,y)
 end
@@ -1973,7 +1973,7 @@ banned()
 elseif getBot():getBotStatus() == Success and getBot():getEnetStatus() == Connected then
 TagBan("**"..getBot():getLocal().name:upper().."  Was "..status().." Now Back To Saving Seeds In "..world.." @everyone **")
 sleep(5000)
-warp(world,WorldSaveSeedID)
+warpdoang(world,WorldSaveSeedID)
 sleep(500)
 backposseed(world,x,y)
 end
@@ -2088,7 +2088,7 @@ function saveseed()
 getBot():autoCollect(4,false)
 botpack("Saving Seeds")
 atas = getBot():getWorld().name
-        warp(WorldSaveSeed[IndexSaveSeed],WorldSaveSeedID)
+        warpdoang(WorldSaveSeed[IndexSaveSeed],WorldSaveSeedID)
 rara = SeedsScanner(seedid)
     for _, tile in ipairs(getBot():getTiles()) do
         if tile.fg == IDPatokanSeed or tile.bg == IDPatokanSeed then 
@@ -2118,7 +2118,7 @@ rara = SeedsScanner(seedid)
     hasilseed = 0
 IndexSaveSeed = randomSeed
 
-    warp(rumah, widreal)
+    warpdoang(rumah, widreal)
 end
 
 
@@ -2127,7 +2127,7 @@ function belicuy()
   woloy = getBot():getWorld().name
     getBot():autoCollect(4,false)
     botpack("Buying Pack..")
-    warp(WorldSavePack[IndexSavePack],WorldSavePackID)
+    warpdoang(WorldSavePack[IndexSavePack],WorldSavePackID)
    rara = SeedsScanner(packitemid[1])
     while getBot():getLocal().gems > packgems do
             getBot():sendPacket("action|buy\nitem|".. itemname,2)
@@ -2148,7 +2148,7 @@ function belicuy()
   hasilpack = 0
 IndexSavePack = randomPack
  
-    warp(rumah,widreal)
+    warpdoang(rumah,widreal)
 end
 
 function anjay()
@@ -2286,6 +2286,7 @@ if not nuked then
 clearTable(processedTimes)
 seedid = detect()
 botshow("Bot Start")
+log(widreal)
 trashclothes()
 antiToxic()
 gemsawal = getBot():getLocal().gems
