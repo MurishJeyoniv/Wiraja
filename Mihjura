@@ -1439,9 +1439,9 @@ end
 
 function warpdoang(world,id)
 getBot():sendPacket("action|join_request\nname|"..world:upper().."|"..id:upper().."\ninvitedWorld|0",3)
-sleep(6000)
+sleep(9000)
 getBot():sendPacket("action|join_request\nname|"..world:upper().."|"..id:upper().."\ninvitedWorld|0",3)
-sleep(6000)
+sleep(9000)
 getBot():say(totalsay)
 sleep(1000)
 end
