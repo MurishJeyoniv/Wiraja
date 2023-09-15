@@ -1353,7 +1353,7 @@ for _,rah in pairs(getBot():getObjects()) do
           if rah.count > 0 then
           addBot(GrowidTakeGems,PasswordGrowid)
       sleep(10000)
-warptakegems(atas,wid:upper())
+warptakegems(atas,widreal)
       getBot(GrowidTakeGems):autoCollect(5,true)
       getBot(GrowidTakeGems):findPath(0,y)
       sleep(1000)
