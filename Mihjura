@@ -2118,7 +2118,6 @@ rara = SeedsScanner(seedid)
    hasilseed = math.abs(rara - seeddrop)
     botpack("Success Saving Seeds")
     hasilseed = 0
-IndexSaveSeed = randomSeed
 
     warpdoang(rumah, widreal)
 end
@@ -2148,7 +2147,6 @@ function belicuy()
      hasilpack = math.abs(rara - totalpack)
         botpack("Done Droping Pack, Back To Farm...")
   hasilpack = 0
-IndexSavePack = randomPack
  
     warpdoang(rumah,widreal)
 end
