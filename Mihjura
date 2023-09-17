@@ -825,7 +825,7 @@ end
 
 
 function soilmode()
-  if SoilFarmMode then
+  if SoilFarmMode or seedid == 8641 then
     if IgnoreGems then
       getBot():setBool("ignoreGem", true)
       getBot():autoCollect(4, true)
