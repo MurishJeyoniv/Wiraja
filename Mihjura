@@ -2059,6 +2059,15 @@ atas = getBot():getWorld().name
     end
 end
 
+function ceksampah()
+for _, lumut in pairs(CustomItem) do
+if getBot():getItemCount(lumut) > 180 then
+warp(WorldSavePack[IndexSavePack],WorldSavePackID)
+sampah()
+end
+end
+end
+
 function sampah()
 if next(CustomItem) ~= nil then
 getBot():move(UP,1)
@@ -2113,7 +2122,6 @@ rara = SeedsScanner(seedid)
             end
         end
     end
-    sampah()
     seeddrop = SeedsScanner(seedid)
    hasilseed = math.abs(rara - seeddrop)
     botpack("Success Saving Seeds")
