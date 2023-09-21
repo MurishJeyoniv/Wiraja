@@ -1710,6 +1710,7 @@ function breaks()
 xbot = math.floor(getBot():getLocal().pos.x/32)
 ybot = math.floor(getBot():getLocal().pos.y/32)
 cekbp()
+ceksampah()
 rmetot1()
     coptrashs()
 if getBot():getItemCount(98) > 0 and not getBot():isEquipped(98) then
@@ -2064,6 +2065,7 @@ for _, lumut in pairs(CustomItem) do
 if getBot():getItemCount(lumut) > 180 then
 warp(WorldSavePack[IndexSavePack],WorldSavePackID)
 sampah()
+warpdoang(rumah,widreal)
 end
 end
 end
