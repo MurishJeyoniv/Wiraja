@@ -1296,6 +1296,9 @@ warpdoang(rumah,widreal)
 end
 
 function harvest()
+if getBot():getItemCount(10158) == 0 then
+takemagni()
+end
 if SeparatePlant then
 antiToxic()
 soilmode()
