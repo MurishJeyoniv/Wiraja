@@ -25,8 +25,6 @@ proxyIndexAddAttempt = 0
 fire = false
 BpCek = false
 growidIndex = 1
-IndexSavePack = 1
-IndexSaveSeed = 1
 emoji = ""
 loopnya = 0
 checknya = false
@@ -67,6 +65,7 @@ end
 else
 TagBan("**Cant Open Database, Trying To ReOpened Again.. ** @everyone")
 sleep(10000)
+return
 end
 end
 
@@ -538,7 +537,7 @@ end
 end
 
 function rmetot1()
-if not metotone then
+if not metotone and UseMethod then
 if getBot():getLocal().gems > 500 then
 getBot():sendPacket("action|buy\nitem|rare_clothes",2)
 sleep(4000)
@@ -1302,7 +1301,9 @@ antiToxic()
 soilmode()
 coptrashs()
 getBot():autoCollect(4,true)
+if UseMethod then
 getBot():setBool("ignoreGem", true)
+end
 for _, tile in ipairs(getBot():getTiles()) do
 if getBot():getTile(tile.x,tile.y-1).fg == seedid and getBot():canHarvest(tile.x,tile.y-1) and getBot():getItemCount(seedid-1) < 165 and getBot():getItemCount(seedid) < 200 then
 if getBot():hasAccessToTile(tile.x,tile.y-1) then
@@ -1320,7 +1321,9 @@ antiToxic()
 soilmode()
 coptrashs()
 getBot():autoCollect(4,true)
+if UseMethod then
 getBot():setBool("ignoreGem", true)
+end
 for _, tile in ipairs(getBot():getTiles()) do
 if getBot():getTile(tile.x,tile.y-1).fg == seedid and getBot():canHarvest(tile.x,tile.y-1) and getBot():getItemCount(seedid-1) < 165 then
 if getBot():getItemCount(seedid) == 0 then
@@ -1386,7 +1389,7 @@ if DontPlant then
 return
 end
 coptrashs()
-if not IgnoreGems then
+if not IgnoreGems and UseMethod then
 getBot():setBool("ignoreGem", false)
 end
 for _, tile in ipairs(getBot():getTiles()) do
@@ -1443,8 +1446,10 @@ getBot():sendPacket("action|join_request\nname|"..world:upper().."|"..id:upper()
 sleep(9000)
 getBot():sendPacket("action|join_request\nname|"..world:upper().."|"..id:upper().."\ninvitedWorld|0",3)
 sleep(9000)
+if UseMethod then
 getBot():say(totalsay)
 sleep(1000)
+end
 end
 end
 
@@ -1487,8 +1492,10 @@ end
 if getBot():getTile(math.floor(getBot():getLocal().pos.x / 32),math.floor(getBot():getLocal().pos.y / 32)).fg == 6 then
 goto AFGAN
 end
+if UseMethod then
 getBot():say(totalsay)
 sleep(1000)
+end
 end
 
 function warpfarm(world,id)
@@ -1534,8 +1541,10 @@ end
 if getBot():getTile(math.floor(getBot():getLocal().pos.x / 32),math.floor(getBot():getLocal().pos.y / 32)).fg == 6 then
 goto AFGAN
 end
+if UseMethod then
 getBot():say(totalsay)
 sleep(1000)
+end
 end
 
 function restoretime()
@@ -1615,6 +1624,7 @@ botshow("Bot Taking Pickaxe..")
             end
         end
     end
+ getBot():autoCollect(4,false)
     getBot():move(LEFT,1)
     sleep(2000)
    getBot():move(UP,1)
@@ -1626,6 +1636,44 @@ botshow("Bot Taking Pickaxe..")
     getBot():sendPacket("action|dialog_return\ndialog_name|drop_item\nitemID|98|\ncount|"..(getBot():getItemCount(98) - 1),2)
     sleep(1000)
     wear(98)
+    sleep(500)
+end
+end
+end
+
+function takemagni()
+if TakeMagnifience then
+if getBot():getItemCount(10158) == 0 then
+sleep(sleepwarp)
+botshow("Bot Taking Magnifience..")
+    warpdoang(WorldMagnifience,WorldMagnifienceID)
+    sleep(100)
+    while getBot():getItemCount(10158) == 0 do
+           sleep(5000)
+        for _,obj in pairs(getBot():getObjects()) do
+            if obj.id == 10158 then
+                getBot():findPath(math.floor(obj.pos.x / 32),math.floor(obj.pos.y / 32))
+                sleep(1000)
+                getBot():autoCollect(4,true)
+            end
+            if getBot():getItemCount(10158) > 0 then
+              getBot():autoCollect(4,false)
+                break
+            end
+        end
+    end
+ getBot():autoCollect(4,false)
+    getBot():move(LEFT,1)
+    sleep(2000)
+   getBot():move(UP,1)
+   sleep(1000)
+   getBot():move(DOWN,1)
+    sleep(1000)
+    getBot():sendPacket("action|drop\n|itemID|10158",2)
+    sleep(900)
+    getBot():sendPacket("action|dialog_return\ndialog_name|drop_item\nitemID|10158|\ncount|"..(getBot():getItemCount(10158) - 1),2)
+    sleep(1000)
+    wear(10158)
     sleep(500)
 end
 end
@@ -1710,7 +1758,6 @@ function breaks()
 xbot = math.floor(getBot():getLocal().pos.x/32)
 ybot = math.floor(getBot():getLocal().pos.y/32)
 cekbp()
-ceksampah()
 rmetot1()
     coptrashs()
 if getBot():getItemCount(98) > 0 and not getBot():isEquipped(98) then
@@ -2062,15 +2109,16 @@ end
 
 function ceksampah()
 for _, lumut in pairs(CustomItem) do
-if getBot():getItemCount(lumut) > 180 then
+if getBot():getItemCount(lumut) > 30 then
 warp(WorldSavePack[IndexSavePack],WorldSavePackID)
 sampah()
-warpdoang(rumah,widreal)
 end
 end
+getBot():autoCollect(4,true)
 end
 
 function sampah()
+getBot():autoCollect(4,false)
 if next(CustomItem) ~= nil then
 getBot():move(UP,1)
 for _, sampah in pairs(CustomItem) do
@@ -2084,7 +2132,8 @@ royal = getBot():getItemCount(sampah)
 end
     else
     return
-    end
+end
+warpdoang(rumah, widreal)
 end
 
 function SeedsScanner(ItemID)
@@ -2290,6 +2339,7 @@ if Guest then
 sleep(20000)
 end
 takepick()
+takemagni()
 takehose()
 warpfarm(world,wid)
 if not nuked then
