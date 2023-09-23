@@ -1791,6 +1791,8 @@ posY = 7
 if getBot():findPath(1,6) then
 sleep(100)
 else
+posX = 2
+posY = 6
 findPath(1,5)
 sleep(100)
 end
