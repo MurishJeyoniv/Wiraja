@@ -1788,8 +1788,12 @@ if getBot():getTile(1,ybot).fg ~= 0 or getBot():getTile(0,ybot).fg ~= 0 then
 if SoilFarmMode then
 posX = 2
 posY = 7
-findPath(1,6)
+if getBot():findPath(1,6) then
 sleep(100)
+else
+findPath(1,5)
+sleep(100)
+end
 end
 end
    while getBot():getItemCount(seedid - 1) > 0 and getBot():getItemCount(seedid) < 200 do
