@@ -1685,6 +1685,7 @@ end
 function takehose()
 if CounterFire then
 if getBot():getItemCount(3066) == 0 then
+sleep(sleepwarp)
     warpdoang(WorldStorageFire,IDWorldStorageFire)
     sleep(100)
     while getBot():getItemCount(3066) == 0 do
