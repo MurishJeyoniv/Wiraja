@@ -474,7 +474,7 @@ function detect()
                 if tile.fg == root then                
                     return detectsoil()  
                 elseif tile.fg ~= 0 and detect2(tile.fg) > 50 and tile.fg ~= root then
-                    return tile.fg
+                    return "ninja"
                 end
             end
         end
