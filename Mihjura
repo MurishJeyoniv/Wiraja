@@ -459,14 +459,20 @@ end
 
 
 function detect()
+for _, root in pairs(rootlist) do
     for y = 53, 1, -1 do
         for x = 98, 2, -1 do
             local tile = getBot():getTile(x, y)
+           if tile.fg == root then   
+          detectsoil() 
+         break
+       end
             if tile.fg ~= 0 and detect2(tile.fg) > 50 then
                 return tile.fg
             end
         end
     end
+end
 
     return 0
 end
@@ -480,20 +486,14 @@ rootlist = {
 }
 
 function detectsoil()
-for _, root in pairs(rootlist) do
     for y = 0, 52 do
         for x = 1, 99 do
             local tile = getBot():getTile(x, y)
-           if tile.fg == root then   
-          detect() 
-         break
-       end
             if tile.fg ~= 0 and detect2(tile.fg) > 50 then
                 return tile.fg
             end
         end
     end
-end
 
     return 0
 end
