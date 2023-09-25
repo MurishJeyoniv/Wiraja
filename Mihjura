@@ -1566,6 +1566,8 @@ botshow("Bot Taking Magnifience..")
     sleep(1000)
     wear(10158)
     sleep(500)
+    ceksampah()
+    warpdoang(rumah, widreal)
 end
 end
 end
@@ -1997,17 +1999,12 @@ atas = getBot():getWorld().name
 end
 
 function ceksampah()
-for _, lumut in pairs(CustomItem) do
-if getBot():getItemCount(lumut) > 30 then
 warp(WorldSavePack[IndexSavePack],WorldSavePackID)
+getBot():autoCollect(4,false)
 sampah()
-end
-end
-getBot():autoCollect(4,true)
 end
 
 function sampah()
-getBot():autoCollect(4,false)
 if next(CustomItem) ~= nil then
 getBot():move(UP,1)
 for _, sampah in pairs(CustomItem) do
