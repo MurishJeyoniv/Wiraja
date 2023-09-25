@@ -459,20 +459,19 @@ end
 
 
 function detect()
-for _, root in pairs(rootlist) do
-    for y = 53, 1, -1 do
-        for x = 98, 2, -1 do
-            local tile = getBot():getTile(x, y)
-           if tile.fg == root then   
-          detectsoil() 
-         break
-       end
-            if tile.fg ~= 0 and detect2(tile.fg) > 50 then
-                return tile.fg
+    for _, root in pairs(rootlist) do
+        for y = 53, 1, -1 do
+            for x = 98, 2, -1 do
+                local tile = getBot():getTile(x, y)
+                if tile.fg == root then
+                    detectsoil()
+                    return  -- Keluar dari fungsi detect jika root terdeteksi
+                elseif tile.fg ~= 0 and detect2(tile.fg) > 50 then
+                    return tile.fg
+                end
             end
         end
     end
-end
 
     return 0
 end
@@ -497,6 +496,7 @@ function detectsoil()
 
     return 0
 end
+
 
 
 
