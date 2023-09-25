@@ -467,6 +467,7 @@ function detect()
                     detectsoil()
                     return  -- Keluar dari fungsi detect jika root terdeteksi
                 elseif tile.fg ~= 0 and detect2(tile.fg) > 50 then
+                  log("udah")
                     return tile.fg
                 end
             end
@@ -489,6 +490,7 @@ function detectsoil()
         for x = 1, 99 do
             local tile = getBot():getTile(x, y)
             if tile.fg ~= 0 and detect2(tile.fg) > 50 then
+                log("udah2")
                 return tile.fg
             end
         end
