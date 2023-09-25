@@ -476,6 +476,7 @@ function detect()
                   return detectsoil()
                  end
                 if tile.fg ~= 0 and detect2(tile.fg) > 50 and tile.fg ~= root then
+                   log(root)
                     return tile.fg
                 end
             end
