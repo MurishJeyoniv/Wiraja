@@ -2244,7 +2244,7 @@ if not nuked then
 clearTable(processedTimes)
 seedid = detectsoil()
 botshow("Bot Start")
-log(widreal)
+log(seedid)
 trashclothes()
 antiToxic()
 gemsawal = getBot():getLocal().gems
