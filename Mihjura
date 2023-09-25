@@ -457,6 +457,14 @@ end
 return count
 end
 
+rootlist = {
+    8624, 8626, 8628, 8630, 8632, 8634, 8636, 8638, 8640, 8642, 
+    8644, 8646, 8648, 8650, 8652, 8654, 8656, 8658, 8660, 8662, 
+    8664, 8666, 8668, 8670, 8672, 8674, 8676, 8678, 8680, 8682, 
+    8684, 8686, 8688, 8690, 8692, 8694, 8696, 8698, 8700, 8702, 
+    8704, 8706, 8708, 8710, 8712, 8714, 8716, 2
+}
+
 
 function detect()
     for _, root in pairs(rootlist) do
@@ -465,8 +473,7 @@ function detect()
                 local tile = getBot():getTile(x, y)
                 if tile.fg == root then                
                     return detectsoil()  
-                elseif tile.fg ~= 0 and detect2(tile.fg) > 50 then
-                  log("udah")
+                elseif tile.fg ~= 0 and detect2(tile.fg) > 50 and tile.fg ~= root then
                     return tile.fg
                 end
             end
@@ -476,20 +483,11 @@ function detect()
     return 0
 end
 
-rootlist = {
-    8624, 8626, 8628, 8630, 8632, 8634, 8636, 8638, 8640, 8642, 
-    8644, 8646, 8648, 8650, 8652, 8654, 8656, 8658, 8660, 8662, 
-    8664, 8666, 8668, 8670, 8672, 8674, 8676, 8678, 8680, 8682, 
-    8684, 8686, 8688, 8690, 8692, 8694, 8696, 8698, 8700, 8702, 
-    8704, 8706, 8708, 8710, 8712, 8714, 8716, 2
-}
-
 function detectsoil()
     for y = 0, 52 do
         for x = 1, 99 do
             local tile = getBot():getTile(x, y)
             if tile.fg ~= 0 and detect2(tile.fg) > 50 then
-                log("udah2")
                 return tile.fg
             end
         end
