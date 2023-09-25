@@ -2243,6 +2243,7 @@ warpfarm(world,wid)
 if not nuked then
 clearTable(processedTimes)
 seedid = detect()
+log(seedid)
 botshow("Bot Start")
 trashclothes()
 antiToxic()
