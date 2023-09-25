@@ -1666,15 +1666,6 @@ posX = 2
 posY = ybot + 1
 end
 if getBot():getTile(1,ybot).fg ~= 0 or getBot():getTile(0,ybot).fg ~= 0 then
-if not SoilFarmMode then
-posX = 2
-posY = 6
-findPath(1,5)
-sleep(100)
-end
-end
-if getBot():getTile(1,ybot).fg ~= 0 or getBot():getTile(0,ybot).fg ~= 0 then
-if SoilFarmMode then
 posX = 2
 posY = 7
 if getBot():findPath(1,6) then
@@ -1684,7 +1675,6 @@ posX = 2
 posY = 6
 findPath(1,5)
 sleep(100)
-end
 end
 end
    while getBot():getItemCount(seedid - 1) > 0 and getBot():getItemCount(seedid) < 200 do
