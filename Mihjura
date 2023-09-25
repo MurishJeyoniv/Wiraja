@@ -2244,7 +2244,6 @@ if not nuked then
 clearTable(processedTimes)
 seedid = detect()
 botshow("Bot Start")
-log(seedid)
 trashclothes()
 antiToxic()
 gemsawal = getBot():getLocal().gems
