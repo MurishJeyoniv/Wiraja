@@ -462,26 +462,27 @@ rootlist = {
     8644, 8646, 8648, 8650, 8652, 8654, 8656, 8658, 8660, 8662, 
     8664, 8666, 8668, 8670, 8672, 8674, 8676, 8678, 8680, 8682, 
     8684, 8686, 8688, 8690, 8692, 8694, 8696, 8698, 8700, 8702, 
-    8704, 8706, 8708, 8710, 8712, 8714, 8716, 2
+    8704, 8706, 8708, 8710, 8712, 8714, 8716, 2 , 8772
 }
+
+function cekseed()
+for i, root in pairs(rootlist) do
+if seedid == root then
+seedid = detectsoil()
+end
+end
+end
 
 
 function detect()
-    for i, root in pairs(rootlist) do
         for y = 53, 1, -1 do
             for x = 98, 2, -1 do
                 local tile = getBot():getTile(x, y)
-                if tile.fg == root then                
-                  log("sama woi")  
-                  return detectsoil()
-                 end
-                if tile.fg ~= 0 and detect2(tile.fg) > 50 and tile.fg ~= root then
-                   log(root)
+                if tile.fg ~= 0 and detect2(tile.fg) > 50 then
                     return tile.fg
                 end
             end
         end
-    end
 
     return 0
 end
@@ -2245,6 +2246,7 @@ warpfarm(world,wid)
 if not nuked then
 clearTable(processedTimes)
 seedid = detect()
+cekseed()
 log(seedid)
 botshow("Bot Start")
 trashclothes()
