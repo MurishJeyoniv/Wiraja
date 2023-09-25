@@ -2242,7 +2242,7 @@ takehose()
 warpfarm(world,wid)
 if not nuked then
 clearTable(processedTimes)
-seedid = detectsoil()
+seedid = detect()
 botshow("Bot Start")
 log(seedid)
 trashclothes()
