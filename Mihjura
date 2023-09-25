@@ -467,7 +467,7 @@ rootlist = {
 
 
 function detect()
-    for _, root in pairs(rootlist) do
+    for i, root in pairs(rootlist) do
         for y = 53, 1, -1 do
             for x = 98, 2, -1 do
                 local tile = getBot():getTile(x, y)
