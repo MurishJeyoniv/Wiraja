@@ -1652,7 +1652,6 @@ xbot = math.floor(getBot():getLocal().pos.x/32)
 ybot = math.floor(getBot():getLocal().pos.y/32)
 cekbp()
 rmetot1()
-ceksampah()
     coptrashs()
 if getBot():getItemCount(98) > 0 and not getBot():isEquipped(98) then
 wear(98)
