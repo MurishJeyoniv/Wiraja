@@ -1567,7 +1567,6 @@ botshow("Bot Taking Magnifience..")
     wear(10158)
     sleep(500)
     ceksampah()
-    warpdoang(rumah, widreal)
 end
 end
 end
@@ -2002,6 +2001,7 @@ function ceksampah()
 warp(WorldSavePack[IndexSavePack],WorldSavePackID)
 getBot():autoCollect(4,false)
 sampah()
+getBot():autoCollect(4,true)
 end
 
 function sampah()
