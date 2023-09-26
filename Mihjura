@@ -2256,7 +2256,7 @@ tambal()
 else
 Time[world] = "NUKED"
 botshow("World Is Nuked, Going To Next World..")
-TagBan("**"..world:upper().." WAS NUKED**")
+TagBan("**"..world:upper().." WAS NUKED** @everyone")
 nuked = false
 sleep(5000)
    end
