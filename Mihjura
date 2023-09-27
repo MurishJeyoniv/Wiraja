@@ -30,6 +30,7 @@ loopnya = 0
 checknya = false
 widreal = ""
 metotone = false
+modefloat = false
 
 randomPack = math.random(1, #WorldSavePack)
 randomSeed = math.random(1, #WorldSaveSeed)
@@ -446,6 +447,7 @@ end
 
 
 seedid = 0
+seedidfloat = 0
 
 function detect2(itemid)
 local count = 0
@@ -473,12 +475,20 @@ end
 end
 end
 
+function cekseed2()
+for i, root in pairs(rootlist) do
+if seedid == root then
+seedid = 0
+end
+end
+end
+
 
 function detect()
         for y = 53, 1, -1 do
             for x = 98, 2, -1 do
                 local tile = getBot():getTile(x, y)
-                if tile.fg ~= 0 and detect2(tile.fg) > 50 then
+                if tile.fg ~= 0 and detect2(tile.fg) > 60 then
                     return tile.fg
                 end
             end
@@ -491,7 +501,7 @@ function detectsoil()
     for y = 0, 52 do
         for x = 1, 99 do
             local tile = getBot():getTile(x, y)
-            if tile.fg ~= 0 and detect2(tile.fg) > 50 then
+            if tile.fg ~= 0 and detect2(tile.fg) > 60 then
                 return tile.fg
             end
         end
@@ -499,6 +509,41 @@ function detectsoil()
 
     return 0
 end
+
+idtable = {}
+
+function float1()
+for _, obj in pairs(getBot():getObjects()) do
+        table.insert(idtable, obj.id)
+    end
+end
+
+local idCount = {}
+function float2()
+for _, id in pairs(idtable) do
+    if idCount[id] then
+        idCount[id] = idCount[id] + 1
+    else
+        idCount[id] = 1
+    end
+end
+end
+
+-- Mencari ID dengan frekuensi terbanyak
+function detectfloat()
+local mostFrequentID
+local maxCount = 0
+for id, count in pairs(idCount) do
+    if count > maxCount then
+        mostFrequentID = id
+        maxCount = count
+    end
+end
+if mostFrequentID then
+return mostFrequentID
+end
+end
+
 
 
 
@@ -742,6 +787,9 @@ end
 
 
 function botshow(Info)
+if WhStatus == "" then 
+return
+end
 te = os.time() - t
  local verify = "<a:cham:849841924734976000> **Status Verify: "..nungguverify().."**"
 local activity = "**<:Pickaxe:1109395511661830176> Activity: "..Info.."**"
@@ -790,7 +838,7 @@ end
 end
 
 function botpack(Info)
-if not UseWebhookPackAndSeed then
+if not UseWebhookPackAndSeed or WhPackAndSeed == "" then
 return
 else
 te = os.time() - t
@@ -1225,7 +1273,24 @@ end
 warpdoang(rumah,widreal)
 end
 
+function collectfloat()
+	for _, object in pairs(getBot():getObjects()) do
+	  if object.id == seedidfloat then
+		findPath(math.floor(object.pos.x /32), math.floor(object.pos.y /32))
+		sleep(2000)
+		getBot():autoCollect(10,true)
+                if getBot():getItemCount(seedidfloat) > 165 then
+         getBot():autoCollect(4,true)
+           break
+             end
+	  end
+	end
+	end
+
 function harvest()
+if modefloat then
+collectfloat()
+end
 if getBot():getItemCount(10158) == 0 then
 takemagni()
 end
@@ -1295,6 +1360,11 @@ if tile.fg ~= 0 and tile.fg ~= seedid and getBot():getTile(tile.x, tile.y-1).fg 
 if getBot():getTile(tile.x, tile.y-1).fg == 0 then
 if getBot():hasAccessToTile(tile.x,tile.y-1) then
 findPath(tile.x, tile.y-1)
+ while getBot():getTile(tile.x, tile.y).fg == (seedid + 3) and getBot():getTile(tile.x, tile.y).flags ~= 0 do
+ punch(0,1)
+ sleep(delayharvest + 200)
+ reconnect(tile.x, tile.y - 1)
+ end
 if getBot():getTile(math.floor(getBot():getLocal().pos.x / 32), math.floor(getBot():getLocal().pos.y / 32)).fg == 0 then
 reconnect(tile.x,tile.y-1)
 getBot():placeTile(tile.x,tile.y-1,seedid)
@@ -1797,7 +1867,20 @@ end
 end
 end
 
+function foregraund2()
+local count = 0
+for _, obj in pairs(getBot():getObjects()) do
+if obj.id == seedidfloat then
+count = count + obj.count
+end
+end
+return count
+end
+
 function foregraund(itemid)
+if modefloat then
+return foregraund2()
+end
       local count = 0
       for _, tile in ipairs(getBot():getTiles()) do
         if tile.fg == itemid and getBot():canHarvest(tile.x,tile.y) then
@@ -2231,27 +2314,46 @@ if not nuked then
 clearTable(processedTimes)
 seedid = detect()
 cekseed()
-log(seedid)
+cekseed2()
+if seedid == 0 then
+modefloat = true
+float1()
+float2()
+seedidfloat = detectfloat()
+seedid  = detectfloat() + 1
+end
 botshow("Bot Start")
 trashclothes()
 antiToxic()
 gemsawal = getBot():getLocal().gems
 tt = os.time()
+::VELISHA::
 jalan()
+if not modefloat then
+modefloat = true
+float1()
+float2()
+seedidfloat = detectfloat()
+seedid  = detectfloat() + 1
+goto VELISHA
+end
 tambal()
       tt = os.time() - tt
       Time[world] = math.floor(tt / 3600) .. " Hours " .. math.floor(tt % 3600 / 60) .. " Minutes"
       sleep(100)
       if start < #WorldList then
        start = start + 1
+      modefloat = false
       else
       loopnya = loopnya + 1
      waktu = {}
      berlian = {}
      pohon = {}
+     modefloat = false
       end
       if JoinWorldAfterFinish then
         joinworld()
+      modefloat = false
       end
 else
 Time[world] = "NUKED"
