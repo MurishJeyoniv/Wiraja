@@ -542,6 +542,7 @@ end
 if mostFrequentID then
 return mostFrequentID
 end
+return 0
 end
 
 
@@ -889,6 +890,7 @@ end
 
 
 function soilmode()
+if SoilFarmMode then
     if IgnoreGems then
       getBot():setBool("ignoreGem", true)
       getBot():autoCollect(4, true)
@@ -903,7 +905,7 @@ function soilmode()
             end
             while getBot():getTile(tile.x, tile.y).fg == (seedid + 3) and getBot():getTile(tile.x, tile.y).flags ~= 0 do
               punch(0,1)
-              sleep(delayharvest + 200)
+              sleep(delayharvest + 150)
               reconnect(tile.x, tile.y - 1)
             end
           end
@@ -922,13 +924,14 @@ end
             end
             while getBot():getTile(tile.x, tile.y).fg == (seedid + 3) and getBot():getTile(tile.x, tile.y).flags ~= 0 do
               punch(0,1)
-              sleep(delayharvest + 200)
+              sleep(delayharvest + 150)
               reconnect(tile.x, tile.y - 1)
             end
           end
       end
     end
   end
+end
 end
 
 function mf(xy)
@@ -1279,8 +1282,10 @@ function collectfloat()
 		findPath(math.floor(object.pos.x /32), math.floor(object.pos.y /32))
 		sleep(2000)
 		getBot():autoCollect(10,true)
+      getBot():setBool("ignoreGem", true)
                 if getBot():getItemCount(seedidfloat) > 165 then
          getBot():autoCollect(4,true)
+           getBot():setBool("ignoreGem", false)
            break
              end
 	  end
@@ -1298,10 +1303,10 @@ if SeparatePlant then
 antiToxic()
 soilmode()
 coptrashs()
-getBot():autoCollect(4,true)
 if UseMethod then
 getBot():setBool("ignoreGem", true)
 end
+getBot():autoCollect(4,true)
 for _, tile in ipairs(getBot():getTiles()) do
 if getBot():getTile(tile.x,tile.y-1).fg == seedid and getBot():canHarvest(tile.x,tile.y-1) and getBot():getItemCount(seedid-1) < 165 and getBot():getItemCount(seedid) < 200 then
 if getBot():hasAccessToTile(tile.x,tile.y-1) then
@@ -1362,7 +1367,7 @@ if getBot():hasAccessToTile(tile.x,tile.y-1) then
 findPath(tile.x, tile.y-1)
  while getBot():getTile(tile.x, tile.y).fg == (seedid + 3) and getBot():getTile(tile.x, tile.y).flags ~= 0 do
  punch(0,1)
- sleep(delayharvest + 200)
+ sleep(delayharvest + 150)
  reconnect(tile.x, tile.y - 1)
  end
 if getBot():getTile(math.floor(getBot():getLocal().pos.x / 32), math.floor(getBot():getLocal().pos.y / 32)).fg == 0 then
@@ -2145,6 +2150,8 @@ rara = SeedsScanner(seedid)
    hasilseed = math.abs(rara - seeddrop)
     botpack("Success Saving Seeds")
     hasilseed = 0
+randomSeed = math.random(1, #WorldSaveSeed)
+IndexSaveSeed = randomSeed
 
     warpdoang(rumah, widreal)
 end
@@ -2174,6 +2181,8 @@ function belicuy()
      hasilpack = math.abs(rara - totalpack)
         botpack("Done Droping Pack, Back To Farm...")
   hasilpack = 0
+randomPack = math.random(1, #WorldSavePack)
+IndexSavePack = randomPack
  
     warpdoang(rumah,widreal)
 end
@@ -2335,7 +2344,9 @@ float1()
 float2()
 seedidfloat = detectfloat()
 seedid  = detectfloat() + 1
+if seedid ~= 1 then
 goto VELISHA
+end
 end
 tambal()
       tt = os.time() - tt
