@@ -2345,9 +2345,11 @@ float2()
 seedidfloat = detectfloat()
 seedid  = detectfloat() + 1
 if seedid ~= 1 or seedid ~= 113 then
+log(seedid)
 goto VELISHA
 end
 end
+log("disini")
 tambal()
       tt = os.time() - tt
       Time[world] = math.floor(tt / 3600) .. " Hours " .. math.floor(tt % 3600 / 60) .. " Minutes"
