@@ -513,9 +513,11 @@ end
 idtable = {}
 
 function float1()
-for _, obj in pairs(getBot():getObjects()) do
+for _, obj in pairs(getBot():getObjects()) do 
+ if obj.count > 10 then
         table.insert(idtable, obj.id)
     end
+end
 end
 
 local idCount = {}
