@@ -556,6 +556,7 @@ function detectfloat()
     else
         return mostFrequentID
     end
+return 0
 end
 
 
