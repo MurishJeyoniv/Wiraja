@@ -1098,7 +1098,7 @@ end
 end
 
 function banned()
-getBot():remove()
+log(""..getBot():getLocal().name:upper().." Was Banned")
   end
 
 function backpos(x,y)
