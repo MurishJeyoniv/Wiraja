@@ -2344,7 +2344,7 @@ float1()
 float2()
 seedidfloat = detectfloat()
 seedid  = detectfloat() + 1
-if seedid ~= 1 then
+if seedid ~= 1 or seedid ~= 112 then
 goto VELISHA
 end
 end
