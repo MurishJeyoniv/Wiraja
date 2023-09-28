@@ -554,7 +554,11 @@ function detectfloat()
     if mostFrequentID == nil then
         return 0
     elseif mostFrequentID == 112 then
+    if secondMostFrequentID == nil then  
+        return 0
+    else
         return secondMostFrequentID
+    end
     else
         return mostFrequentID
     end
