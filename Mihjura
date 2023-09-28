@@ -2344,9 +2344,9 @@ float1()
 float2()
 seedidfloat = detectfloat()
 seedid  = detectfloat() + 1
-if seedid ~= 1 or seedid ~= 113 then
-log(seedid)
-goto VELISHA
+if seedid ~= 1 and seedid ~= 113 then
+  log(seedid)
+  goto VELISHA
 end
 end
 log("disini")
