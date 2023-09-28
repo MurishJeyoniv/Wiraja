@@ -2345,7 +2345,7 @@ float2()
 seedidfloat = detectfloat()
 seedid  = detectfloat() + 1
 if seedid ~= 1 and seedid ~= 113 then
-  log(seedid)
+  log("here "..seedid.."")
   goto VELISHA
 end
 end
