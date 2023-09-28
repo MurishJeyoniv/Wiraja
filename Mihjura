@@ -531,19 +531,31 @@ end
 
 -- Mencari ID dengan frekuensi terbanyak
 function detectfloat()
-local mostFrequentID
-local maxCount = 0
-for id, count in pairs(idCount) do
-    if count > maxCount then
-        mostFrequentID = id
-        maxCount = count
+    local mostFrequentID
+    local maxCount = 0
+    local secondMostFrequentID
+    local secondMaxCount = 0
+
+    for id, count in pairs(idCount) do
+        if count > maxCount then
+            secondMostFrequentID = mostFrequentID
+            secondMaxCount = maxCount
+
+            mostFrequentID = id
+            maxCount = count
+        elseif count > secondMaxCount and id ~= mostFrequentID then
+            secondMostFrequentID = id
+            secondMaxCount = count
+        end
+    end
+
+    if mostFrequentID == 112 then
+        return secondMostFrequentID
+    else
+        return mostFrequentID
     end
 end
-if mostFrequentID then
-return mostFrequentID
-end
-return 0
-end
+
 
 
 
