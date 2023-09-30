@@ -30,6 +30,7 @@ checknya = false
 widreal = ""
 metotone = false
 modefloat = false
+awal = false
 
 randomPack = math.random(1, #WorldSavePack)
 randomSeed = math.random(1, #WorldSaveSeed)
@@ -1096,6 +1097,9 @@ getBot():remove()
 break
 end
 end
+if awal then
+return
+end
 warpdoang(rumah, widreal)
 jalan()
 else
@@ -1108,6 +1112,9 @@ if getBot():getBotStatus() == Banned or getBot():getBotStatus() == Suspended the
 getBot():remove()
 break
 end
+end
+if awal then
+return
 end
 warpdoang(rumah, widreal)
 jalan()
@@ -1126,6 +1133,9 @@ getBot():remove()
 break
 end
 end
+if awal then
+return
+end
 warpdoang(rumah, widreal)
 jalan()
 else
@@ -1138,6 +1148,9 @@ if getBot():getBotStatus() == Banned or getBot():getBotStatus() == Suspended the
 getBot():remove()
 break
 end
+end
+if awal then
+return
 end
 warpdoang(rumah, widreal)
 jalan()
@@ -1156,6 +1169,9 @@ getBot():remove()
 break
 end
 end
+if awal then
+return
+end
 warpdoang(rumah, widreal)
 jalan()
 else 
@@ -1168,6 +1184,9 @@ if getBot():getBotStatus() == Banned or getBot():getBotStatus() == Suspended the
 getBot():remove()
 break
 end
+end
+if awal then
+return
 end
 warpdoang(rumah, widreal)
 jalan()
@@ -2380,7 +2399,10 @@ end
 
 function startwoi()
 if getBot():getBotStatus() == Suspended or getBot():getBotStatus() == Banned then
+awal = true
 getBot():remove()
+banned()
+awal = false
 end
 while string.find(getBot():getWorld().name:upper(), "TUTORIAL") do
 sleep(5000)
