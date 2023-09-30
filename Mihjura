@@ -1520,7 +1520,7 @@ end
 
 
 function warpdoang(world,id)
-while getBot():getWorld().name:upper() ~= world:upper() or getBot():getTile(math.floor(getBot():getLocal().pos.x / 32),math.floor(getBot():getLocal().pos.y / 32)).fg == 6 do
+while getBot():getWorld().name:upper() ~= world:upper() and getBot():getTile(math.floor(getBot():getLocal().pos.x / 32),math.floor(getBot():getLocal().pos.y / 32)).fg == 6 do
 getBot():sendPacket("action|join_request\nname|"..world:upper().."|"..id:upper().."\ninvitedWorld|0",3)
 sleep(9000)
 getBot():sendPacket("action|join_request\nname|"..world:upper().."|"..id:upper().."\ninvitedWorld|0",3)
