@@ -2443,6 +2443,12 @@ tambal()
      berlian = {}
      pohon = {}
      modefloat = false
+     else
+      DataWorld()
+    sleep(50)
+    botshow("All World Finish, Remove Bot..")
+    getBot():remove()
+    break
       end
 end
       if JoinWorldAfterFinish then
