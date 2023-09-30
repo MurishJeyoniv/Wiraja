@@ -6,7 +6,7 @@ berlian = {}
 pohon = {}
 worlds = {}
 t = os.time()	
-loop = 0
+totalloop = 0
 bw = 0
 gemsawal = 0
 gemssave = 0
@@ -2430,8 +2430,6 @@ if seedid ~= 1 and seedid ~= 113 then
   goto VELISHA
 end
 end
-log(#worlds)
-log(loop)
 tambal()
       tt = os.time() - tt
       Time[world] = math.floor(tt / 3600) .. " Hours " .. math.floor(tt % 3600 / 60) .. " Minutes"
@@ -2441,17 +2439,11 @@ tambal()
       modefloat = false
       else
     if loop then
-      loopnya = loopnya + 1
+      totalloop = totalloop + 1
      waktu = {}
      berlian = {}
      pohon = {}
      modefloat = false
-     else
-      DataWorld()
-    sleep(50)
-    botshow("All World Finish, Remove Bot..")
-    getBot():remove()
-    break
       end
 end
       if JoinWorldAfterFinish then
