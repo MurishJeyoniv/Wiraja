@@ -480,6 +480,7 @@ backpos(xbot,ybot)
             sleep(1000)
         end
         a = 1
+getBot():addHook(extracted,varlist)
         while find_extracted do
             punch(0,1)
             a = a + 1
@@ -577,7 +578,6 @@ end
 main()
 end
 
-getBot():addHook(extracted,varlist)
 mulai()
 while true do
 sleep(1)
