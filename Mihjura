@@ -38,7 +38,27 @@ randomSeed = math.random(1, #WorldSaveSeed)
 IndexSavePack = randomPack
 IndexSaveSeed = randomSeed
 
+startslotbot = 1
+
+for index, namebotx in pairs(getAllBot()) do
+   if namebotx:getLocal().name:upper() == getBot():getLocal().name:upper() then
+      rulah = index + ( startslotbot - 1 )
+      break
+   end
+end
+
+anjaynya = 0
+
+    if rulah > 1 then
+        anjaynya = anjaynya + 0
+    elseif rulah == 1 then
+        anjaynya = anjaynya + 1
+    end
+
 if OwnerName == "" then
+for i = 1,anjaynya do
+msgBox("Error When Run Script","Please Write Your OwnerName")
+end
 return
 end
 
@@ -59,13 +79,15 @@ if y.success then
 if string.find(y.body, OwnerName) then
 checknya = true
 else
-TagBan("**OwnerName Not Found , Please Use Command First Then Run The Script ** @everyone")
-log("Failed To Get OwnerName Data")
+for i = 1,anjaynya do
+msgBox("Error When Run Script","Please Verify Your OwnerName")
+end
 return
 end
 else
-TagBan("**Cant Open Database, Trying To ReOpened Again.. ** @everyone")
-sleep(10000)
+for i = 1,anjaynya do
+msgBox("Cant Get Data","Please Use VPN To Run Script")
+end
 return
 end
 end
@@ -225,78 +247,21 @@ if AutoAddBot then
             end
           end
         end
+for i = 1,anjaynya do
+msgBox("Success Add Bot","Please Turn Off Auto Add, Select All And Run The Sc Again")
+end
+return 
       end
 end
-
-
-if AutoAddBot then
-  if AutoAddBotType == "GUEST" then
-    for i = 1, TotalGuestWillCreate do
-      if not UseProxyToAdd then
-        addGuest("")
-        sleep(5000)
-        
-        if getBot():getBotStatus() ~= Success then
-          repeat
-            getBot():reConnect()
-            sleep(8000)
-          until getBot():getBotStatus() == Success or getBot():getBotStatus() == BypassTutorial or getBot():getBotStatus() == Banned or getBot():getBotStatus() == Unable_to_create_new_account
-          
-          if getBot():getBotStatus() == Banned or getBot():getBotStatus() == Unable_to_create_new_account then
-            TagBan("**Fail To Add Bot ( "..getBot():getLocal().name:upper().." ) Because The Bot Is "..getBot():getBotStatus():upper().." @everyone")
-            getBot():remove()
-          end
-          
-          if getBot():getBotStatus() == Success or getBot():getBotStatus() == BypassTutorial then
-            sleep(10000)
-          end
-        end
-      else
-        addGuest("", getSocks(ProxyList[proxyIndexAdd]))
-        sleep(5000)
-        
-        if getBot():getBotStatus() ~= Success then
-          repeat
-            getBot():reConnect()
-            sleep(8000)
-          until getBot():getBotStatus() == Success or getBot():getBotStatus() == BypassTutorial or getBot():getBotStatus() == Banned or getBot():getBotStatus() == Unable_to_create_new_account
-          if getBot():getBotStatus() == Banned or getBot():getBotStatus() == Unable_to_create_new_account then
-          TagBan("**Fail To Add Bot ( "..getBot():getLocal().name:upper().." ) Because The Bot Is Unable To Create Acc At "..ProxyList[proxyIndexAdd].." Proxy @everyone")
-            getBot():remove()
-         end
-            
-            if proxyIndexAdd <= #ProxyList then
-              proxyIndexAdd = proxyIndexAdd + 1
-            else
-              TagBan("**No More Socks Can Be Used In The ProxyList, Please Check It** @everyone")
-            end
-          
-          if getBot():getBotStatus() == Success or getBot():getBotStatus() == BypassTutorial then
-            sleep(10000)
-          end
-     end
-          
-          proxyIndexAddAttempt = proxyIndexAddAttempt + 1
-          
-          if proxyIndexAddAttempt == MaxBotPerProxy then
-            if proxyIndexAdd <= #ProxyList then
-              proxyIndexAdd = proxyIndexAdd + 1
-              proxyIndexAddAttempt = 0
-            else
-              TagBan("**No More Socks Can Be Used For Adding Bot, Please Check It ** @everyone ")
-            end
-          end
-        end
-      end
-    end
-  end
 
 
 if AutoAddBot then
   if AutoAddBotType == "NORMAL" then
     for i = 1, #ListBotAdd do
       if not UseProxyToAdd then
-        addBot(ListBotAdd[i], PwBot)
+        PwBot = string.match(ListBotAdd[i], ":(.+)")
+        BotName =  string.match(ListBotAdd[i], "([^:]+)")
+        addBot(BotName, PwBot)
         sleep(5000)
         if getBot():getBotStatus() ~= Success then
           repeat
@@ -311,7 +276,9 @@ if AutoAddBot then
           end
         end
       else
-        addBot(ListBotAdd[i], PwBot, getSocks(ProxyList[proxyIndexAdd]))
+        PwBot = string.match(ListBotAdd[i], ":(.+)")
+        BotName =  string.match(ListBotAdd[i], "([^:]+)")
+        addBot(BotName, PwBot, getSocks(ProxyList[proxyIndexAdd]))
         sleep(5000)
         if getBot():getBotStatus() ~= Success then
           repeat
@@ -325,27 +292,34 @@ if AutoAddBot then
           if getBot():getBotStatus() == Success then
             -- Lanjutkan code di bawahnya di sini
           end
-end
-        proxyIndexAddAttempt = proxyIndexAddAttempt + 1
-          if proxyIndexAddAttempt == MaxBotPerProxy then
-       if proxyIndexAdd <= #ProxyList then
-          proxyIndexAdd = proxyIndexAdd + 1
-          proxyIndexAddAttempt = 0
-       else
-       TagBan("**No More Socks Can Be Used For Adding Bot, Please Check It ** @everyone ")
         end
+        proxyIndexAddAttempt = proxyIndexAddAttempt + 1
+        if proxyIndexAddAttempt == MaxBotPerProxy then
+          if proxyIndexAdd <= #ProxyList then
+            proxyIndexAdd = proxyIndexAdd + 1
+            proxyIndexAddAttempt = 0
+          else
+            TagBan("**No More Socks Can Be Used For Adding Bot, Please Check It ** @everyone ")
           end
+        end
       end
     end
+  for i = 1, anjaynya do
+    msgBox("Success Add Bot","Please Turn Off Auto Add, Select All And Run The Sc Again")
+  end
+  return
   end
 end
+
 
 
 if AutoAddBot then
   if AutoAddBotType == "UBICON" then
   for i = 1, #Email do
       if not UseProxyToAdd then
-        addBot(Email[i], Password)
+    Password = string.match(Email[i], ":(.+)")
+BotName =  string.match(Email[i], "([^:]+)")
+        addBot(BotName, Password)
         sleep(5000)
         if getBot():getBotStatus() ~= Success then
           repeat
@@ -360,7 +334,9 @@ if AutoAddBot then
           end
         end
       else
-        addBot(Email[i], Password, getSocks(ProxyList[proxyIndexAdd]))
+   Password = string.match(Email[i], ":(.+)")
+BotName =  string.match(Email[i], "([^:]+)")
+        addBot(BotName, Password, getSocks(ProxyList[proxyIndexAdd]))
         sleep(5000)
         if getBot():getBotStatus() ~= Success then
           repeat
@@ -386,26 +362,12 @@ end
           end
       end
     end
+for i = 1,anjaynya do
+msgBox("Success Add Bot","Please Turn Off Auto Add, Select All And Run The Sc Again")
+end
+return
   end
 end
-
-
-startslotbot = 1
-
-for index, namebotx in pairs(getAllBot()) do
-   if namebotx:getLocal().name:upper() == getBot():getLocal().name:upper() then
-      rulah = index + ( startslotbot - 1 )
-      break
-   end
-end
-
-anjaynya = 0
-
-    if rulah > 1 then
-        anjaynya = anjaynya + 0
-    elseif rulah == 1 then
-        anjaynya = anjaynya + 1
-    end
 
 for i = 1,anjaynya do
 msgBox("Script Rotation Jopy","Script Has Running Successfully")
@@ -436,13 +398,56 @@ for i = 1, rulah do
     if WEBHOOK[i] and MESSAGEID[i] then
         WhStatus = WEBHOOK[i]
         MessageID = MESSAGEID[i]
-        rulah = rulah - 1
     else
         WhStatus = ""
         MessageID = ""
-        rulah = rulah - 1
     end
 end
+
+modebackup = ""
+
+for i = 1, rulah do
+    if BACKUPBOT[i] then
+local haspope = string.find(BACKUPBOT[i], "com")
+if haspope then
+modebackup = "UBICON"
+ BotBackUp = string.match(BACKUPBOT[i], "([^|]+)")
+ PwBotBackUp = string.match(BACKUPBOT[i], "|(.+)")
+else
+        if BACKUPBOT[i] == "" then
+modebackup = "NONE"
+            BotBackUp = ""
+            PwBotBackUp = ""
+        else
+            local hasPipe = string.find(BACKUPBOT[i], "|")
+            if hasPipe then
+ modebackup = "NORMAL"
+                BotBackUp = string.match(BACKUPBOT[i], "([^|]+)")
+                PwBotBackUp = string.match(BACKUPBOT[i], "|(.+)")
+            else
+modebackup = "GUEST"
+                BotBackUp = BACKUPBOT[i]
+                PwBotBackUp = ""
+            end
+        end
+    end
+end
+end
+
+
+for i = 1, rulah do
+if PROXYFORBACKUPBOT[i] then
+if PROXYFORBACKUPBOT[i] == "" then
+ProxyBackUp = ""
+rulah = rulah - 1
+else
+ProxyBackUp = PROXYFORBACKUPBOT[i]
+rulah = rulah - 1
+end
+end
+end
+
+
 
 
 
@@ -514,7 +519,7 @@ idtable = {}
 
 function float1()
 for _, obj in pairs(getBot():getObjects()) do 
- if obj.count > 10 then
+ if obj.count > 10 or obj.id ~= 112 then
         table.insert(idtable, obj.id)
     end
 end
@@ -531,41 +536,21 @@ for _, id in pairs(idtable) do
 end
 end
 
--- Mencari ID dengan frekuensi terbanyak
 function detectfloat()
-    local mostFrequentID
-    local maxCount = 0
-    local secondMostFrequentID
-    local secondMaxCount = 0
-
-    for id, count in pairs(idCount) do
-        if count > maxCount then
-            secondMostFrequentID = mostFrequentID
-            secondMaxCount = maxCount
-
-            mostFrequentID = id
-            maxCount = count
-        elseif count > secondMaxCount and id ~= mostFrequentID then
-            secondMostFrequentID = id
-            secondMaxCount = count
-        end
-    end
-
-    if mostFrequentID == nil then
-        return 0
-    elseif mostFrequentID == 112 then
-    if secondMostFrequentID == nil then  
-        return 0
-    else
-        return secondMostFrequentID
-    end
-    else
-        return mostFrequentID
+local mostFrequentID
+local maxCount = 0
+for id, count in pairs(idCount) do
+    if count > maxCount then
+        mostFrequentID = id
+        maxCount = count
     end
 end
-
-
-
+if mostFrequentID then
+return mostFrequentID
+else
+return 0
+end
+end
 
 
 
@@ -1097,8 +1082,113 @@ end
 end
 end
 
+function BackUpBiasa()
+if ProxyBackUp == "" then
+addBot(BotBackUp,PwBotBackUp)
+sleep(5000)
+while getBot():getBotStatus() ~= Success do
+getBot():reConnect()
+sleep(8000)
+if getBot():getBotStatus() == Banned or getBot():getBotStatus() == Suspended then
+getBot():remove()
+break
+end
+end
+warpdoang(rumah, widreal)
+jalan()
+else
+addBot(BotBackUp,PwBotBackUp, getSocks(ProxyBackUp))
+sleep(5000)
+while getBot():getBotStatus() ~= Success do
+getBot():reConnect()
+sleep(8000)
+if getBot():getBotStatus() == Banned or getBot():getBotStatus() == Suspended then
+getBot():remove()
+break
+end
+end
+warpdoang(rumah, widreal)
+jalan()
+end
+end
+
+function BackUpGuest()
+if ProxyBackUp == "" then
+loginGuest("", BotBackUp)
+sleep(5000)
+while getBot():getBotStatus() ~= Success do
+getBot():reConnect()
+sleep(8000)
+if getBot():getBotStatus() == Banned or getBot():getBotStatus() == Suspended then
+getBot():remove()
+break
+end
+end
+warpdoang(rumah, widreal)
+jalan()
+else
+loginGuest("",getSocks(ProxyBackUp),BotBackUp)
+sleep(5000)
+while getBot():getBotStatus() ~= Success do
+getBot():reConnect()
+sleep(8000)
+if getBot():getBotStatus() == Banned or getBot():getBotStatus() == Suspended then
+getBot():remove()
+break
+end
+end
+warpdoang(rumah, widreal)
+jalan()
+end
+end
+
+function BackUpUbicon()
+if ProxyBackUp == "" then
+addBot(BotBackUp,PwBotBackUp)
+sleep(5000)
+while getBot():getBotStatus() ~= Success do
+getBot():reConnect()
+sleep(8000)
+if getBot():getBotStatus() == Banned or getBot():getBotStatus() == Suspended then
+getBot():remove()
+break
+end
+end
+warpdoang(rumah, widreal)
+jalan()
+else 
+addBot(BotBackUp,PwBotBackUp,getSocks(ProxyBackUp))
+sleep(5000)
+while getBot():getBotStatus() ~= Success do
+getBot():reConnect()
+sleep(8000)
+if getBot():getBotStatus() == Banned or getBot():getBotStatus() == Suspended then
+getBot():remove()
+break
+end
+end
+warpdoang(rumah, widreal)
+jalan()
+end
+end
+
+
 function banned()
-log(""..getBot():getLocal().name:upper().." Was Banned")
+if modebackup == "NORMAL" then
+getBot():remove()
+BackUpBiasa()
+end
+if modebackup == "GUEST" then
+getBot():remove()
+BackUpGuest()
+end
+if modebackup == "UBICON" then
+getBot():remove()
+BackUpUbicon()
+end
+if modebackup == "NONE" then
+getBot():remove()
+end
   end
 
 function backpos(x,y)
@@ -1510,7 +1600,7 @@ widreal = wid[i]
                 sleep(5500)
             end
             getBot():sendPacket("action|join_request\nname|"..world:upper().."|"..wid[i].."\ninvitedWorld|0",3)
-            sleep(5000)
+            sleep(7000)
 if getBot():getTile(math.floor(getBot():getLocal().pos.x / 32),math.floor(getBot():getLocal().pos.y / 32)).fg ~= 6 then
 break
 end
@@ -1518,7 +1608,7 @@ end
    for i=1, #wid do
 widreal = wid[i]
            getBot():sendPacket("action|join_request\nname|"..world:upper().."|"..wid[i].."\ninvitedWorld|0",3)
-            sleep(5000)
+            sleep(7000)
 if getBot():getTile(math.floor(getBot():getLocal().pos.x / 32),math.floor(getBot():getLocal().pos.y / 32)).fg ~= 6 then
 break
 end
@@ -1548,47 +1638,6 @@ getBot():sendPacket("action|dialog_return\ndialog_name|drop_item\nitemID|" .. it
 sleep(1000)
 end
 end 
-
-function modscounter()
-  for _, player in pairs(getBot():getPlayers()) do
-    if player.mod then
-      TagBan("**MODS DETECTED IN WORLD "..rumah.." THE NAME IS : "..player.name.." **")
-    else
-return
-end
-  end
-
-  if AutoLeaveWhenModsJoin then
-    getBot():warp("EXIT")
-    sleep(DelayLeaveWorld * 60 * 1000)
-    warp(rumah, wid)
-    jalan()
-  end
-
-  if AutoOffAndReconnect then
-    getBot():setBool("autoReconnect", false)
-    getBot():disconnect()
-    sleep(DelayOff * 60 * 1000)
-    getBot():setBool("autoReconnect", true)
-
-    if getBot():getBotStatus() ~= Success then
-      repeat
-        getBot():reConnect()
-        sleep(8000)
-      until getBot():getBotStatus() == Success or getBot():getBotStatus() == Banned or getBot():getBotStatus() == Suspended
-
-      if getBot():getBotStatus() == Suspended or getBot():getBotStatus() == Banned then
-        TagBan("**"..getBot():getLocal().name:upper().." Was "..status().." After Trying To Run From Mods**")
-      end
-
-      if getBot():getBotStatus() == Success then
-        warp(rumah, wid)
-        jalan()
-      end
-    end
-  end
-end
-
 
 function takepick()
 if TakePick then
@@ -1717,9 +1766,9 @@ end
 function autoban()
  for _, peler in pairs(getBot():getPlayers()) do
         for _, own in pairs(WhiteList) do
-            if peler.name:upper() == own:upper() and peler.name:upper() ~= getBot():getLocal().name:upper() then
+            if peler.name:upper() ~= own:upper() and peler.name:upper() ~= getBot():getLocal().name:upper() then
                 getBot():say("/ban "..peler.name)
-                sleep(3000) 
+                sleep(7000) 
                end
             end
         end
@@ -1727,12 +1776,14 @@ function autoban()
 
 function autoleave()
 if AutoLeave then
+local player = 0
 for _, peler in pairs(getBot():getPlayers()) do
 for _, own in pairs(WhiteList) do
-       if peler.name:upper() == own:upper() and peler.name:upper() ~= getBot():getLocal().name:upper() then
-if peler > MaxPeople then
-getBot():sendPacket(3,"action|join_request\nname|" .. EXIT .. "\ninvitedWorld|0")
-sleep(DelayLeave)
+if peler.name:upper() ~= own:upper() and peler.name:upper() ~= getBot():getLocal().name:upper() then
+player = player + 1
+if player > MaxPeople then
+getBot():warp("EXIT")
+sleep(DelayLeave * 1000 * 60)
 warpdoang(rumah,wid)
 jalan()
 end
@@ -2326,6 +2377,9 @@ function clearTable(tbl)
 end
 
 function startwoi()
+if getBot():getBotStatus() == Suspended or getBot():getBotStatus() == Banned then
+getBot():remove()
+end
 while true do
 if getBot():getEnetStatus() == Connected then
 for index,world in pairs(worlds) do
@@ -2345,12 +2399,14 @@ clearTable(processedTimes)
 seedid = detect()
 cekseed()
 cekseed2()
+log(seedid)
 if seedid == 0 then
 modefloat = true
 float1()
 float2()
 seedidfloat = detectfloat()
 seedid  = detectfloat() + 1
+log(seedid)
 end
 botshow("Bot Start")
 trashclothes()
@@ -2377,12 +2433,14 @@ tambal()
        start = start + 1
       modefloat = false
       else
+    if loop then
       loopnya = loopnya + 1
      waktu = {}
      berlian = {}
      pohon = {}
      modefloat = false
       end
+end
       if JoinWorldAfterFinish then
         joinworld()
       modefloat = false
