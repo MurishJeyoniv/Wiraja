@@ -49,6 +49,7 @@ end
 
 anjaynya = 0
 
+log(rulah)
     if rulah > 1 then
         anjaynya = anjaynya + 0
     elseif rulah == 1 then
