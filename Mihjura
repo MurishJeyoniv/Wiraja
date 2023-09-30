@@ -198,6 +198,7 @@ function getSocks(v)
     return Proxy
 end
 
+
 if AutoAddBot then
   if AutoAddBotType == "LOGINGUEST" then
     for i = 1, #ListBotAdd do
@@ -212,7 +213,6 @@ if AutoAddBot then
           until getBot():getBotStatus() == Success or getBot():getBotStatus() == Banned or getBot():getBotStatus() == Suspended
           
           if getBot():getBotStatus() == Banned or getBot():getBotStatus() == Suspended then
-            TagBan("**Fail To Add Bot ( "..getBot():getLocal().name:upper().." ) Because The Bot Is "..getBot():getBotStatus():upper().." @everyone")
             getBot():remove()
           end
           
@@ -232,7 +232,6 @@ if AutoAddBot then
           until getBot():getBotStatus() == Success or getBot():getBotStatus() == Banned or getBot():getBotStatus() == Suspended
           
           if getBot():getBotStatus() == Banned or getBot():getBotStatus() == Suspended then
-            TagBan("**Fail To Add Bot ( "..getBot():getLocal().name:upper().." ) Because The Bot Is "..getBot():getBotStatus():upper().." At "..ProxyList[proxyIndexAdd].." Proxy @everyone")
             getBot():remove()
          end
        
@@ -274,7 +273,7 @@ if AutoAddBot then
             sleep(8000)
           until getBot():getBotStatus() == Success or getBot():getBotStatus() == Banned or getBot():getBotStatus() == Suspended
           if getBot():getBotStatus() == Banned or getBot():getBotStatus() == Suspended then
-            TagBan("**Fail To Add Bot ( "..getBot():getLocal().name:upper().." ) Because The Bot Is "..getBot():getBotStatus():upper().." @everyone")
+      getBot():remove()
           end
           if getBot():getBotStatus() == Success then
             -- Lanjutkan code di bawahnya di sini
@@ -291,7 +290,6 @@ if AutoAddBot then
             sleep(8000)
           until getBot():getBotStatus() == Success or getBot():getBotStatus() == Banned or getBot():getBotStatus() == Suspended
           if getBot():getBotStatus() == Banned or getBot():getBotStatus() == Suspended then
-            TagBan("**Fail To Add Bot ( "..getBot():getLocal().name:upper().." ) Because The Bot Is "..getBot():getBotStatus():upper().." @everyone")
             getBot():remove()
           end
           if getBot():getBotStatus() == Success then
@@ -332,7 +330,7 @@ BotName =  string.match(Email[i], "([^:]+)")
             sleep(8000)
           until getBot():getBotStatus() == Success or getBot():getBotStatus() == Banned or getBot():getBotStatus() == Suspended
           if getBot():getBotStatus() == Banned or getBot():getBotStatus() == Suspended then
-            TagBan("**Fail To Add Bot ( "..getBot():getLocal().name:upper().." ) Because The Bot Is "..getBot():getBotStatus():upper().." @everyone")
+        getBot():remove()
           end
           if getBot():getBotStatus() == Success then
             -- Lanjutkan code di bawahnya di sini
@@ -349,7 +347,6 @@ BotName =  string.match(Email[i], "([^:]+)")
             sleep(8000)
           until getBot():getBotStatus() == Success or getBot():getBotStatus() == Banned or getBot():getBotStatus() == Suspended
           if getBot():getBotStatus() == Banned or getBot():getBotStatus() == Suspended then
-            TagBan("**Fail To Add Bot ( "..getBot():getLocal().name:upper().." ) Because The Bot Is "..getBot():getBotStatus():upper().." @everyone")
             getBot():remove()
           end
           if getBot():getBotStatus() == Success then
