@@ -2418,7 +2418,6 @@ awal = true
 getBot():remove()
 banned()
 awal = false
-end
 while string.find(getBot():getWorld().name:upper(), "TUTORIAL") do
 sleep(5000)
 end
@@ -2498,6 +2497,7 @@ if not loop then
     getBot():remove()
     break
   end
+end
 end
 end
 end
