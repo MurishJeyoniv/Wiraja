@@ -1271,6 +1271,10 @@ if getBot():getBotStatus() == Banned then
 TagBan("**"..getBot():getLocal().name:upper().."  Was "..status().." Removing Bot... @everyone**")
 banned()
 end
+if getBot():getBotStatus() == Suspended then
+TagBan("**"..getBot():getLocal().name:upper().."  Was "..status().." Removing Bot... @everyone**")
+banned()
+end
 atas = getBot():getWorld().name
 if getBot():getEnetStatus() == Connected and getBot():getWorld().name:upper() == "EXIT" then
 TagBan("**"..getBot():getLocal().name:upper().."  In EXIT, Now Back To Farm In "..rumah.." @everyone **")
