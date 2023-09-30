@@ -2403,7 +2403,6 @@ clearTable(processedTimes)
 seedid = detect()
 cekseed()
 cekseed2()
-log(seedid)
 if seedid == 0 then
 modefloat = true
 float1()
@@ -2433,7 +2432,7 @@ tambal()
       tt = os.time() - tt
       Time[world] = math.floor(tt / 3600) .. " Hours " .. math.floor(tt % 3600 / 60) .. " Minutes"
       sleep(100)
-      if start < #WorldList then
+      if start < #worlds then
        start = start + 1
       modefloat = false
       else
