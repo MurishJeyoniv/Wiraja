@@ -198,7 +198,6 @@ function getSocks(v)
     return Proxy
 end
 
-
 if AutoAddBot then
   if AutoAddBotType == "LOGINGUEST" then
     for i = 1, #ListBotAdd do
@@ -1107,11 +1106,10 @@ getBot():remove()
 break
 end
 end
-if awal then
-return
-end
+if not awal then
 warpdoang(rumah, widreal)
 jalan()
+end
 else
 addBot(BotBackUp,PwBotBackUp, getSocks(ProxyBackUp))
 sleep(5000)
@@ -1123,11 +1121,10 @@ getBot():remove()
 break
 end
 end
-if awal then
-return
-end
+if not awal then
 warpdoang(rumah, widreal)
 jalan()
+end
 end
 end
 
@@ -1143,11 +1140,10 @@ getBot():remove()
 break
 end
 end
-if awal then
-return
-end
+if not awal then
 warpdoang(rumah, widreal)
 jalan()
+end
 else
 loginGuest("",getSocks(ProxyBackUp),BotBackUp)
 sleep(5000)
@@ -1159,11 +1155,10 @@ getBot():remove()
 break
 end
 end
-if awal then
-return
-end
+if not awal then
 warpdoang(rumah, widreal)
 jalan()
+end
 end
 end
 
@@ -1179,11 +1174,10 @@ getBot():remove()
 break
 end
 end
-if awal then
-return
-end
+if not awal then
 warpdoang(rumah, widreal)
 jalan()
+end
 else 
 addBot(BotBackUp,PwBotBackUp,getSocks(ProxyBackUp))
 sleep(5000)
@@ -1195,11 +1189,10 @@ getBot():remove()
 break
 end
 end
-if awal then
-return
-end
+if not awal then
 warpdoang(rumah, widreal)
 jalan()
+end
 end
 end
 
@@ -1218,7 +1211,6 @@ getBot():remove()
 BackUpUbicon()
 end
 if modebackup == "NONE" then
-sleep(5000)
 getBot():remove()
 end
   end
@@ -1268,10 +1260,6 @@ while getBot():getTile(math.floor(getBot():getLocal().pos.x / 32),math.floor(get
 backpos(x,y)
 end
 if getBot():getBotStatus() == Banned then
-TagBan("**"..getBot():getLocal().name:upper().."  Was "..status().." Removing Bot... @everyone**")
-banned()
-end
-if getBot():getBotStatus() == Suspended then
 TagBan("**"..getBot():getLocal().name:upper().."  Was "..status().." Removing Bot... @everyone**")
 banned()
 end
@@ -2261,7 +2249,7 @@ rara = SeedsScanner(seedid)
 randomSeed = math.random(1, #WorldSaveSeed)
 IndexSaveSeed = randomSeed
 
-    warpdoang(rumah, widreal)
+    warpfarm(rumah, wid)
 end
 
 
@@ -2291,8 +2279,7 @@ function belicuy()
   hasilpack = 0
 randomPack = math.random(1, #WorldSavePack)
 IndexSavePack = randomPack
- 
-    warpdoang(rumah,widreal)
+    warpfarm(rumah,wid)
 end
 
 function anjay()
@@ -2418,11 +2405,12 @@ awal = true
 getBot():remove()
 banned()
 awal = false
+end
 while string.find(getBot():getWorld().name:upper(), "TUTORIAL") do
 sleep(5000)
 end
-while true do
 if getBot():getEnetStatus() == Connected then
+while true do
 for index,world in pairs(worlds) do
 emoji = cekemoji()
 rumah = world
@@ -2497,7 +2485,6 @@ if not loop then
     getBot():remove()
     break
   end
-end
 end
 end
 end
