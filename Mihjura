@@ -2384,6 +2384,9 @@ function startwoi()
 if getBot():getBotStatus() == Suspended or getBot():getBotStatus() == Banned then
 getBot():remove()
 end
+while string.find(getBot():getWorld().name:upper(), "TUTORIAL") do
+sleep(5000)
+end
 while true do
 if getBot():getEnetStatus() == Connected then
 for index,world in pairs(worlds) do
@@ -2391,9 +2394,6 @@ emoji = cekemoji()
 rumah = world
 DataWorld()
 sleep(sleepmulai)
-if Guest then
-sleep(20000)
-end
 takepick()
 takemagni()
 takehose()
