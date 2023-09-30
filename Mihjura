@@ -47,6 +47,7 @@ for index, namebotx in pairs(getAllBot()) do
    end
 end
 
+
 anjaynya = 0
 
    if rulah == nil then
@@ -58,6 +59,9 @@ else
         anjaynya = anjaynya + 1
     end
 end
+
+log(rulah)
+log(anjaynya)
 
 if OwnerName == "" then
 for i = 1,anjaynya do
