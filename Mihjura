@@ -2428,6 +2428,8 @@ if seedid ~= 1 and seedid ~= 113 then
   goto VELISHA
 end
 end
+log(#worlds)
+log(loop)
 tambal()
       tt = os.time() - tt
       Time[world] = math.floor(tt / 3600) .. " Hours " .. math.floor(tt % 3600 / 60) .. " Minutes"
