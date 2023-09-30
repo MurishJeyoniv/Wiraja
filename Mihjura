@@ -26,7 +26,6 @@ fire = false
 BpCek = false
 growidIndex = 1
 emoji = ""
-loopnya = 0
 checknya = false
 widreal = ""
 metotone = false
@@ -59,9 +58,6 @@ else
         anjaynya = anjaynya + 1
     end
 end
-
-log(rulah)
-log(anjaynya)
 
 if OwnerName == "" then
 for i = 1,anjaynya do
