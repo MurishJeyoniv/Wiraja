@@ -386,8 +386,6 @@ function extracted(varlist)
     end
 end
 
-getBot():addHook(extracted,varlist)
-
 
 function scanFossil()
     m=0
@@ -579,6 +577,7 @@ end
 main()
 end
 
+getBot():addHook(extracted,varlist)
 mulai()
 while true do
 sleep(1)
