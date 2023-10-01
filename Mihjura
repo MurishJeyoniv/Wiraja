@@ -1620,12 +1620,18 @@ widreal = wid[i]
                 sleep(15000)
             end
             getBot():sendPacket("action|join_request\nname|"..world:upper().."|"..wid[i].."\ninvitedWorld|0",3)
-            sleep(7000)
+            sleep(7000
+if getBot():getTile(math.floor(getBot():getLocal().pos.x / 32),math.floor(getBot():getLocal().pos.y / 32)).fg ~= 6 then
+break
+end
         end
    for i=1, #wid do
 widreal = wid[i]
            getBot():sendPacket("action|join_request\nname|"..world:upper().."|"..wid[i].."\ninvitedWorld|0",3)
             sleep(7000)
+if getBot():getTile(math.floor(getBot():getLocal().pos.x / 32),math.floor(getBot():getLocal().pos.y / 32)).fg ~= 6 then
+break
+end
 end
 end
 end
