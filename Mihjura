@@ -1029,7 +1029,7 @@ function botRest()
             if getBot():getEnetStatus() == Connected then
             getBot():setBool("autoReconnect", true)
                 table.insert(processedTimes, curah) -- Menyimpan waktu yang telah diproses
-                warpdoang(rumah, widreal)
+                warp(rumah, widreal)
              botshow("Bot Start ")
                 jalan()
                 break -- Keluar dari loop jika jam cocok
@@ -1102,7 +1102,7 @@ sleep(1000)
         botshow("Bot Back Online..")
         getBot():reConnect()
         sleep(10000)
-        warpdoang(waras,widreal)
+        warp(waras,widreal)
 end
 end
 end
@@ -1120,7 +1120,7 @@ break
 end
 end
 if not awal then
-warpdoang(rumah, widreal)
+warp(rumah, widreal)
 jalan()
 end
 else
@@ -1135,7 +1135,7 @@ break
 end
 end
 if not awal then
-warpdoang(rumah, widreal)
+warp(rumah, widreal)
 jalan()
 end
 end
@@ -1154,7 +1154,7 @@ break
 end
 end
 if not awal then
-warpdoang(rumah, widreal)
+warp(rumah, widreal)
 jalan()
 end
 else
@@ -1169,7 +1169,7 @@ break
 end
 end
 if not awal then
-warpdoang(rumah, widreal)
+warp(rumah, widreal)
 jalan()
 end
 end
@@ -1188,7 +1188,7 @@ break
 end
 end
 if not awal then
-warpdoang(rumah, widreal)
+warp(rumah, widreal)
 jalan()
 end
 else 
@@ -1203,7 +1203,7 @@ break
 end
 end
 if not awal then
-warpdoang(rumah, widreal)
+warp(rumah, widreal)
 jalan()
 end
 end
@@ -1224,7 +1224,9 @@ getBot():remove()
 BackUpUbicon()
 end
 if modebackup == "NONE" then
+if AutoRemoveBot then
 getBot():remove()
+end
 end
   end
 
@@ -1280,7 +1282,7 @@ atas = getBot():getWorld().name
 if getBot():getEnetStatus() == Connected and getBot():getWorld().name:upper() == "EXIT" then
 TagBan("**"..getBot():getLocal().name:upper().."  In EXIT, Now Back To Farm In "..rumah.." @everyone **")
 sleep(5000)
-warpdoang(rumah,widreal)
+warp(rumah,widreal)
 backpos(x,y)
 jalan()
 end
@@ -1302,7 +1304,7 @@ end
 if getBot():getBotStatus() == Success and getBot():getEnetStatus() == Connected then
 TagBan("**"..getBot():getLocal().name:upper().."  Was "..enetStatus().." Now Back To Farm.. @everyone **")
 sleep(5000)
-warpdoang(rumah,widreal)
+warp(rumah,widreal)
 backpos(x,y)
 jalan()
 end
@@ -1311,7 +1313,7 @@ end
 
   function Take()
 botshow("Taking Seed For Planting Blank Seed")
-	warpdoang(WorldSaveSeed[IndexSaveSeed], WorldSaveSeedID)
+	warp(WorldSaveSeed[IndexSaveSeed], WorldSaveSeedID)
 	for _, object in pairs(getBot():getObjects()) do
 	  if object.id == seedid then
 		if getBot():getItemCount(seedid) == 200 then
@@ -1325,7 +1327,7 @@ botshow("Taking Seed For Planting Blank Seed")
              end
 	  end
 	end
-	  warpdoang(rumah,widreal)
+	  warp(rumah,widreal)
 	end
 
   function tambal()
@@ -1390,7 +1392,7 @@ local playerNumber = tonumber(x.body:match("%d+"))
     end
     end
     if getBot():getEnetStatus() == Connected then
-    warpdoang(rumah,widreal)
+    warp(rumah,widreal)
     botshow("Bot Start")
     jalan()
   end
@@ -1399,7 +1401,7 @@ end
 end
 
 function takenyaseed()
-warpdoang(WorldSaveSeed[IndexSaveSeed],WorldSaveSeedID)
+warp(WorldSaveSeed[IndexSaveSeed],WorldSaveSeedID)
 getBot():autoCollect(4,false)
 while getBot():getItemCount(seedid) < 120 do
         for _,obj in pairs(getBot():getObjects()) do
@@ -1421,7 +1423,7 @@ if getBot():getItemCount(seedid) > 121 then
     getBot():sendPacket("action|dialog_return\ndialog_name|drop_item\nitemID|"..seedid.."|\ncount|"..(getBot():getItemCount(seedid) - 120),2)
     sleep(1000)
 end
-warpdoang(rumah,widreal)
+warp(rumah,widreal)
 end
 
 function collectfloat()
@@ -1513,11 +1515,13 @@ if tile.fg ~= 0 and tile.fg ~= seedid and getBot():getTile(tile.x, tile.y-1).fg 
 if getBot():getTile(tile.x, tile.y-1).fg == 0 then
 if getBot():hasAccessToTile(tile.x,tile.y-1) then
 findPath(tile.x, tile.y-1)
+if SoilFarmMode then
  while getBot():getTile(tile.x, tile.y).fg == (seedid + 3) and getBot():getTile(tile.x, tile.y).flags ~= 0 do
  punch(0,1)
  sleep(delayharvest + 150)
  reconnect(tile.x, tile.y - 1)
  end
+end
 if getBot():getTile(math.floor(getBot():getLocal().pos.x / 32), math.floor(getBot():getLocal().pos.y / 32)).fg == 0 then
 reconnect(tile.x,tile.y-1)
 getBot():placeTile(tile.x,tile.y-1,seedid)
@@ -1554,40 +1558,26 @@ end
     local totalsay = sayAn[acakIndex]
 
 
-function warpdoang(world,id)
-while getBot():getWorld().name:upper() ~= world:upper() do
-getBot():sendPacket("action|join_request\nname|"..world:upper().."|"..id:upper().."\ninvitedWorld|0",3)
-sleep(9000)
-getBot():sendPacket("action|join_request\nname|"..world:upper().."|"..id:upper().."\ninvitedWorld|0",3)
-sleep(9000)
-if UseMethod then
-getBot():say(totalsay)
-sleep(1000)
-end
-end
-end
-
 function warp(world,id)
     cok = 0
 while getBot():getWorld().name:upper() ~= world:upper() and not nuked do
         while getBot():getBotStatus() ~= Success do
             getBot():reConnect()
-            sleep(8000)
+            sleep(15000)
         end
         getBot():sendPacket("action|join_request\nname|"..world:upper().."\ninvitedWorld|0",3)
-        sleep(10000)
+        sleep(8000)
         if cok == 10 then
             nuked = true
         else
             cok = cok + 1
         end
     end
-::AFGAN::
     if id ~= "" and not nuked then
         while getBot():getTile(math.floor(getBot():getLocal().pos.x / 32),math.floor(getBot():getLocal().pos.y / 32)).fg == 6 and not nuked do
             while getBot():getBotStatus() ~= Success do
                 getBot():reConnect()
-                sleep(5500)
+                sleep(15000)
             end
             getBot():sendPacket("action|join_request\nname|"..world:upper().."|"..id:upper().."\ninvitedWorld|0",3)
             sleep(5000)
@@ -1602,10 +1592,7 @@ while getBot():getWorld().name:upper() ~= world:upper() and not nuked do
             sleep(5000)
     end
 end
-if getBot():getTile(math.floor(getBot():getLocal().pos.x / 32),math.floor(getBot():getLocal().pos.y / 32)).fg == 6 then
-goto AFGAN
-end
-if UseMethod then
+if UseMethod and not nuked then
 getBot():say(totalsay)
 sleep(1000)
 end
@@ -1617,46 +1604,35 @@ function warpfarm(world,id)
 while getBot():getWorld().name:upper() ~= world:upper() and not nuked do
         while getBot():getBotStatus() ~= Success do
             getBot():reConnect()
-            sleep(8000)
+            sleep(15000)
         end
         getBot():sendPacket("action|join_request\nname|"..world:upper().."\ninvitedWorld|0",3)
-        sleep(10000)
+        sleep(8000)
         if cok == 10 then
             nuked = true
-        return
         else
             cok = cok + 1
         end
     end
-::AFGAN::
     if id ~= "" and not nuked then
   while getBot():getTile(math.floor(getBot():getLocal().pos.x / 32),math.floor(getBot():getLocal().pos.y / 32)).fg == 6 and not nuked do
    for i=1, #wid do
 widreal = wid[i]
             while getBot():getBotStatus() ~= Success do
                 getBot():reConnect()
-                sleep(5500)
+                sleep(15000)
             end
             getBot():sendPacket("action|join_request\nname|"..world:upper().."|"..wid[i].."\ninvitedWorld|0",3)
             sleep(7000)
-if getBot():getTile(math.floor(getBot():getLocal().pos.x / 32),math.floor(getBot():getLocal().pos.y / 32)).fg ~= 6 then
-break
-end
         end
    for i=1, #wid do
 widreal = wid[i]
            getBot():sendPacket("action|join_request\nname|"..world:upper().."|"..wid[i].."\ninvitedWorld|0",3)
             sleep(7000)
-if getBot():getTile(math.floor(getBot():getLocal().pos.x / 32),math.floor(getBot():getLocal().pos.y / 32)).fg ~= 6 then
-break
 end
 end
 end
-end
-if getBot():getTile(math.floor(getBot():getLocal().pos.x / 32),math.floor(getBot():getLocal().pos.y / 32)).fg == 6 then
-goto AFGAN
-end
-if UseMethod then
+if UseMethod and not nuked then
 getBot():say(totalsay)
 sleep(1000)
 end
@@ -1682,7 +1658,7 @@ if TakePick then
 if getBot():getItemCount(98) == 0 then
 sleep(sleepwarp)
 botshow("Bot Taking Pickaxe..")
-    warpdoang(WorldPick,WorldPickID)
+    warp(WorldPick,WorldPickID)
     sleep(100)
     while getBot():getItemCount(98) == 0 do
            sleep(5000)
@@ -1705,51 +1681,14 @@ botshow("Bot Taking Pickaxe..")
    sleep(1000)
    getBot():move(DOWN,1)
     sleep(1000)
+    while getBot():getItemCount(98) > 1 do
     getBot():sendPacket("action|drop\n|itemID|98",2)
-    sleep(900)
+    sleep(1000)
     getBot():sendPacket("action|dialog_return\ndialog_name|drop_item\nitemID|98|\ncount|"..(getBot():getItemCount(98) - 1),2)
     sleep(1000)
+    end
     wear(98)
     sleep(500)
-end
-end
-end
-
-function takemagni()
-if TakeMagnifience then
-if getBot():getItemCount(10158) == 0 then
-sleep(sleepwarp)
-botshow("Bot Taking Magnifience..")
-    warpdoang(WorldMagnifience,WorldMagnifienceID)
-    sleep(100)
-    while getBot():getItemCount(10158) == 0 do
-           sleep(5000)
-        for _,obj in pairs(getBot():getObjects()) do
-            if obj.id == 10158 then
-                getBot():findPath(math.floor(obj.pos.x / 32),math.floor(obj.pos.y / 32))
-                sleep(1000)
-                getBot():autoCollect(4,true)
-            end
-            if getBot():getItemCount(10158) > 0 then
-              getBot():autoCollect(4,false)
-                break
-            end
-        end
-    end
- getBot():autoCollect(4,false)
-    getBot():move(LEFT,1)
-    sleep(2000)
-   getBot():move(UP,1)
-   sleep(1000)
-   getBot():move(DOWN,1)
-    sleep(1000)
-    getBot():sendPacket("action|drop\n|itemID|10158",2)
-    sleep(900)
-    getBot():sendPacket("action|dialog_return\ndialog_name|drop_item\nitemID|10158|\ncount|"..(getBot():getItemCount(10158) - 1),2)
-    sleep(1000)
-    wear(10158)
-    sleep(500)
-    ceksampah()
 end
 end
 end
@@ -1758,7 +1697,7 @@ function takehose()
 if CounterFire then
 if getBot():getItemCount(3066) == 0 then
 sleep(sleepwarp)
-    warpdoang(WorldStorageFire,IDWorldStorageFire)
+    warp(WorldStorageFire,IDWorldStorageFire)
     sleep(100)
     while getBot():getItemCount(3066) == 0 do
         for _,obj in pairs(getBot():getObjects()) do
@@ -1785,7 +1724,7 @@ sleep(sleepwarp)
 if fire then
    wear(3066)
 end
-   warpdoang(rumah,widreal)
+   warp(rumah,widreal)
 botshow("Bot Start")
 end
 end
@@ -1796,7 +1735,7 @@ botshow("World Finish, Joining World...")
     sleep(100)
     for _,bimba in pairs(WorldForJoin) do 
     kasep = math.random(1, #WorldForJoin)
-        warpdoang(WorldForJoin[kasep],"")
+        warp(WorldForJoin[kasep],"")
         sleep(4000)
     end
 end
@@ -1822,7 +1761,7 @@ player = player + 1
 if player > MaxPeople then
 getBot():warp("EXIT")
 sleep(DelayLeave * 1000 * 60)
-warpdoang(rumah,wid)
+warp(rumah,wid)
 jalan()
 end
 end
@@ -2061,7 +2000,7 @@ function reconnectpack(world,x,y)
 if getBot():getBotStatus() == Success and getBot():getWorld().name:upper() == "EXIT" then
 TagBan("**"..getBot():getLocal().name:upper().."  In EXIT, Now Back Saving "..pack.." In "..world.." @everyone **")
 sleep(5000)
-warpdoang(world,WorldSavePackID)
+warp(world,WorldSavePackID)
 sleep(500)
 backpospack(world,x,y)
 end
@@ -2080,7 +2019,7 @@ banned()
 elseif getBot():getBotStatus() == Success and getBot():getEnetStatus() == Connected then
 TagBan("**"..getBot():getLocal().name:upper().."  Was "..status().." Now Back To Saving "..pack.." In "..world.." @everyone **")
 sleep(5000)
-warpdoang(world,WorldSavePackID)
+warp(world,WorldSavePackID)
 sleep(500)
 backpospack(world,x,y)
 end
@@ -2091,7 +2030,7 @@ function reconnectseed(world,x,y)
 if getBot():getBotStatus() == Success and getBot():getWorld().name:upper() == "EXIT" then
 TagBan("**"..getBot():getLocal().name:upper().." In EXIT, Now Back Saving Seed In "..world.." @everyone **")
 sleep(5000)
-warpdoang(world,WorldSaveSeedID)
+warp(world,WorldSaveSeedID)
 sleep(500)
 backposseed(world,x,y)
 end
@@ -2110,7 +2049,7 @@ banned()
 elseif getBot():getBotStatus() == Success and getBot():getEnetStatus() == Connected then
 TagBan("**"..getBot():getLocal().name:upper().."  Was "..status().." Now Back To Saving Seeds In "..world.." @everyone **")
 sleep(5000)
-warpdoang(world,WorldSaveSeedID)
+warp(world,WorldSaveSeedID)
 sleep(500)
 backposseed(world,x,y)
 end
@@ -2194,12 +2133,6 @@ atas = getBot():getWorld().name
     end
 end
 
-function ceksampah()
-warp(WorldSavePack[IndexSavePack],WorldSavePackID)
-getBot():autoCollect(4,false)
-sampah()
-getBot():autoCollect(4,true)
-end
 
 function sampah()
 if next(CustomItem) ~= nil then
@@ -2216,7 +2149,6 @@ end
     else
     return
 end
-warpdoang(rumah, widreal)
 end
 
 function SeedsScanner(ItemID)
@@ -2233,7 +2165,7 @@ function saveseed()
 getBot():autoCollect(4,false)
 botpack("Saving Seeds")
 atas = getBot():getWorld().name
-        warpdoang(WorldSaveSeed[IndexSaveSeed],WorldSaveSeedID)
+        warp(WorldSaveSeed[IndexSaveSeed],WorldSaveSeedID)
 rara = SeedsScanner(seedid)
     for _, tile in ipairs(getBot():getTiles()) do
         if tile.fg == IDPatokanSeed or tile.bg == IDPatokanSeed then 
@@ -2243,6 +2175,7 @@ rara = SeedsScanner(seedid)
                     sleep(500)
                     reconnectseed(atas, tile.x, tile.y)
                 end
+                faceSide("right")
                 while getBot():getItemCount(seedid) > 0 and CekTileSeeds(tile.x,tile.y,getBot():getItemCount(seedid)) do
                     getBot():sendPacket("action|drop\n|itemID|"..seedid,2)
                     sleep(1000)
@@ -2260,10 +2193,10 @@ rara = SeedsScanner(seedid)
    hasilseed = math.abs(rara - seeddrop)
     botpack("Success Saving Seeds")
     hasilseed = 0
-randomSeed = math.random(1, #WorldSaveSeed)
-IndexSaveSeed = randomSeed
+randomSeeds = math.random(1, #WorldSaveSeed)
+IndexSaveSeed = randomSeeds
 
-    warpfarm(rumah, wid)
+    warp(rumah, widreal)
 end
 
 
@@ -2272,7 +2205,7 @@ function belicuy()
   woloy = getBot():getWorld().name
     getBot():autoCollect(4,false)
     botpack("Buying Pack..")
-    warpdoang(WorldSavePack[IndexSavePack],WorldSavePackID)
+    warp(WorldSavePack[IndexSavePack],WorldSavePackID)
    rara = SeedsScanner(packitemid[1])
     while getBot():getLocal().gems > packgems do
             getBot():sendPacket("action|buy\nitem|".. itemname,2)
@@ -2291,9 +2224,10 @@ function belicuy()
      hasilpack = math.abs(rara - totalpack)
         botpack("Done Droping Pack, Back To Farm...")
   hasilpack = 0
-randomPack = math.random(1, #WorldSavePack)
-IndexSavePack = randomPack
-    warpfarm(rumah,wid)
+randomPacks = math.random(1, #WorldSavePack)
+IndexSavePack = randomPacks
+sampah()
+    warp(rumah,widreal)
 end
 
 function anjay()
