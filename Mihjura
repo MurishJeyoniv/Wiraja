@@ -476,7 +476,20 @@ rootlist = {
     8704, 8706, 8708, 8710, 8712, 8714, 8716, 2 , 8772
 }
 
+rootlist2 = {
+    8626, 8632, 8638, 8644, 8650, 8656, 8662, 8668, 8674, 8680,
+    8686, 8692, 8698, 8704, 8710, 8716, 
+}
+
 function cekseed2()
+for i, root in pairs(rootlist2) do
+if seedid == root then
+seedid = seedid - 3
+end
+end
+end
+
+function cekseed3()
 for i, root in pairs(rootlist) do
 if seedid == root then
 seedid = detectsoil()
@@ -492,7 +505,7 @@ end
 end
 end
 
-function cekseed3()
+function cekseed4()
 for i, root in pairs(rootlist) do
 if seedid == root then
 seedid = 0
@@ -2427,6 +2440,7 @@ seedid = detect()
 cekseed()
 cekseed2()
 cekseed3()
+cekseed4()
 if seedid == 0 then
 modefloat = true
 float1()
