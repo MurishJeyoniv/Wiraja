@@ -505,7 +505,7 @@ function detect()
         for y = 53, 1, -1 do
             for x = 98, 2, -1 do
                 local tile = getBot():getTile(x, y)
-                if tile.fg ~= 0 and detect2(tile.fg) > 10 then
+                if tile.fg ~= 0 and detect2(tile.fg) > 60 then
                     return tile.fg
                 end
             end
@@ -530,11 +530,11 @@ end
 idtable = {}
 
 function float1()
-for _, obj in pairs(getBot():getObjects()) do 
- if obj.id ~= 112 then
-        table.insert(idtable, obj.id)
+    for _, obj in pairs(getBot():getObjects()) do 
+        if obj.id ~= 112 and obj.count > 10 then
+            table.insert(idtable, obj.id)
+        end
     end
-end
 end
 
 local idCount = {}
@@ -1554,7 +1554,6 @@ end
 end
 end
 
-nuked = false 
 function warp(world,id)
     cok = 0
 while getBot():getWorld().name:upper() ~= world:upper() and not nuked do
@@ -1599,6 +1598,7 @@ sleep(1000)
 end
 end
 
+nuked = false
 function warpfarm(world,id)
     cok = 0
 while getBot():getWorld().name:upper() ~= world:upper() and not nuked do
@@ -1610,6 +1610,7 @@ while getBot():getWorld().name:upper() ~= world:upper() and not nuked do
         sleep(10000)
         if cok == 10 then
             nuked = true
+        return
         else
             cok = cok + 1
         end
