@@ -2365,7 +2365,6 @@ rumah = world
 DataWorld()
 sleep(sleepmulai)
 takepick()
-takemagni()
 takehose()
 warpfarm(world,wid)
 if not nuked then
