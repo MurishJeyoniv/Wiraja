@@ -1446,9 +1446,6 @@ function harvest()
 if modefloat then
 collectfloat()
 end
-if getBot():getItemCount(10158) == 0 then
-takemagni()
-end
 if SeparatePlant then
 antiToxic()
 soilmode()
