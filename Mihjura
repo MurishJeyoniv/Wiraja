@@ -675,7 +675,7 @@ end
 
 function cekemoji()
 if seedid == 4585 then
-return "<:paperseedbs:1063061801601871932>"
+return "<:pepper_tree:1081373865650954261>"
 elseif seedid == 5667 then
 return "<:lgrid_seed:1091612884758437959>"
 elseif seedid == 3005 then
@@ -683,7 +683,7 @@ return "<:fish_tank_seed:1012563310308233327>"
 elseif seedid == 8641 then
 return "<:Fence_seed:1121360619887661056>"
 else
-return  "<:paperseedbs:1063061801601871932>"
+return  "<:pepper_tree:1081373865650954261>"
 end
 end
 
@@ -825,7 +825,7 @@ end
 te = os.time() - t
  local verify = "<a:cham:849841924734976000> **Status Verify: "..nungguverify().."**"
 local activity = "**<:Pickaxe:1109395511661830176> Activity: "..Info.."**"
-local namebot = "**<:getBot():1049606018008612874> Name: "..getBot():getLocal().name:upper().." ( "..getBot():getLocal().level.." )**"
+local namebot = "**<:bot:1049606018008612874> Name: "..getBot():getLocal().name:upper().." ( "..getBot():getLocal().level.." )**"
 local world = "**<:World:1006699847308546109> World:** ||**"..getBot():getWorld().name:upper().."**||"
 local statusbot = "**<a:Online:1063444758783078480> Status: "..status().."**"
 local ping = "**<:Ping:1136942362103402566> Ping: "..getBot():getMs().." Ms**"
