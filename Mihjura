@@ -32,12 +32,6 @@ metotone = false
 modefloat = false
 awal = false
 
-randomPack = math.random(1, #WorldSavePack)
-randomSeed = math.random(1, #WorldSaveSeed)
-
-IndexSavePack = randomPack
-IndexSaveSeed = randomSeed
-
 startslotbot = 1
 
 for index, namebotx in pairs(getAllBot()) do
@@ -2226,6 +2220,8 @@ return kiwar
 end
 
 function saveseed()
+randomSeed = math.random(1, #WorldSaveSeed)
+IndexSaveSeed = randomSeed
 getBot():autoCollect(4,false)
 botpack("Saving Seeds")
 atas = getBot():getWorld().name
@@ -2266,6 +2262,8 @@ end
 
 
 function belicuy()
+randomPack = math.random(1, #WorldSavePack)
+IndexSavePack = randomPack
   woloy = getBot():getWorld().name
     getBot():autoCollect(4,false)
     botpack("Buying Pack..")
