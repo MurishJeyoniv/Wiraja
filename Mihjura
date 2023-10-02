@@ -540,11 +540,21 @@ function detectsoil()
     return 0
 end
 
+function cekterbang(id)
+local count = 0
+for _, obj in pairs(getBot():getObjects()) do
+if obj.id == id then
+count = count + obj.count
+end
+end
+return count
+end
+
 idtable = {}
 
 function float1()
     for _, obj in pairs(getBot():getObjects()) do 
-        if obj.id ~= 112 and obj.count > 6 then
+        if obj.id ~= 112 and cekterbang(obj.id) > 100 then
             table.insert(idtable, obj.id)
         end
     end
