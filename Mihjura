@@ -61,6 +61,27 @@ end
 return
 end
 
+function generateRandomText(length, letters, botId)
+    local text = ""
+    for i = 1, length do
+        local randomValue = math.random()
+        local randomIndex = math.floor(randomValue * #letters) + 1
+        local adjustedIndex = (randomIndex + botId - 1) % #letters + 1
+        local randomChar = letters[adjustedIndex]
+        text = text .. randomChar
+    end 
+    return text
+end
+
+function getRandom(table)
+    letters = table
+    countNumber = 1
+    botId = rulah
+    math.randomseed(os.time())
+    hasil = generateRandomText(countNumber, letters, botId)
+    return hasil
+end
+
 function TagBan(text)
     RequestINFO = {}
     RequestINFO.url = WhTagBan
@@ -2220,12 +2241,11 @@ return kiwar
 end
 
 function saveseed()
-randomSeed = math.random(1, #WorldSaveSeed)
-IndexSaveSeed = randomSeed
+Kizuma = getRandom(WorldSaveSeed)
 getBot():autoCollect(4,false)
 botpack("Saving Seeds")
 atas = getBot():getWorld().name
-        warp(WorldSaveSeed[IndexSaveSeed],WorldSaveSeedID)
+        warp(Kizuma,WorldSaveSeedID)
 rara = SeedsScanner(seedid)
     for _, tile in ipairs(getBot():getTiles()) do
         if tile.fg == IDPatokanSeed or tile.bg == IDPatokanSeed then 
@@ -2253,8 +2273,6 @@ rara = SeedsScanner(seedid)
    hasilseed = math.abs(rara - seeddrop)
     botpack("Success Saving Seeds")
     hasilseed = 0
-randomSeeds = math.random(1, #WorldSaveSeed)
-IndexSaveSeed = randomSeeds
 
     warp(rumah, widreal)
 end
@@ -2262,12 +2280,11 @@ end
 
 
 function belicuy()
-randomPack = math.random(1, #WorldSavePack)
-IndexSavePack = randomPack
+Kizuma = getRandom(WorldSavePack)
   woloy = getBot():getWorld().name
     getBot():autoCollect(4,false)
     botpack("Buying Pack..")
-    warp(WorldSavePack[IndexSavePack],WorldSavePackID)
+    warp(Kizuma,WorldSavePackID)
    rara = SeedsScanner(packitemid[1])
     while getBot():getLocal().gems > packgems do
             getBot():sendPacket("action|buy\nitem|".. itemname,2)
@@ -2286,8 +2303,6 @@ IndexSavePack = randomPack
      hasilpack = math.abs(rara - totalpack)
         botpack("Done Droping Pack, Back To Farm...")
   hasilpack = 0
-randomPacks = math.random(1, #WorldSavePack)
-IndexSavePack = randomPacks
 sampah()
     warp(rumah,widreal)
 end
