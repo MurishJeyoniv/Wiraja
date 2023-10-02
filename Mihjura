@@ -544,7 +544,7 @@ idtable = {}
 
 function float1()
     for _, obj in pairs(getBot():getObjects()) do 
-        if obj.id ~= 112 and obj.count > 10 then
+        if obj.id ~= 112 and obj.count > 6 then
             table.insert(idtable, obj.id)
         end
     end
@@ -2437,7 +2437,7 @@ float1()
 float2()
 seedidfloat = detectfloat()
 seedid  = detectfloat() + 1
-if seedid ~= 1 and seedid ~= 113 then
+if seedid ~= 1 then
   goto VELISHA
 end
 end
