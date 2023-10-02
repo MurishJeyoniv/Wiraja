@@ -1554,6 +1554,13 @@ end
     local acakIndex = math.random(1, #sayAn)
     local totalsay = sayAn[acakIndex]
 
+function warpdoang(world,id)
+while getBot():getWorld().name:upper() ~= world:upper() do
+            getBot():sendPacket("action|join_request\nname|"..world:upper().."|"..id:upper().."\ninvitedWorld|0",3)
+            sleep(5000)
+end
+end
+
 
 function warp(world,id)
     cok = 0
@@ -1760,7 +1767,7 @@ botshow("World Finish, Joining World...")
     sleep(100)
     for _,bimba in pairs(WorldForJoin) do 
     kasep = math.random(1, #WorldForJoin)
-        warp(WorldForJoin[kasep],"")
+        warpdoang(WorldForJoin[kasep],"")
         sleep(4000)
     end
 end
