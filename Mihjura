@@ -554,7 +554,7 @@ idtable = {}
 
 function float1()
     for _, obj in pairs(getBot():getObjects()) do 
-        if obj.id ~= 112 and cekterbang(obj.id) > 100 then
+        if obj.id ~= 112 and cekterbang(obj.id) > 50 then
             table.insert(idtable, obj.id)
         end
     end
