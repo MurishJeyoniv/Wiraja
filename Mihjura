@@ -481,6 +481,11 @@ rootlist2 = {
     8686, 8692, 8698, 8704, 8710, 8716, 
 }
 
+cutting = {
+    8740, 8742, 8744, 8746, 8748, 8750, 8752, 8754, 8756, 8758, 
+    8760, 8762, 8764, 8766, 8768, 8770
+}
+
 function cekseed2()
 for i, root in pairs(rootlist2) do
 if seedid == root then
@@ -584,6 +589,14 @@ if mostFrequentID then
 return mostFrequentID
 else
 return 0
+end
+end
+
+function cekfloat()
+for i, float in pairs(cutting) do
+if seedid == float then
+seedid = 0
+end
 end
 end
 
@@ -2440,18 +2453,22 @@ antiToxic()
 gemsawal = getBot():getLocal().gems
 tt = os.time()
 ::VELISHA::
+if foregraund(seedid) > 0 then
 jalan()
+tambal()
+end
 if not modefloat then
 modefloat = true
 float1()
 float2()
 seedidfloat = detectfloat()
-seedid  = detectfloat() + 1
+seedid  = detectfloat() 
+cekfloat()
+seedid = seedid + 1
 if seedid ~= 1 then
   goto VELISHA
 end
 end
-tambal()
       tt = os.time() - tt
       Time[world] = math.floor(tt / 3600) .. " Hours " .. math.floor(tt % 3600 / 60) .. " Minutes"
       sleep(100)
