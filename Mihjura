@@ -825,7 +825,7 @@ end
 te = os.time() - t
  local verify = "<a:cham:849841924734976000> **Status Verify: "..nungguverify().."**"
 local activity = "**<:Pickaxe:1109395511661830176> Activity: "..Info.."**"
-local namebot = "**<:bot:1049606018008612874> Name: "..getBot():getLocal().name:upper().." ( "..getBot():getLocal().level.." )**"
+local namebot = "**<:getBot():1049606018008612874> Name: "..getBot():getLocal().name:upper().." ( "..getBot():getLocal().level.." )**"
 local world = "**<:World:1006699847308546109> World:** ||**"..getBot():getWorld().name:upper().."**||"
 local statusbot = "**<a:Online:1063444758783078480> Status: "..status().."**"
 local ping = "**<:Ping:1136942362103402566> Ping: "..getBot():getMs().." Ms**"
@@ -876,7 +876,7 @@ else
 te = os.time() - t
  local packname = "<:shop_sign:1012590603172847648> **Pack Name: "..pack.."**"
 local activity = "**<:Pickaxe:1109395511661830176> Activity: "..Info.."**"
-local namebot = "**<:bot:1049606018008612874> Name: "..getBot():getLocal().name:upper().." ( "..getBot():getLocal().level.." )**"
+local namebot = "**<:getBot():1049606018008612874> Name: "..getBot():getLocal().name:upper().." ( "..getBot():getLocal().level.." )**"
 local world = "**<:World:1006699847308546109> World: **||**"..getBot():getWorld().name:upper().."**||"
 local statusbot = "**<a:Online:1063444758783078480> Status: "..status().."**"
 local ping = "**<:Ping:1136942362103402566> Ping: "..getBot():getMs().." Ms**"
@@ -1596,44 +1596,63 @@ end
 end
 
 nuked = false
-function warpfarm(world,id)
-    cok = 0
-while getBot():getWorld().name:upper() ~= world:upper() and not nuked do
-        while getBot():getBotStatus() ~= Success do
-            getBot():reConnect()
-            sleep(15000)
-        end
-        getBot():sendPacket("action|join_request\nname|"..world:upper().."\ninvitedWorld|0",3)
-        sleep(8000)
-        if cok == 10 then
-            nuked = true
-        else
-            cok = cok + 1
-        end
-    end
-    if id ~= "" and not nuked then
-  while getBot():getTile(math.floor(getBot():getLocal().pos.x / 32),math.floor(getBot():getLocal().pos.y / 32)).fg == 6 and not nuked do
-   for i=1, #wid do
-widreal = wid[i]
-            while getBot():getBotStatus() ~= Success do
-                getBot():reConnect()
-                sleep(15000)
+
+function warpfarm(kota,id)
+   if getBot():getCurrentWorld():upper() ~= kota:upper() and not nuked then
+      coynuked = 0
+      while getBot():getCurrentWorld():upper() ~= kota:upper() and not nuked do
+         sleep(1000)
+         getBot():sendPacket("action|join_request\nname|"..kota:upper().."\ninvitedWorld|0",3)
+         sleep(8000)
+         coynuked = coynuked + 1
+         if getBot():getBotStatus() ~= Success or getBot():getEnetStatus() ~= Connected then
+            getBot():setBool("autoReconnect",true)
+            while true do
+               sleep(10000)
+               if getBot():getBotStatus() == Suspended or getBot():getBotStatus() == Banned then
+                  sleep(100)
+                  sleep(1000)
+                  TagBan("**"..getBot():getLocal().name:upper().." Was Banned When Warp** @everyone")
+                  getBot():remove()
+               end
+               if getBot():getBotStatus() == Success and getBot():getEnetStatus() == Connected then
+                  getBot():setBool("autoReconnect",false)
+                  break
+               end
             end
-            getBot():sendPacket("action|join_request\nname|"..world:upper().."|"..wid[i].."\ninvitedWorld|0",3)
-            sleep(7000
-if getBot():getTile(math.floor(getBot():getLocal().pos.x / 32),math.floor(getBot():getLocal().pos.y / 32)).fg ~= 6 then
-break
-end
-        end
-   for i=1, #wid do
-widreal = wid[i]
-           getBot():sendPacket("action|join_request\nname|"..world:upper().."|"..wid[i].."\ninvitedWorld|0",3)
-            sleep(7000)
-if getBot():getTile(math.floor(getBot():getLocal().pos.x / 32),math.floor(getBot():getLocal().pos.y / 32)).fg ~= 6 then
-break
-end
-end
-end
+         end
+         if coynuked == 7 then
+            sleep(1000)
+            nuked = true
+         end
+      end
+   end
+   
+   if getBot():getTile(math.floor(getBot():getLocal().pos.x / 32),math.floor(getBot():getLocal().pos.y / 32)).fg == 6 and not nuked then
+      while getBot():getTile(math.floor(getBot():getLocal().pos.x / 32),math.floor(getBot():getLocal().pos.y / 32)).fg == 6 and not nuked do
+         for i = 1,#wid do
+         sleep(1000) 
+         widreal = wid[i]
+         getBot():sendPacket("action|join_request\nname|"..kota:upper().."|"..wid[i].."\ninvitedWorld|0",3)
+         sleep(8000)
+         if getBot():getBotStatus() ~= Success or getBot():getEnetStatus() ~= Connected then
+            getBot():setBool("autoReconnect",true)
+            while true do
+               sleep(10000)
+               if getBot():getBotStatus() == Suspended or getBot():getBotStatus() == Banned then
+                  sleep(100)
+                  sleep(1000)
+                  TagBan("**"..getBot():getLocal().name:upper().." Was Banned When Warp ** @everyone ")
+                  getBot():remove()
+               end
+               if getBot():getBotStatus() == Success and getBot():getEnetStatus() == Connected then
+                  getBot():setBool("autoReconnect",false)
+                  break
+               end
+            end
+         end
+      end
+   end
 end
 if UseMethod and not nuked then
 getBot():say(totalsay)
@@ -2369,6 +2388,7 @@ DataWorld()
 sleep(sleepmulai)
 takepick()
 takehose()
+getBot():warp("EXIT")
 warpfarm(world,wid)
 if not nuked then
 clearTable(processedTimes)
