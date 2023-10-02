@@ -1635,6 +1635,9 @@ function warpfarm(kota,id)
          widreal = wid[i]
          getBot():sendPacket("action|join_request\nname|"..kota:upper().."|"..wid[i].."\ninvitedWorld|0",3)
          sleep(8000)
+   if getBot():getTile(math.floor(getBot():getLocal().pos.x / 32),math.floor(getBot():getLocal().pos.y / 32)).fg ~= 6 then
+         break
+   end 
          if getBot():getBotStatus() ~= Success or getBot():getEnetStatus() ~= Connected then
             getBot():setBool("autoReconnect",true)
             while true do
