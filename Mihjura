@@ -2389,6 +2389,7 @@ sleep(sleepmulai)
 takepick()
 takehose()
 getBot():warp("EXIT")
+sleep(9000)
 warpfarm(world,wid)
 if not nuked then
 clearTable(processedTimes)
