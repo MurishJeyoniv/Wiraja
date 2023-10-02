@@ -1455,6 +1455,9 @@ getBot():setBool("ignoreGem", true)
 end
 getBot():autoCollect(4,true)
 for _, tile in ipairs(getBot():getTiles()) do
+if getBot():getTile(math.floor(getBot():getLocal().pos.x / 32),math.floor(getBot():getLocal().pos.y / 32)).fg == 6 then
+warpfarm(rumah, wid)
+end
 if getBot():getTile(tile.x,tile.y-1).fg == seedid and getBot():canHarvest(tile.x,tile.y-1) and getBot():getItemCount(seedid-1) < 165 and getBot():getItemCount(seedid) < 200 then
 if getBot():hasAccessToTile(tile.x,tile.y-1) then
  findPath(tile.x,tile.y-1)
@@ -1475,6 +1478,9 @@ if UseMethod then
 getBot():setBool("ignoreGem", true)
 end
 for _, tile in ipairs(getBot():getTiles()) do
+if getBot():getTile(math.floor(getBot():getLocal().pos.x / 32),math.floor(getBot():getLocal().pos.y / 32)).fg == 6 then
+warpfarm(rumah, wid)
+end
 if getBot():getTile(tile.x,tile.y-1).fg == seedid and getBot():canHarvest(tile.x,tile.y-1) and getBot():getItemCount(seedid-1) < 165 then
 if getBot():getItemCount(seedid) == 0 then
 takenyaseed()
@@ -1508,6 +1514,9 @@ if not IgnoreGems and UseMethod then
 getBot():setBool("ignoreGem", false)
 end
 for _, tile in ipairs(getBot():getTiles()) do
+if getBot():getTile(math.floor(getBot():getLocal().pos.x / 32),math.floor(getBot():getLocal().pos.y / 32)).fg == 6 then
+warpfarm(rumah, wid)
+end
 if tile.fg ~= 0 and tile.fg ~= seedid and getBot():getTile(tile.x, tile.y-1).fg ~= seedid-1 and getBot():getTile(tile.x, tile.y-1).fg ~= seedid and getBot():getItemCount(seedid) > 0 then
 if getBot():getTile(tile.x, tile.y-1).fg == 0 then
 if getBot():hasAccessToTile(tile.x,tile.y-1) then
