@@ -1351,7 +1351,8 @@ end
 
   function Take()
 botshow("Taking Seed For Planting Blank Seed")
-	warp(WorldSaveSeed[IndexSaveSeed], WorldSaveSeedID)
+Kizuma = getRandom(WorldSaveSeed)
+	warp(Kizuma, WorldSaveSeedID)
 	for _, object in pairs(getBot():getObjects()) do
 	  if object.id == seedid then
 		if getBot():getItemCount(seedid) == 200 then
@@ -1439,7 +1440,8 @@ end
 end
 
 function takenyaseed()
-warp(WorldSaveSeed[IndexSaveSeed],WorldSaveSeedID)
+Kizuma = getRandom(WorldSaveSeed)
+warp(Kizuma,WorldSaveSeedID)
 getBot():autoCollect(4,false)
 while getBot():getItemCount(seedid) < 120 do
         for _,obj in pairs(getBot():getObjects()) do
