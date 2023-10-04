@@ -410,53 +410,66 @@ for i = 1, MaxWorldPerBot do
    urutanbot = urutanbot - 1
 end
 
-for i = 1, rulah do
+rulahwebhook = rulah
+
+for i = 1, rulahwebhook do
     if WEBHOOK[i] and MESSAGEID[i] then
         WhStatus = WEBHOOK[i]
         MessageID = MESSAGEID[i]
+        rulahwebhook = rulahwebhook - 1
     else
         WhStatus = ""
         MessageID = ""
+        rulahwebhook = rulahwebhook - 1
     end
 end
 
 modebackup = ""
 
-for i = 1, rulah do
+rulahbackup = rulah
+
+for i = 1, rulahbackup do
     if BACKUPBOT[i] then
 local haspope = string.find(BACKUPBOT[i], "com")
 if haspope then
 modebackup = "UBICON"
  BotBackUp = string.match(BACKUPBOT[i], "([^|]+)")
  PwBotBackUp = string.match(BACKUPBOT[i], "|(.+)")
+rulahbackup = rulahbackup - 1
 else
         if BACKUPBOT[i] == "" then
 modebackup = "NONE"
             BotBackUp = ""
             PwBotBackUp = ""
+ulahbackup = rulahbackup - 1
         else
             local hasPipe = string.find(BACKUPBOT[i], "|")
             if hasPipe then
  modebackup = "NORMAL"
                 BotBackUp = string.match(BACKUPBOT[i], "([^|]+)")
                 PwBotBackUp = string.match(BACKUPBOT[i], "|(.+)")
+ulahbackup = rulahbackup - 1
             else
 modebackup = "GUEST"
                 BotBackUp = BACKUPBOT[i]
                 PwBotBackUp = ""
+ulahbackup = rulahbackup - 1
             end
         end
     end
 end
 end
 
+rulahbackupproxy = rulah
 
-for i = 1, rulah do
+for i = 1, rulahbackupproxy do
 if PROXYFORBACKUPBOT[i] then
 if PROXYFORBACKUPBOT[i] == "" then
 ProxyBackUp = ""
+rulahbackupproxy = rulahbackupproxy - 1
 else
 ProxyBackUp = PROXYFORBACKUPBOT[i]
+rulahbackupproxy = rulahbackupproxy - 1
 end
 end
 end
