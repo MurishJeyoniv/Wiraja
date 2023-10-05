@@ -1325,6 +1325,9 @@ function reconnect(x,y)
 while getBot():getTile(math.floor(getBot():getLocal().pos.x / 32),math.floor(getBot():getLocal().pos.y / 32)).fg == 6 do
 backpos(x,y)
 end
+while string.find(getBot():getWorld().name:upper(), "TUTORIAL") do
+sleep(5000)
+end
 if getBot():getBotStatus() == Banned then
 TagBan("**"..getBot():getLocal().name:upper().."  Was "..status().." Removing Bot... @everyone**")
 banned()
