@@ -2478,6 +2478,7 @@ float1()
 float2()
 seedidfloat = detectfloat() 
 seedid  = detectfloat() 
+cekfloat()
 end
 botshow("Bot Start")
 trashclothes()
@@ -2487,7 +2488,6 @@ tt = os.time()
 ::VELISHA::
 if foregraund(seedid) > 0 then
 jalan()
-tambal()
 end
 if not modefloat then
 modefloat = true
@@ -2496,12 +2496,11 @@ float2()
 seedidfloat = detectfloat()
 seedid  = detectfloat() 
 cekfloat()
-seedidfloat = seedidfloat 
-seedid = seedid 
 if seedid ~= 0 then
   goto VELISHA
 end
 end
+tambal()
       tt = os.time() - tt
       Time[world] = math.floor(tt / 3600) .. " Hours " .. math.floor(tt % 3600 / 60) .. " Minutes"
       sleep(100)
