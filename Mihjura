@@ -2476,8 +2476,8 @@ if seedid == 0 then
 modefloat = true
 float1()
 float2()
-seedidfloat = detectfloat() + 1
-seedid  = detectfloat() + 1
+seedidfloat = detectfloat() 
+seedid  = detectfloat() 
 end
 botshow("Bot Start")
 trashclothes()
@@ -2496,9 +2496,9 @@ float2()
 seedidfloat = detectfloat()
 seedid  = detectfloat() 
 cekfloat()
-seedidfloat = seedidfloat + 1
-seedid = seedid + 1
-if seedid ~= 1 then
+seedidfloat = seedidfloat 
+seedid = seedid 
+if seedid ~= 0 then
   goto VELISHA
 end
 end
