@@ -1327,6 +1327,9 @@ backpos(x,y)
 end
 while string.find(getBot():getWorld().name:upper(), "TUTORIAL") do
 sleep(5000)
+if not string.find(getBot():getWorld().name:upper(), "TUTORIAL") then
+break
+end
 end
 if getBot():getBotStatus() == Banned then
 TagBan("**"..getBot():getLocal().name:upper().."  Was "..status().." Removing Bot... @everyone**")
@@ -1360,6 +1363,9 @@ TagBan("**"..getBot():getLocal().name:upper().."  Was "..enetStatus().." Now Bac
 sleep(5000)
 while string.find(getBot():getWorld().name:upper(), "TUTORIAL") do
 sleep(5000)
+if not string.find(getBot():getWorld().name:upper(), "TUTORIAL") then
+break
+end
 end
 warp(rumah,widreal)
 backpos(x,y)
@@ -1634,6 +1640,9 @@ function warp(world,id)
     cok = 0
 while string.find(getBot():getWorld().name:upper(), "TUTORIAL") do
 sleep(5000)
+if not string.find(getBot():getWorld().name:upper(), "TUTORIAL") then
+break
+end
 end
 while getBot():getWorld().name:upper() ~= world:upper() and not nuked do
         while getBot():getBotStatus() ~= Success do
@@ -2450,6 +2459,9 @@ awal = false
 end
 while string.find(getBot():getWorld().name:upper(), "TUTORIAL") do
 sleep(5000)
+if not string.find(getBot():getWorld().name:upper(), "TUTORIAL") then
+break
+end
 end
 if getBot():getEnetStatus() == Connected then
 while true do
