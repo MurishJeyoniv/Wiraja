@@ -2469,7 +2469,6 @@ for index,world in pairs(worlds) do
 emoji = cekemoji()
 rumah = world
 DataWorld()
-sleep(sleepmulai)
 takepick()
 takehose()
 getBot():warp("EXIT")
@@ -2549,4 +2548,5 @@ end
 end
 end
 
+sleep(sleepmulai)
 startwoi()
