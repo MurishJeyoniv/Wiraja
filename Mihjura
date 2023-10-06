@@ -1632,6 +1632,9 @@ end
 
 function warp(world,id)
     cok = 0
+while string.find(getBot():getWorld().name:upper(), "TUTORIAL") do
+sleep(5000)
+end
 while getBot():getWorld().name:upper() ~= world:upper() and not nuked do
         while getBot():getBotStatus() ~= Success do
             getBot():reConnect()
