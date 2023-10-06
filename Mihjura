@@ -398,7 +398,7 @@ sleepwarp = sleepwarp + 9000
 end
 
 for i = 1,rulah do
-sleepmulai = sleepmulai + 5000
+sleepmulai = sleepmulai + 9000
 end
 
 
