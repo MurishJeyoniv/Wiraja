@@ -2452,10 +2452,25 @@ function clearTable(tbl)
 end
 
 function startwoi()
+lala = 0
+while getBot():getEnetStatus() ~= Connected do
+getBot():reConnect()
+sleep(8000)
 if getBot():getBotStatus() == Suspended or getBot():getBotStatus() == Banned then
 awal = true
 banned()
 awal = false
+end
+if lala == 10 then
+awal = true
+banned()
+awal = false
+else
+lala = lala + 1
+end
+if getBot():getEnetStatus == Connected then
+break
+end
 end
 while string.find(getBot():getWorld().name:upper(), "TUTORIAL") do
 sleep(5000)
