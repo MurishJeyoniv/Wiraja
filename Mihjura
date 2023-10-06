@@ -1349,7 +1349,7 @@ repeat
 sleep(1000)
 getBot():reConnect()
 sleep(12000)
-until getBot():getEnetStatus() == Connected or getBot():getBotStatus() == Suspended or getBot():getBotStatus() == Banned 
+until getBot():getBotStatus() == BypassTutorial or getBot():getEnetStatus() == Connected or getBot():getBotStatus() == Suspended or getBot():getBotStatus() == Banned 
 if getBot():getBotStatus() == Suspended then 
 TagBan("**"..getBot():getLocal().name:upper().."  Was "..status().." Removing Bot... @everyone**")
 banned()
