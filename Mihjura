@@ -1642,11 +1642,6 @@ while getBot():getWorld().name:upper() ~= world:upper() and not nuked do
         end
         getBot():sendPacket("action|join_request\nname|"..world:upper().."\ninvitedWorld|0",3)
         sleep(8000)
-        if cok == 10 then
-            nuked = true
-        else
-            cok = cok + 1
-        end
     end
     if id ~= "" and not nuked then
         while getBot():getTile(math.floor(getBot():getLocal().pos.x / 32),math.floor(getBot():getLocal().pos.y / 32)).fg == 6 and not nuked do
