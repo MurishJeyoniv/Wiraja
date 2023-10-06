@@ -2468,7 +2468,7 @@ awal = false
 else
 lala = lala + 1
 end
-if getBot():getEnetStatus == Connected then
+if getBot():getEnetStatus() == Connected then
 break
 end
 end
