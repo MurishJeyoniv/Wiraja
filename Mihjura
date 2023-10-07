@@ -17,6 +17,7 @@ skiptutorial = "false"
 seeddata = ""
 rumah = ""
 totaldropnya = 0
+IndexBackUp = 1
 IndexBotChange = 1
 ChangeProxyIndex = 1
 proxyIndex = 1
@@ -122,6 +123,10 @@ currentY = math.floor(getBot():getLocal().pos.y / 32)
     function distanceToTarget(x, y)
         return math.abs(x - targetX) + math.abs(y - targetY)
     end
+
+if getBot():getTile(math.floor(getBot():getLocal().pos.x / 32),math.floor(getBot():getLocal().pos.y / 32)).fg == 6 then
+warpfarm(rumah, wid)
+end
 
     -- Pergerakan vertikal
     while currentY ~= targetY do
@@ -397,10 +402,13 @@ for i = 1,rulah do
 sleepwarp = sleepwarp + 9000
 end
 
+if rulah > 1 then
 for i = 1,rulah do
 sleepmulai = sleepmulai + 12000
 end
-
+else
+sleepmulai = 20000
+end
 
 urutanbot = rulah * MaxWorldPerBot
 
@@ -428,35 +436,38 @@ modebackup = ""
 
 rulahbackup = rulah
 
+function cekbackup(Index)
 for i = 1, rulahbackup do
     if BACKUPBOT[i] then
-local haspope = string.find(BACKUPBOT[i], "com")
-if haspope then
+local haspope = string.find(BACKUPBOT[i][Index], "com")
+local haspope2 = string.find(BACKUPBOT[i][Index], "COM")
+if haspope or haspope2 then
 modebackup = "UBICON"
- BotBackUp = string.match(BACKUPBOT[i], "([^|]+)")
- PwBotBackUp = string.match(BACKUPBOT[i], "|(.+)")
+ BotBackUp = string.match(BACKUPBOT[i][Index], "([^|]+)")
+ PwBotBackUp = string.match(BACKUPBOT[i][Index], "|(.+)")
 rulahbackup = rulahbackup - 1
 else
-        if BACKUPBOT[i] == "" then
+        if BACKUPBOT[i][Index] == "" then
 modebackup = "NONE"
             BotBackUp = ""
             PwBotBackUp = ""
 ulahbackup = rulahbackup - 1
         else
-            local hasPipe = string.find(BACKUPBOT[i], "|")
+            local hasPipe = string.find(BACKUPBOT[i][Index], "|")
             if hasPipe then
  modebackup = "NORMAL"
-                BotBackUp = string.match(BACKUPBOT[i], "([^|]+)")
-                PwBotBackUp = string.match(BACKUPBOT[i], "|(.+)")
+                BotBackUp = string.match(BACKUPBOT[i][Index], "([^|]+)")
+                PwBotBackUp = string.match(BACKUPBOT[i][Index], "|(.+)")
 ulahbackup = rulahbackup - 1
             else
 modebackup = "GUEST"
-                BotBackUp = BACKUPBOT[i]
+                BotBackUp = BACKUPBOT[i][Index]
                 PwBotBackUp = ""
 ulahbackup = rulahbackup - 1
             end
         end
     end
+end
 end
 end
 
@@ -980,11 +991,20 @@ if SoilFarmMode then
         if getBot():getTile(tile.x, tile.y - 1).fg == seedid and getBot():canHarvest(tile.x, tile.y - 1) and getBot():getItemCount(seedid - 1) < 165 then 
           if getBot():hasAccessToTile(tile.x,tile.y-1) then
             findPath(tile.x, tile.y - 1)
+     if getBot():getItemCount(seedid) == 0 and not SeparatePlant then
+takenyaseed()
+end
                 while getBot():getTile(tile.x, tile.y - 1).fg == seedid and getBot():canHarvest(tile.x, tile.y - 1) do
               reconnect(tile.x, tile.y - 1)
               getBot():hitTile(tile.x, tile.y - 1)
               sleep(delayharvest)
             end
+            if not SeparatePlant then 
+            while getBot():getTile(tile.x,tile.y -1).fg == 0 and getBot():getTile(tile.x,tile.y -1).flags ~= 0 do
+          getBot():placeTile(tile.x,tile.y-1,seedid)
+          sleep(delayplant)
+           end
+          end
             while getBot():getTile(tile.x, tile.y).fg == (seedid + 3) and getBot():getTile(tile.x, tile.y).flags ~= 0 do
               punch(0,1)
               sleep(delayharvest + 150)
@@ -999,11 +1019,20 @@ end
         if getBot():getTile(tile.x, tile.y - 1).fg == seedid and getBot():canHarvest(tile.x, tile.y - 1) and getBot():getItemCount(seedid - 1) < 165 then
    if getBot():hasAccessToTile(tile.x,tile.y-1) then
     findPath(tile.x, tile.y - 1)
+      if getBot():getItemCount(seedid) == 0 and not SeparatePlant then
+takenyaseed()
+end
             while getBot():getTile(tile.x, tile.y - 1).fg == seedid and getBot():canHarvest(tile.x, tile.y - 1) do
               reconnect(tile.x, tile.y - 1)
               getBot():hitTile(tile.x, tile.y - 1)
               sleep(delayharvest)
             end
+            if not SeparatePlant then 
+            while getBot():getTile(tile.x,tile.y -1).fg == 0 and getBot():getTile(tile.x,tile.y -1).flags ~= 0 do
+          getBot():placeTile(tile.x,tile.y-1,seedid)
+          sleep(delayplant)
+           end
+          end
             while getBot():getTile(tile.x, tile.y).fg == (seedid + 3) and getBot():getTile(tile.x, tile.y).flags ~= 0 do
               punch(0,1)
               sleep(delayharvest + 150)
@@ -1262,17 +1291,25 @@ end
 
 
 function banned()
+if IndexBackUp < #BACKUPBOT[rulah]
+cekbackup(IndexBackUp)
+else
+getBot():remove()
+end
 if modebackup == "NORMAL" then
 getBot():remove()
 BackUpBiasa()
+IndexBackUp = IndexBackUp + 1
 end
 if modebackup == "GUEST" then
 getBot():remove()
 BackUpGuest()
+IndexBackUp = IndexBackUp + 1
 end
 if modebackup == "UBICON" then
 getBot():remove()
 BackUpUbicon()
+IndexBackUp = IndexBackUp + 1
 end
 if modebackup == "NONE" then
 if AutoRemoveBot then
@@ -1498,13 +1535,13 @@ function collectfloat()
 		sleep(2000)
 		getBot():autoCollect(10,true)
       getBot():setBool("ignoreGem", true)
+   end
                 if getBot():getItemCount(seedidfloat) > 165 then
          getBot():autoCollect(4,true)
            getBot():setBool("ignoreGem", false)
            break
              end
 	  end
-	end
 	end
 
 function harvest()
@@ -1520,9 +1557,6 @@ getBot():setBool("ignoreGem", true)
 end
 getBot():autoCollect(4,true)
 for _, tile in ipairs(getBot():getTiles()) do
-if getBot():getTile(math.floor(getBot():getLocal().pos.x / 32),math.floor(getBot():getLocal().pos.y / 32)).fg == 6 then
-warpfarm(rumah, wid)
-end
 if getBot():getTile(tile.x,tile.y-1).fg == seedid and getBot():canHarvest(tile.x,tile.y-1) and getBot():getItemCount(seedid-1) < 165 and getBot():getItemCount(seedid) < 200 then
 if getBot():hasAccessToTile(tile.x,tile.y-1) then
  findPath(tile.x,tile.y-1)
@@ -1543,15 +1577,12 @@ if UseMethod then
 getBot():setBool("ignoreGem", true)
 end
 for _, tile in ipairs(getBot():getTiles()) do
-if getBot():getTile(math.floor(getBot():getLocal().pos.x / 32),math.floor(getBot():getLocal().pos.y / 32)).fg == 6 then
-warpfarm(rumah, wid)
-end
 if getBot():getTile(tile.x,tile.y-1).fg == seedid and getBot():canHarvest(tile.x,tile.y-1) and getBot():getItemCount(seedid-1) < 165 then
+if getBot():hasAccessToTile(tile.x,tile.y-1) then
+findPath(tile.x,tile.y-1)
 if getBot():getItemCount(seedid) == 0 then
 takenyaseed()
 end
-if getBot():hasAccessToTile(tile.x,tile.y-1) then
-findPath(tile.x,tile.y-1)
 while getBot():getTile(tile.x,tile.y - 1).fg == seedid and getBot():canHarvest(tile.x,tile.y-1) do
 reconnect(tile.x,tile.y-1)
 getBot():hitTile(tile.x,tile.y-1)
@@ -1579,9 +1610,6 @@ if not IgnoreGems and UseMethod then
 getBot():setBool("ignoreGem", false)
 end
 for _, tile in ipairs(getBot():getTiles()) do
-if getBot():getTile(math.floor(getBot():getLocal().pos.x / 32),math.floor(getBot():getLocal().pos.y / 32)).fg == 6 then
-warpfarm(rumah, wid)
-end
 if tile.fg ~= 0 and tile.fg ~= seedid and getBot():getTile(tile.x, tile.y-1).fg ~= seedid-1 and getBot():getTile(tile.x, tile.y-1).fg ~= seedid and getBot():getItemCount(seedid) > 0 then
 if getBot():getTile(tile.x, tile.y-1).fg == 0 then
 if getBot():hasAccessToTile(tile.x,tile.y-1) then
@@ -1671,7 +1699,15 @@ while getBot():getWorld().name:upper() ~= world:upper() and not nuked do
         while getBot():getBotStatus() ~= Success do
                 getBot():reConnect()
                 sleep(5000)
+        if getBot():getBotStatus() == BypassTutorial then
+        goto KICAK
+        break
+        end
             end
+        if getBot():getBotStatus() == BypassTutorial then
+        goto KICAK
+        break
+        end
    getBot():sendPacket("action|join_request\nname|"..world:upper().."|"..id:upper().."\ninvitedWorld|0",3)
             sleep(5000)
     end
@@ -2493,14 +2529,16 @@ float2()
 seedidfloat = detectfloat() 
 seedid  = detectfloat() 
 cekfloat()
+seedidfloat = seedidfloat + 1
+seedid = seedid + 1
 end
 botshow("Bot Start")
 trashclothes()
 antiToxic()
 gemsawal = getBot():getLocal().gems
-tt = os.time()
 ::VELISHA::
 if foregraund(seedid) > 0 then
+tt = os.time()
 jalan()
 end
 if not modefloat then
@@ -2510,7 +2548,9 @@ float2()
 seedidfloat = detectfloat()
 seedid  = detectfloat() 
 cekfloat()
-if seedid ~= 0 then
+seedidfloat = seedidfloat + 1
+seedid = seedid + 1
+if seedid ~= 1 then
   goto VELISHA
 end
 end
