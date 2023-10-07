@@ -18,6 +18,7 @@ seeddata = ""
 rumah = ""
 totaldropnya = 0
 IndexBackUp = 1
+IndexProxyBackUp = 1
 IndexBotChange = 1
 ChangeProxyIndex = 1
 proxyIndex = 1
@@ -234,6 +235,10 @@ if AutoAddBot then
           if getBot():getBotStatus() == Banned or getBot():getBotStatus() == Suspended then
             getBot():remove()
           end
+
+        while getBot():getBotStatus() == BypassTutorial do
+        sleep(5000)
+       end
           
           if getBot():getBotStatus() == Success then
             -- Eksekusi aksi ketika bot berhasil login
@@ -253,6 +258,10 @@ if AutoAddBot then
           if getBot():getBotStatus() == Banned or getBot():getBotStatus() == Suspended then
             getBot():remove()
          end
+
+       while getBot():getBotStatus() == BypassTutorial do
+        sleep(5000)
+       end
        
        if getBot():getBotStatus() == Success then
            -- here
@@ -407,7 +416,7 @@ for i = 1,rulah do
 sleepmulai = sleepmulai + 12000
 end
 else
-sleepmulai = 20000
+sleepmulai = 15000
 end
 
 urutanbot = rulah * MaxWorldPerBot
@@ -439,29 +448,34 @@ rulahbackup = rulah
 function cekbackup(Index)
 for i = 1, rulahbackup do
     if BACKUPBOT[i] then
-local haspope = string.find(BACKUPBOT[i][Index], "com")
-local haspope2 = string.find(BACKUPBOT[i][Index], "COM")
-if haspope or haspope2 then
-modebackup = "UBICON"
- BotBackUp = string.match(BACKUPBOT[i][Index], "([^|]+)")
- PwBotBackUp = string.match(BACKUPBOT[i][Index], "|(.+)")
-rulahbackup = rulahbackup - 1
-else
-        if BACKUPBOT[i][Index] == "" then
+local BOT, PASS = BACKUPBOT[i][Index]:match("BOT=(%w+)|(%w+)")
+local BOT2, PASS2 = BACKUPBOT[i][Index]:match("BOT=(%w+)+(%w+)")
+        if BOT == nil and PASS == nil and BOT2 == nil and PASS == nil then
 modebackup = "NONE"
             BotBackUp = ""
             PwBotBackUp = ""
 ulahbackup = rulahbackup - 1
+else
+if BOT ~= nil and PASS ~= nil then
+haspope = string.find(BOT, "com")
+haspope2 = string.find(BOT, "COM")
+end
+if haspope or haspope2 then
+modebackup = "UBICON"
+ BotBackUp = BOT
+ PwBotBackUp = PASS
+rulahbackup = rulahbackup - 1
         else
-            local hasPipe = string.find(BACKUPBOT[i][Index], "|")
+       local PIYE = BACKUPBOT[i][Index]:match("BOT=(.-)%s+PROXY=")
+            local hasPipe = string.find(PIYE, "|")
             if hasPipe then
  modebackup = "NORMAL"
-                BotBackUp = string.match(BACKUPBOT[i][Index], "([^|]+)")
-                PwBotBackUp = string.match(BACKUPBOT[i][Index], "|(.+)")
+                BotBackUp = BOT
+                PwBotBackUp = PASS
 ulahbackup = rulahbackup - 1
             else
 modebackup = "GUEST"
-                BotBackUp = BACKUPBOT[i][Index]
+                BotBackUp = BOT
                 PwBotBackUp = ""
 ulahbackup = rulahbackup - 1
             end
@@ -473,20 +487,20 @@ end
 
 rulahbackupproxy = rulah
 
-for i = 1, rulahbackupproxy do
-if PROXYFORBACKUPBOT[i] then
-if PROXYFORBACKUPBOT[i] == "" then
+function cekproxybackup(Index)
+for i = 1,rulahbackupproxy do
+if BACKUPBOT[i] then
+local SOCKS = BACKUPBOT[i][Index]:match("PROXY=(%w+)")
+if SOCKS == nil then
 ProxyBackUp = ""
 rulahbackupproxy = rulahbackupproxy - 1
 else
-ProxyBackUp = PROXYFORBACKUPBOT[i]
+ProxyBackUp = BACKUPBOT[i][Index]:match("PROXY=(%w+)")
 rulahbackupproxy = rulahbackupproxy - 1
 end
 end
 end
-
-
-
+end
 
 
 seedid = 0
@@ -1232,6 +1246,9 @@ if getBot():getBotStatus() == Banned or getBot():getBotStatus() == Suspended the
 getBot():remove()
 break
 end
+if getBot():getBotStatus() == BypassTutorial then
+sleep(30000)
+end
 end
 if not awal then
 warp(rumah, widreal)
@@ -1246,6 +1263,9 @@ sleep(8000)
 if getBot():getBotStatus() == Banned or getBot():getBotStatus() == Suspended then
 getBot():remove()
 break
+end
+if getBot():getBotStatus() == BypassTutorial then
+sleep(30000)
 end
 end
 if not awal then
@@ -1291,11 +1311,8 @@ end
 
 
 function banned()
-if IndexBackUp < #BACKUPBOT[rulah] then
 cekbackup(IndexBackUp)
-else
-getBot():remove()
-end
+cekproxybackup(IndexProxyBackUp)
 if modebackup == "NORMAL" then
 getBot():remove()
 BackUpBiasa()
