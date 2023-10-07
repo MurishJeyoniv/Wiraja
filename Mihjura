@@ -2537,8 +2537,8 @@ trashclothes()
 antiToxic()
 gemsawal = getBot():getLocal().gems
 ::VELISHA::
-if foregraund(seedid) > 0 then
 tt = os.time()
+if foregraund(seedid) > 0 then
 jalan()
 end
 if not modefloat then
