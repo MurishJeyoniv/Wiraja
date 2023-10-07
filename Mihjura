@@ -1291,7 +1291,7 @@ end
 
 
 function banned()
-if IndexBackUp < #BACKUPBOT[rulah]
+if IndexBackUp < #BACKUPBOT[rulah] then
 cekbackup(IndexBackUp)
 else
 getBot():remove()
