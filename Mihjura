@@ -1312,7 +1312,7 @@ end
 
 function banned()
 cekbackup(IndexBackUp)
-cekproxybackup(IndexProxyBackUp)
+cekproxybackup(IndexBackUp)
 if modebackup == "NORMAL" then
 getBot():remove()
 BackUpBiasa()
