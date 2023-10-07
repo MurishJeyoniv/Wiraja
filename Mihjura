@@ -1638,6 +1638,7 @@ end
 
 function warp(world,id)
     cok = 0
+::KICAK::
 while string.find(getBot():getWorld().name:upper(), "TUTORIAL") do
 sleep(5000)
 if not string.find(getBot():getWorld().name:upper(), "TUTORIAL") then
@@ -1648,6 +1649,10 @@ while getBot():getWorld().name:upper() ~= world:upper() and not nuked do
         while getBot():getBotStatus() ~= Success do
             getBot():reConnect()
             sleep(15000)
+        if getBot():getBotStatus() == BypassTutorial then
+        goto KICAK
+        break
+        end
         end
         getBot():sendPacket("action|join_request\nname|"..world:upper().."\ninvitedWorld|0",3)
         sleep(8000)
