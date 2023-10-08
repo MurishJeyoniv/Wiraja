@@ -486,7 +486,7 @@ end
 
 if rulah > 1 then
 for i = 1,rulah do
-sleepmulai = sleepmulai + 2000
+sleepmulai = sleepmulai + 6000
 end
 else
 sleepmulai = 6000
