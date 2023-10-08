@@ -485,9 +485,7 @@ sleepwarp = sleepwarp + 9000
 end
 
 if rulah > 1 then
-for i = 1,rulah do
-sleepmulai = sleepmulai + 6000
-end
+sleepmulai = 4000
 else
 sleepmulai = 6000
 end
