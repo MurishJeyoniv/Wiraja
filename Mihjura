@@ -480,17 +480,6 @@ end
 sleepwarp = 0
 sleepmulai = 0
 
-if rulah % 20 == 0 then
-    local kelipatan = rulah / 20
-    if kelipatan == 1 then
-    sleepwarp = 0
-else
-for i = 1,rulah do
-sleepwarp = 40 * 1000
-end
-end
-end
-
 
 
 if rulah > 1 then
@@ -1910,7 +1899,12 @@ end
 function takepick()
 if TakePick then
 if getBot():getItemCount(98) == 0 then
-sleep(sleepwarp)
+kelipatan = math.ceil(rulah / 20)
+if kelipatan > 1 then
+while getBot(botid[kelipatan - 1 * 20]):getWorld().name:upper() == WorldPick do
+sleep(4000)
+end
+end
 botshow("Bot Taking Pickaxe..")
     warp(WorldPick,WorldPickID)
     sleep(100)
