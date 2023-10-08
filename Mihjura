@@ -480,9 +480,18 @@ end
 sleepwarp = 0
 sleepmulai = 0
 
+if rulah % 20 == 0 then
+    local kelipatan = rulah / 20
+    if kelipatan == 1 then
+    sleepwarp = 0
+else
 for i = 1,rulah do
-sleepwarp = sleepwarp + 9000
+sleepwarp = 40 * 1000
 end
+end
+end
+
+
 
 if rulah > 1 then
 sleepmulai = 4000
