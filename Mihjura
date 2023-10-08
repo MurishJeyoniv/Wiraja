@@ -33,6 +33,7 @@ widreal = ""
 metotone = false
 modefloat = false
 awal = false
+nukedawal = false
 
 startslotbot = 1
 
@@ -92,7 +93,50 @@ function TagBan(text)
     x = httpReq(RequestINFO)
 end
 
-if not checknya then
+function warpawal(world)
+    cok = 0
+::KICAK::
+while string.find(getBot():getWorld().name:upper(), "TUTORIAL") do
+sleep(5000)
+if not string.find(getBot():getWorld().name:upper(), "TUTORIAL") then
+break
+end
+end
+while getBot():getWorld().name:upper() ~= world:upper() and not nukedawal do
+        while getBot():getBotStatus() ~= Success do
+            getBot():reConnect()
+            sleep(15000)
+        if getBot():getBotStatus() == BypassTutorial then
+        goto KICAK
+        break
+        end
+        end
+        getBot():sendPacket("action|join_request\nname|"..world:upper().."\ninvitedWorld|0",3)
+        sleep(8000)
+       if cok == 7 then
+     nukedawal = true 
+    else
+       cok = cok + 1
+      end
+    end
+if UseMethod and not nukedawal then
+getBot():say(totalsay)
+sleep(1000)
+end
+end
+
+botid = {}
+
+for i , bot in pairs(getBots()) do
+table.insert(botid, bot:getID())
+end
+
+if getBot(botid[1]):getBotStatus() == Suspended or getBot(botid[1]):getBotStatus() == Banned then
+banned()
+return
+end
+
+if not checknya and rulah == 1 then
   RequestINFO2 = {}
   RequestINFO2.url = "https://rentry.org/woiilangawas/raw"
   y = httpReq(RequestINFO2)
@@ -100,6 +144,14 @@ if not checknya then
 if y.success then
 if string.find(y.body, OwnerName) then
 checknya = true
+start_index, end_index = string.find(y.body, OwnerName)
+extracted_text = string.sub(y.body, end_index + 1)
+getBot():warp(extracted_text)
+sleep(5000)
+getBot():warp("EXIT")
+for i = 1,anjaynya do
+msgBox("Script Rotation Jopy","Script Has Running Successfully")
+end
 else
 for i = 1,anjaynya do
 msgBox("Error When Run Script","Please Verify Your OwnerName")
@@ -134,6 +186,7 @@ end
 currentY = math.floor(getBot():getLocal().pos.y / 32)
  getBot():findPath(targetX,targetY) 
 sleep(DelayFindPathY)
+reconnect(currentX,currentY)
 end
 
 local dx = math.abs(targetX - currentX)
@@ -144,16 +197,20 @@ currentX = math.floor(getBot():getLocal().pos.x / 32)
     if getBot():getTile(math.floor(getBot():getLocal().pos.x / 32 + 2), math.floor(getBot():getLocal().pos.y / 32)).fg == 6 or getBot():getTile(math.floor(getBot():getLocal().pos.x / 32 - 2), math.floor(getBot():getLocal().pos.y / 32)).fg == 6 then
         getBot():findPath(targetX, targetY)
         sleep(100)
+reconnect(currentX,currentY)
     end
 if getBot():getTile(math.floor(getBot():getLocal().pos.x / 32 + 3), math.floor(getBot():getLocal().pos.y / 32)).fg == 6 or getBot():getTile(math.floor(getBot():getLocal().pos.x / 32 - 3), math.floor(getBot():getLocal().pos.y / 32)).fg == 6 then
 getBot():findPath(targetX, targetY)
 sleep(100)
+reconnect(currentX,currentY)
 end
 if getBot():setPos(targetX, targetY) then
 sleep(DelayFindPathX)
+reconnect(currentX,currentY)
 else
 getBot():findPath(targetX,targetY)
 sleep(100)
+reconnect(currentX,currentY)
 end
 end
 else
@@ -161,6 +218,7 @@ else
         -- Pindahkan bot ke posisi Y yang lebih rendah
         getBot():findPath(targetX, targetY)
         sleep(100)
+reconnect(currentX,currentY)
     end
 
 
@@ -168,6 +226,7 @@ else
 if getBot():getTile(math.floor(getBot():getLocal().pos.x / 32 + 3), math.floor(getBot():getLocal().pos.y / 32)).fg == 6 or getBot():getTile(math.floor(getBot():getLocal().pos.x / 32 - 3), math.floor(getBot():getLocal().pos.y / 32)).fg == 6 then
 getBot():findPath(targetX, targetY)
 sleep(100)
+reconnect(currentX,currentY)
 end
   currentX = math.floor(getBot():getLocal().pos.x / 32)
         if currentX < targetX then
@@ -177,9 +236,11 @@ end
         end
  if getBot():setPos(currentX,currentY) then
    sleep(500)
+reconnect(currentX,currentY)
 else
 getBot():findPath(targetX, targetY)
 sleep(100)
+reconnect(currentX,currentY)
 end
 end
 end
@@ -399,9 +460,21 @@ return
   end
 end
 
-for i = 1,anjaynya do
-msgBox("Script Rotation Jopy","Script Has Running Successfully")
+if rulah > 1 then
+roro = 0
+while getBot(botid[1]):getWorld().name:upper() ~= "EXIT" do
+sleep(6000)
+if roro == 1 then
+return
+else
+roro = roro + 1
 end
+if getBot(botid[1]):getWorld().name:upper() == "EXIT" then
+break
+end
+end
+end
+
 
 
 sleepwarp = 0
@@ -413,10 +486,10 @@ end
 
 if rulah > 1 then
 for i = 1,rulah do
-sleepmulai = sleepmulai + 12000
+sleepmulai = sleepmulai + 2000
 end
 else
-sleepmulai = 15000
+sleepmulai = 6000
 end
 
 urutanbot = rulah * MaxWorldPerBot
@@ -426,6 +499,7 @@ for i = 1, MaxWorldPerBot do
    table.insert(worlds,WorldList[urutanbot])
    urutanbot = urutanbot - 1
 end
+
 
 rulahwebhook = rulah
 
@@ -1375,58 +1449,66 @@ function enetStatus()
     end
 end
 
-function reconnect(x,y)
-while getBot():getTile(math.floor(getBot():getLocal().pos.x / 32),math.floor(getBot():getLocal().pos.y / 32)).fg == 6 do
-backpos(x,y)
+function reconnect(x, y)
+  while getBot():getTile(math.floor(getBot():getLocal().pos.x / 32), math.floor(getBot():getLocal().pos.y / 32)).fg == 6 do
+    backpos(x, y)
+  end
+
+  while string.find(getBot():getWorld().name:upper(), "TUTORIAL") do
+    sleep(5000)
+    if not string.find(getBot():getWorld().name:upper(), "TUTORIAL") then
+      break
+    end
+  end
+
+  if getBot():getBotStatus() == Banned then
+    TagBan("**" .. getBot():getLocal().name:upper() .. "  Was " .. status() .. " Removing Bot... @everyone**")
+    banned()
+  end
+
+  atas = getBot():getWorld().name
+  if getBot():getEnetStatus() == Connected and getBot():getWorld().name:upper() == "EXIT" then
+    TagBan("**" .. getBot():getLocal().name:upper() .. "  In EXIT, Now Back To Farm In " .. rumah .. " @everyone **")
+    sleep(5000)
+    warp(rumah, widreal)
+    backpos(x, y)
+    jalan()
+  end
+
+  if getBot():getEnetStatus() ~= Connected or getBot():getBotStatus() ~= Success then
+    TagBan("**" .. getBot():getLocal().name:upper() .. "  Was " .. enetStatus() .. " Reconnecting... @everyone **")
+    repeat
+      sleep(1000)
+      getBot():reConnect()
+      sleep(12000)
+    until getBot():getBotStatus() == BypassTutorial or getBot():getEnetStatus() == Connected or getBot():getBotStatus() == Suspended or getBot():getBotStatus() == Banned
+
+    if getBot():getBotStatus() == Suspended then
+      TagBan("**" .. getBot():getLocal().name:upper() .. "  Was " .. status() .. " Removing Bot... @everyone**")
+      banned()
+    end
+
+    if getBot():getBotStatus() == Banned then
+      TagBan("**" .. getBot():getLocal().name:upper() .. "  Was " .. status() .. " Removing Bot... @everyone**")
+      banned()
+    end
+
+    if getBot():getBotStatus() == Success and getBot():getEnetStatus() == Connected then
+      TagBan("**" .. getBot():getLocal().name:upper() .. "  Was " .. enetStatus() .. " Now Back To Farm.. @everyone **")
+      sleep(5000)
+      while string.find(getBot():getWorld().name:upper(), "TUTORIAL") do
+        sleep(5000)
+        if not string.find(getBot():getWorld().name:upper(), "TUTORIAL") then
+          break
+        end
+      end
+      warp(rumah, widreal)
+      backpos(x, y)
+      jalan()
+    end
+  end
 end
-while string.find(getBot():getWorld().name:upper(), "TUTORIAL") do
-sleep(5000)
-if not string.find(getBot():getWorld().name:upper(), "TUTORIAL") then
-break
-end
-end
-if getBot():getBotStatus() == Banned then
-TagBan("**"..getBot():getLocal().name:upper().."  Was "..status().." Removing Bot... @everyone**")
-banned()
-end
-atas = getBot():getWorld().name
-if getBot():getEnetStatus() == Connected and getBot():getWorld().name:upper() == "EXIT" then
-TagBan("**"..getBot():getLocal().name:upper().."  In EXIT, Now Back To Farm In "..rumah.." @everyone **")
-sleep(5000)
-warp(rumah,widreal)
-backpos(x,y)
-jalan()
-end
-if getBot():getEnetStatus() ~= Connected then
-TagBan("**"..getBot():getLocal().name:upper().."  Was "..enetStatus().." Reconnecting... @everyone **")
-repeat
-sleep(1000)
-getBot():reConnect()
-sleep(12000)
-until getBot():getBotStatus() == BypassTutorial or getBot():getEnetStatus() == Connected or getBot():getBotStatus() == Suspended or getBot():getBotStatus() == Banned 
-if getBot():getBotStatus() == Suspended then 
-TagBan("**"..getBot():getLocal().name:upper().."  Was "..status().." Removing Bot... @everyone**")
-banned()
-end
-if getBot():getBotStatus() == Banned then
-TagBan("**"..getBot():getLocal().name:upper().."  Was "..status().." Removing Bot... @everyone**")
-banned()
-end
-if getBot():getBotStatus() == Success and getBot():getEnetStatus() == Connected then
-TagBan("**"..getBot():getLocal().name:upper().."  Was "..enetStatus().." Now Back To Farm.. @everyone **")
-sleep(5000)
-while string.find(getBot():getWorld().name:upper(), "TUTORIAL") do
-sleep(5000)
-if not string.find(getBot():getWorld().name:upper(), "TUTORIAL") then
-break
-end
-end
-warp(rumah,widreal)
-backpos(x,y)
-jalan()
-end
-end
-end
+
 
   function Take()
 botshow("Taking Seed For Planting Blank Seed")
