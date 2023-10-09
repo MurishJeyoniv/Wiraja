@@ -520,9 +520,11 @@ rulahbackup = rulah
 function cekbackup(Index)
 for i = 1, rulahbackup do
     if BACKUPBOT[i] then
-local BOT, PASS = BACKUPBOT[i][Index]:match("BOT=(%w+)|(%w+)")
-local BOT2, PASS2 = BACKUPBOT[i][Index]:match("BOT=(%w+)+(%w+)")
-        if BOT == nil and PASS == nil and BOT2 == nil and PASS == nil then
+if BACKUPBOT[i][Index]:match("BOT=(%w+)|(%w+)") and BACKUPBOT[i][Index]:match("BOT=(%w+)+(%w+)") ~= nil then
+BOT, PASS = BACKUPBOT[i][Index]:match("BOT=(%w+)|(%w+)")
+BOT2, PASS2 = BACKUPBOT[i][Index]:match("BOT=(%w+)+(%w+)")
+end
+if BACKUPBOT[i][Index]:match("BOT=(%w+)|(%w+)") and BACKUPBOT[i][Index]:match("BOT=(%w+)+(%w+)") == nil then
 modebackup = "NONE"
             BotBackUp = ""
             PwBotBackUp = ""
