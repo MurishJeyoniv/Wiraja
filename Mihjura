@@ -2609,6 +2609,12 @@ function clearTable(tbl)
 end
 
 function startwoi()
+if getBot():getBotStatus() ~= Success then
+repeat
+getBot():reConnect()
+sleep(8000)
+until getBot():getBotStatus() == Success or getBot():getBotStatus() == Suspended or getBot():getBotStatus() == Banned
+end
 if getBot():getBotStatus() == Suspended or getBot():getBotStatus() == Banned then
 awal = true
 banned()
