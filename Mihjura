@@ -483,7 +483,9 @@ sleepmulai = 0
 
 
 if rulah > 1 then
-sleepmulai = 4000
+for i=1, rulah do
+sleepmulai = sleepmulai + 1000
+end
 else
 sleepmulai = 6000
 end
