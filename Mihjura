@@ -37,7 +37,7 @@ nukedawal = false
 
 startslotbot = 1
 
-for index, namebotx in pairs(getAllBot()) do
+for index, namebotx in pairs(getBots()) do
    if namebotx:getLocal().name:upper() == getBot():getLocal().name:upper() then
       rulah = index + ( startslotbot - 1 )
       break
@@ -147,7 +147,7 @@ checknya = true
 start_index, end_index = string.find(y.body, OwnerName)
 extracted_text = string.sub(y.body, end_index + 1)
 getBot():warp(extracted_text)
-sleep(5000)
+sleep(3000)
 getBot():warp("EXIT")
 for i = 1,anjaynya do
 msgBox("Script Rotation Jopy","Script Has Running Successfully")
@@ -462,8 +462,13 @@ end
 
 if rulah > 1 then
 roro = 0
+rumahbray = getBot(botid[1]):getWorld().name:upper()
 while getBot(botid[1]):getWorld().name:upper() ~= "EXIT" do
-sleep(6000)
+sleep(3000)
+if rumahbray == getBot(botid[1]):getWorld().name:upper() then
+return
+end
+sleep(3000)
 if roro == 1 then
 return
 else
