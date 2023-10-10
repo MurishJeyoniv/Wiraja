@@ -529,7 +529,6 @@ function cekbackup(Index)
                     modebackup = "GUEST"
                     BotBackUp = match2
                     PwBotBackUp = match2pass
-                    log(match2pass)
             elseif string.find(backupString, "com") then
                 modebackup = "UBICON"
                 BotBackUp = match1 or ""
@@ -545,7 +544,7 @@ function cekbackup(Index)
                 PwBotBackUp = ""
             end
 
-            ulahbackup = ulahbackup - 1
+            rulahbackup = rulahbackup - 1
         end
     end
 end
