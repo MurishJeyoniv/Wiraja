@@ -64,210 +64,6 @@ end
 return
 end
 
-function generateRandomText(length, letters, botId)
-    local text = ""
-    for i = 1, length do
-        local randomValue = math.random()
-        local randomIndex = math.floor(randomValue * #letters) + 1
-        local adjustedIndex = (randomIndex + botId - 1) % #letters + 1
-        local randomChar = letters[adjustedIndex]
-        text = text .. randomChar
-    end 
-    return text
-end
-
-function getRandom(table)
-    letters = table
-    countNumber = 1
-    botId = rulah
-    math.randomseed(os.time())
-    hasil = generateRandomText(countNumber, letters, botId)
-    return hasil
-end
-
-function TagBan(text)
-    RequestINFO = {}
-    RequestINFO.url = WhTagBan
-    RequestINFO.method = POST
-    RequestINFO.postData = "content=" .. text
-    x = httpReq(RequestINFO)
-end
-
-function warpawal(world)
-    cok = 0
-::KICAK::
-while string.find(getBot():getWorld().name:upper(), "TUTORIAL") do
-sleep(5000)
-if not string.find(getBot():getWorld().name:upper(), "TUTORIAL") then
-break
-end
-end
-while getBot():getWorld().name:upper() ~= world:upper() and not nukedawal do
-        while getBot():getBotStatus() ~= Success do
-            getBot():reConnect()
-            sleep(15000)
-        if getBot():getBotStatus() == BypassTutorial then
-        goto KICAK
-        break
-        end
-        end
-        getBot():sendPacket("action|join_request\nname|"..world:upper().."\ninvitedWorld|0",3)
-        sleep(8000)
-       if cok == 7 then
-     nukedawal = true 
-    else
-       cok = cok + 1
-      end
-    end
-if UseMethod and not nukedawal then
-getBot():say(totalsay)
-sleep(1000)
-end
-end
-
-botid = {}
-
-for i , bot in pairs(getBots()) do
-table.insert(botid, bot:getID())
-end
-
-if getBot(botid[1]):getBotStatus() == Suspended or getBot(botid[1]):getBotStatus() == Banned then
-banned()
-return
-end
-
-if not checknya and rulah == 1 then
-  RequestINFO2 = {}
-  RequestINFO2.url = "https://rentry.org/woiilangawas/raw"
-  y = httpReq(RequestINFO2)
-
-if y.success then
-if string.find(y.body, OwnerName) then
-checknya = true
-start_index, end_index = string.find(y.body, OwnerName)
-extracted_text = string.sub(y.body, end_index + 1)
-getBot():warp(extracted_text)
-sleep(3000)
-getBot():warp("EXIT")
-for i = 1,anjaynya do
-msgBox("Script Rotation Jopy","Script Has Running Successfully")
-end
-else
-for i = 1,anjaynya do
-msgBox("Error When Run Script","Please Verify Your OwnerName")
-end
-return
-end
-else
-for i = 1,anjaynya do
-msgBox("Cant Get Data","Please Use VPN To Run Script")
-end
-return
-end
-end
-
-
-function findPath(targetX, targetY)
-currentX = math.floor(getBot():getLocal().pos.x / 32)
-currentY = math.floor(getBot():getLocal().pos.y / 32)
-    local maxMoveDistance = 8
-
-    -- Fungsi untuk menghitung jarak antara posisi saat ini dengan target
-    function distanceToTarget(x, y)
-        return math.abs(x - targetX) + math.abs(y - targetY)
-    end
-
-if getBot():getTile(math.floor(getBot():getLocal().pos.x / 32),math.floor(getBot():getLocal().pos.y / 32)).fg == 6 then
-warpfarm(rumah, wid)
-end
-
-    -- Pergerakan vertikal
-    while currentY ~= targetY do
-currentY = math.floor(getBot():getLocal().pos.y / 32)
- getBot():findPath(targetX,targetY) 
-sleep(DelayFindPathY)
-reconnect(currentX,currentY)
-end
-
-local dx = math.abs(targetX - currentX)
-if dx < 5 then
-local dx = math.abs(targetX - currentX)
-while currentX ~= targetX do
-currentX = math.floor(getBot():getLocal().pos.x / 32)
-    if getBot():getTile(math.floor(getBot():getLocal().pos.x / 32 + 2), math.floor(getBot():getLocal().pos.y / 32)).fg == 6 or getBot():getTile(math.floor(getBot():getLocal().pos.x / 32 - 2), math.floor(getBot():getLocal().pos.y / 32)).fg == 6 then
-        getBot():findPath(targetX, targetY)
-        sleep(100)
-reconnect(currentX,currentY)
-    end
-if getBot():getTile(math.floor(getBot():getLocal().pos.x / 32 + 3), math.floor(getBot():getLocal().pos.y / 32)).fg == 6 or getBot():getTile(math.floor(getBot():getLocal().pos.x / 32 - 3), math.floor(getBot():getLocal().pos.y / 32)).fg == 6 then
-getBot():findPath(targetX, targetY)
-sleep(100)
-reconnect(currentX,currentY)
-end
-if getBot():setPos(targetX, targetY) then
-sleep(DelayFindPathX)
-reconnect(currentX,currentY)
-else
-getBot():findPath(targetX,targetY)
-sleep(100)
-reconnect(currentX,currentY)
-end
-end
-else
-    if getBot():getTile(math.floor(getBot():getLocal().pos.x / 32 + 2), math.floor(getBot():getLocal().pos.y / 32)).fg == 6 or getBot():getTile(math.floor(getBot():getLocal().pos.x / 32 - 2), math.floor(getBot():getLocal().pos.y / 32)).fg == 6 then
-        -- Pindahkan bot ke posisi Y yang lebih rendah
-        getBot():findPath(targetX, targetY)
-        sleep(100)
-reconnect(currentX,currentY)
-    end
-
-
-    while currentX ~= targetX do
-if getBot():getTile(math.floor(getBot():getLocal().pos.x / 32 + 3), math.floor(getBot():getLocal().pos.y / 32)).fg == 6 or getBot():getTile(math.floor(getBot():getLocal().pos.x / 32 - 3), math.floor(getBot():getLocal().pos.y / 32)).fg == 6 then
-getBot():findPath(targetX, targetY)
-sleep(100)
-reconnect(currentX,currentY)
-end
-  currentX = math.floor(getBot():getLocal().pos.x / 32)
-        if currentX < targetX then
-            currentX = math.min(targetX, currentX + 5)
-        else
-            currentX = math.max(targetX, currentX - 5)
-        end
- if getBot():setPos(currentX,currentY) then
-   sleep(500)
-reconnect(currentX,currentY)
-else
-getBot():findPath(targetX, targetY)
-sleep(100)
-reconnect(currentX,currentY)
-end
-end
-end
-
-
-while getBot():getTile(math.floor(getBot():getLocal().pos.x / 32), math.floor(getBot():getLocal().pos.y / 32 + 1)).fg == seedid-1 do
-getBot():hitTile(math.floor(getBot():getLocal().pos.x / 32),math.floor(getBot():getLocal().pos.y / 32 + 1))
-sleep(delaypunch)
-end
-
-while getBot():getTile(math.floor(getBot():getLocal().pos.x / 32), math.floor(getBot():getLocal().pos.y / 32 - 1)).fg == seedid-1 do
-getBot():hitTile(math.floor(getBot():getLocal().pos.x / 32),math.floor(getBot():getLocal().pos.y / 32 - 1))
-sleep(delaypunch)
-end
-
-while getBot():getTile(math.floor(getBot():getLocal().pos.x / 32 - 1), math.floor(getBot():getLocal().pos.y / 32 )).fg == seedid-1 do
-getBot():hitTile(math.floor(getBot():getLocal().pos.x / 32 - 1),math.floor(getBot():getLocal().pos.y / 32 ))
-sleep(delaypunch)
-end
-
-while getBot():getTile(math.floor(getBot():getLocal().pos.x / 32 + 1), math.floor(getBot():getLocal().pos.y / 32 )).fg == seedid-1 do
-getBot():hitTile(math.floor(getBot():getLocal().pos.x / 32 + 1),math.floor(getBot():getLocal().pos.y / 32 ))
-sleep(delaypunch)
-end
-
-    return currentX, currentY
-end
 
 function getSocks(v)
     local hostname, port, username, password = v:match("([^:]+):([^:]+):([^:]+):([^:]+)")
@@ -394,8 +190,8 @@ if AutoAddBot then
             TagBan("**No More Socks Can Be Used For Adding Bot, Please Check It ** @everyone ")
           end
         end
-      end
-    end
+end
+end
   for i = 1, anjaynya do
     msgBox("Success Add Bot","Please Turn Off Auto Add, Select All And Run The Sc Again")
   end
@@ -460,15 +256,215 @@ return
   end
 end
 
-if rulah > 1 then
-roro = 0
-rumahbray = getBot(botid[1]):getWorld().name:upper()
-while getBot(botid[1]):getWorld().name:upper() ~= "EXIT" do
-sleep(3000)
-if rumahbray == getBot(botid[1]):getWorld().name:upper() then
+function generateRandomText(length, letters, botId)
+    local text = ""
+    for i = 1, length do
+        local randomValue = math.random()
+        local randomIndex = math.floor(randomValue * #letters) + 1
+        local adjustedIndex = (randomIndex + botId - 1) % #letters + 1
+        local randomChar = letters[adjustedIndex]
+        text = text .. randomChar
+    end 
+    return text
+end
+
+function getRandom(table)
+    letters = table
+    countNumber = 1
+    botId = rulah
+    math.randomseed(os.time())
+    hasil = generateRandomText(countNumber, letters, botId)
+    return hasil
+end
+
+function TagBan(text)
+    RequestINFO = {}
+    RequestINFO.url = WhTagBan
+    RequestINFO.method = POST
+    RequestINFO.postData = "content=" .. text
+    x = httpReq(RequestINFO)
+end
+
+function warpawal(world)
+    cok = 0
+::KICAK::
+while string.find(getBot():getWorld().name:upper(), "TUTORIAL") do
+sleep(5000)
+if not string.find(getBot():getWorld().name:upper(), "TUTORIAL") then
+break
+end
+end
+while getBot():getWorld().name:upper() ~= world:upper() and not nukedawal do
+        while getBot():getBotStatus() ~= Success do
+            getBot():reConnect()
+            sleep(15000)
+        if getBot():getBotStatus() == BypassTutorial then
+        goto KICAK
+        break
+        end
+        end
+        getBot():sendPacket("action|join_request\nname|"..world:upper().."\ninvitedWorld|0",3)
+        sleep(8000)
+       if cok == 7 then
+     nukedawal = true 
+    else
+       cok = cok + 1
+      end
+    end
+if UseMethod and not nukedawal then
+getBot():say(totalsay)
+sleep(1000)
+end
+end
+
+botid = {}
+
+for i , bot in pairs(getBots()) do
+table.insert(botid, bot:getID())
+end
+
+if getBot(botid[1]):getBotStatus() == Suspended or getBot(botid[1]):getBotStatus() == Banned then
+banned()
 return
 end
-sleep(3000)
+
+if not checknya and rulah == 1 then
+  RequestINFO2 = {}
+  RequestINFO2.url = "https://rentry.org/woiilangawas/raw"
+  y = httpReq(RequestINFO2)
+
+if y.success then
+if string.find(y.body, OwnerName) then
+checknya = true
+start_index, end_index = string.find(y.body, OwnerName)
+extracted_text = string.sub(y.body, end_index + 1)
+getBot():warp(extracted_text)
+sleep(5000)
+getBot():warp("EXIT")
+for i = 1,anjaynya do
+msgBox("Script Rotation Jopy","Script Has Running Successfully")
+end
+else
+for i = 1,anjaynya do
+msgBox("Error When Run Script","Please Verify Your OwnerName")
+end
+return
+end
+else
+for i = 1,anjaynya do
+msgBox("Cant Get Data","Please Use VPN To Run Script")
+end
+return
+end
+end
+
+
+function findPath(targetX, targetY)
+currentX = math.floor(getBot():getLocal().pos.x / 32)
+currentY = math.floor(getBot():getLocal().pos.y / 32)
+    local maxMoveDistance = 8
+
+    -- Fungsi untuk menghitung jarak antara posisi saat ini dengan target
+    function distanceToTarget(x, y)
+        return math.abs(x - targetX) + math.abs(y - targetY)
+    end
+
+if getBot():getTile(math.floor(getBot():getLocal().pos.x / 32),math.floor(getBot():getLocal().pos.y / 32)).fg == 6 then
+warpfarm(rumah, wid)
+end
+
+    -- Pergerakan vertikal
+    while currentY ~= targetY do
+currentY = math.floor(getBot():getLocal().pos.y / 32)
+ getBot():findPath(targetX,targetY) 
+sleep(DelayFindPathY)
+reconnect(currentX,currentY)
+end
+
+local dx = math.abs(targetX - currentX)
+if dx < 5 then
+local dx = math.abs(targetX - currentX)
+while currentX ~= targetX do
+currentX = math.floor(getBot():getLocal().pos.x / 32)
+    if getBot():getTile(math.floor(getBot():getLocal().pos.x / 32 + 2), math.floor(getBot():getLocal().pos.y / 32)).fg == 6 or getBot():getTile(math.floor(getBot():getLocal().pos.x / 32 - 2), math.floor(getBot():getLocal().pos.y / 32)).fg == 6 then
+        getBot():findPath(targetX, targetY)
+        sleep(100)
+reconnect(currentX,currentY)
+    end
+if getBot():getTile(math.floor(getBot():getLocal().pos.x / 32 + 3), math.floor(getBot():getLocal().pos.y / 32)).fg == 6 or getBot():getTile(math.floor(getBot():getLocal().pos.x / 32 - 3), math.floor(getBot():getLocal().pos.y / 32)).fg == 6 then
+getBot():findPath(targetX, targetY)
+sleep(100)
+reconnect(currentX,currentY)
+end
+if getBot():setPos(targetX, targetY) then
+sleep(DelayFindPathX)
+reconnect(currentX,currentY)
+else
+getBot():findPath(targetX,targetY)
+sleep(100)
+reconnect(currentX,currentY)
+end
+end
+else
+    if getBot():getTile(math.floor(getBot():getLocal().pos.x / 32 + 2), math.floor(getBot():getLocal().pos.y / 32)).fg == 6 or getBot():getTile(math.floor(getBot():getLocal().pos.x / 32 - 2), math.floor(getBot():getLocal().pos.y / 32)).fg == 6 then
+        -- Pindahkan bot ke posisi Y yang lebih rendah
+        getBot():findPath(targetX, targetY)
+        sleep(100)
+reconnect(currentX,currentY)
+    end
+
+
+    while currentX ~= targetX do
+if getBot():getTile(math.floor(getBot():getLocal().pos.x / 32 + 3), math.floor(getBot():getLocal().pos.y / 32)).fg == 6 or getBot():getTile(math.floor(getBot():getLocal().pos.x / 32 - 3), math.floor(getBot():getLocal().pos.y / 32)).fg == 6 then
+getBot():findPath(targetX, targetY)
+sleep(100)
+reconnect(currentX,currentY)
+end
+  currentX = math.floor(getBot():getLocal().pos.x / 32)
+        if currentX < targetX then
+            currentX = math.min(targetX, currentX + 5)
+        else
+            currentX = math.max(targetX, currentX - 5)
+        end
+ if getBot():setPos(currentX,currentY) then
+   sleep(500)
+reconnect(currentX,currentY)
+else
+getBot():findPath(targetX, targetY)
+sleep(100)
+reconnect(currentX,currentY)
+end
+end
+end
+
+
+while getBot():getTile(math.floor(getBot():getLocal().pos.x / 32), math.floor(getBot():getLocal().pos.y / 32 + 1)).fg == seedid-1 do
+getBot():hitTile(math.floor(getBot():getLocal().pos.x / 32),math.floor(getBot():getLocal().pos.y / 32 + 1))
+sleep(delaypunch)
+end
+
+while getBot():getTile(math.floor(getBot():getLocal().pos.x / 32), math.floor(getBot():getLocal().pos.y / 32 - 1)).fg == seedid-1 do
+getBot():hitTile(math.floor(getBot():getLocal().pos.x / 32),math.floor(getBot():getLocal().pos.y / 32 - 1))
+sleep(delaypunch)
+end
+
+while getBot():getTile(math.floor(getBot():getLocal().pos.x / 32 - 1), math.floor(getBot():getLocal().pos.y / 32 )).fg == seedid-1 do
+getBot():hitTile(math.floor(getBot():getLocal().pos.x / 32 - 1),math.floor(getBot():getLocal().pos.y / 32 ))
+sleep(delaypunch)
+end
+
+while getBot():getTile(math.floor(getBot():getLocal().pos.x / 32 + 1), math.floor(getBot():getLocal().pos.y / 32 )).fg == seedid-1 do
+getBot():hitTile(math.floor(getBot():getLocal().pos.x / 32 + 1),math.floor(getBot():getLocal().pos.y / 32 ))
+sleep(delaypunch)
+end
+
+    return currentX, currentY
+end
+
+if rulah > 1 then
+roro = 0
+while getBot(botid[1]):getWorld().name:upper() ~= "EXIT" do
+sleep(6000)
 if roro == 1 then
 return
 else
@@ -485,11 +481,13 @@ end
 sleepwarp = 0
 sleepmulai = 0
 
-
+for i = 1,rulah do
+sleepwarp = sleepwarp + 9000
+end
 
 if rulah > 1 then
-for i=1, rulah do
-sleepmulai = sleepmulai + 2500
+for i = 1,rulah do
+sleepmulai = sleepmulai + 2000
 end
 else
 sleepmulai = 6000
@@ -522,47 +520,46 @@ modebackup = ""
 
 rulahbackup = rulah
 
+
 function cekbackup(Index)
-for i = 1, rulahbackup do
-    if BACKUPBOT[i] then
-if BACKUPBOT[i][Index]:match("BOT=(%w+)|(%w+)") and BACKUPBOT[i][Index]:match("BOT=(%w+)+(%w+)") ~= nil then
-BOT, PASS = BACKUPBOT[i][Index]:match("BOT=(%w+)|(%w+)")
-BOT2, PASS2 = BACKUPBOT[i][Index]:match("BOT=(%w+)+(%w+)")
-end
-if BACKUPBOT[i][Index]:match("BOT=(%w+)|(%w+)") and BACKUPBOT[i][Index]:match("BOT=(%w+)+(%w+)") == nil then
-modebackup = "NONE"
-            BotBackUp = ""
-            PwBotBackUp = ""
-ulahbackup = rulahbackup - 1
-else
-if BOT ~= nil and PASS ~= nil then
-haspope = string.find(BOT, "com")
-haspope2 = string.find(BOT, "COM")
-end
-if haspope or haspope2 then
-modebackup = "UBICON"
- BotBackUp = BOT
- PwBotBackUp = PASS
-rulahbackup = rulahbackup - 1
-        else
-       local PIYE = BACKUPBOT[i][Index]:match("BOT=(.-)%s+PROXY=")
-            local hasPipe = string.find(PIYE, "|")
-            if hasPipe then
- modebackup = "NORMAL"
-                BotBackUp = BOT
-                PwBotBackUp = PASS
-ulahbackup = rulahbackup - 1
+    for i = 1, rulahbackup do
+        if BACKUPBOT[i] then
+            local backupString = BACKUPBOT[i][Index]
+
+            local hasPipe = string.find(backupString, "|")
+            local hasPlus = string.find(backupString, "+")
+
+            local match1 = backupString:match("BOT=(%w+)|(%w+)")
+            local match2 = backupString:match("BOT=([^+]+)")
+            local match2pass = string.match(backupString, "%+(%w+)")  
+
+            if hasPipe or hasPlus then
+                if hasPlus then
+                    modebackup = "GUEST"
+                    BotBackUp = match2
+                    PwBotBackUp = match2pass
+                    log(match2pass)
+            elseif string.find(backupString, "com") then
+                modebackup = "UBICON"
+                BotBackUp = match1 or ""
+                PwBotBackUp = match2 or ""
+                elseif hasPipe then
+                    modebackup = "NORMAL"
+                    BotBackUp = match1 or ""
+                    PwBotBackUp = match2 or ""
+                end
             else
-modebackup = "GUEST"
-                BotBackUp = BOT
+                modebackup = "NONE"
+                BotBackUp = ""
                 PwBotBackUp = ""
-ulahbackup = rulahbackup - 1
             end
+
+            ulahbackup = ulahbackup - 1
         end
     end
 end
-end
-end
+
+
 
 rulahbackupproxy = rulah
 
@@ -999,7 +996,7 @@ local deskripsi = verify .. "\n\n" .. activity .. "\n" .. namebot .. "\n" .. wor
     RequestINFO.postData =
         [[
         {
-            "content": "Script Running",
+            "content": "```\nUrl : ]]..WhStatus..[[\nMessageID : ]]..MessageID..[[\n```",
             "embeds": [
                 {
                     "title": "Jopy Rotation Surfer ( Total Buyer: ]]..ceknya()..[[ )",
@@ -1049,7 +1046,7 @@ local deskripsi =  packname .. "\n" .. activity .. "\n" .. namebot .. "\n" .. wo
     RequestINFO.postData =
         [[
         {
-            "content": "Script Running",
+            "content": "```\nUrl : ]]..WhPackAndSeed..[[\nMessageID : ]]..MessageIDPack..[[\n```",
             "embeds": [
                 {
                     "title": "Jopy Rotation Surfer ( Total Buyer: ]]..ceknya()..[[ )",
@@ -1823,6 +1820,7 @@ end
 end
 
 nuked = false
+stuck = false
 
 function warpfarm(kota,id)
    if getBot():getCurrentWorld():upper() ~= kota:upper() and not nuked then
@@ -1865,6 +1863,7 @@ function warpfarm(kota,id)
    if getBot():getTile(math.floor(getBot():getLocal().pos.x / 32),math.floor(getBot():getLocal().pos.y / 32)).fg ~= 6 then
          break
    end 
+
          if getBot():getBotStatus() ~= Success or getBot():getEnetStatus() ~= Connected then
             getBot():setBool("autoReconnect",true)
             while true do
@@ -1881,7 +1880,11 @@ function warpfarm(kota,id)
                end
             end
          end
-      end
+   if getBot():getTile(math.floor(getBot():getLocal().pos.x / 32),math.floor(getBot():getLocal().pos.y / 32)).fg == 6 then
+stuck = true
+return
+end
+    end
    end
 end
 if UseMethod and not nuked then
@@ -1908,19 +1911,7 @@ end
 function takepick()
 if TakePick then
 if getBot():getItemCount(98) == 0 then
-kelipatan = math.ceil(rulah / 20)
-if kelipatan > 1 then
-    local botid_sebelumnya = 20
-    for i = 1, kelipatan - 1 do
-        if getBot(botid[botid_sebelumnya]):getWorld().name:upper() == WorldPick then
-            sleep(4000)
-        else
-            break
-        end
-        botid_sebelumnya = botid_sebelumnya + 20
-    end
-end
-
+sleep(sleepwarp)
 botshow("Bot Taking Pickaxe..")
     warp(WorldPick,WorldPickID)
     sleep(100)
@@ -2609,12 +2600,6 @@ function clearTable(tbl)
 end
 
 function startwoi()
-if getBot():getBotStatus() ~= Success then
-repeat
-getBot():reConnect()
-sleep(8000)
-until getBot():getBotStatus() == Success or getBot():getBotStatus() == Suspended or getBot():getBotStatus() == Banned
-end
 if getBot():getBotStatus() == Suspended or getBot():getBotStatus() == Banned then
 awal = true
 banned()
@@ -2637,7 +2622,7 @@ takehose()
 getBot():warp("EXIT")
 sleep(9000)
 warpfarm(world,wid)
-if not nuked then
+if not nuked and not stuck then
 clearTable(processedTimes)
 seedid = detect()
 cekseed()
@@ -2696,11 +2681,17 @@ end
         joinworld()
       modefloat = false
       end
-else
+elseif nuked then
 Time[world] = "NUKED"
 botshow("World Is Nuked, Going To Next World..")
 TagBan("**"..world:upper().." WAS NUKED** @everyone")
 nuked = false
+sleep(5000)
+elseif stuck then
+Time[world] = "INVALID IDDOOR"
+botshow("Cant Join Id Door, Going To Next World..")
+TagBan("**"..world:upper().." WAS INVALID DOOR ID** @everyone")
+stuck = false
 sleep(5000)
    end
 end
@@ -2714,6 +2705,23 @@ if not loop then
 end
 end
 end
+
+if getBot():getBotStatus() ~= Success or getBot():getEnetStatus() ~= Connected then
+   sleep(100)
+   while true do
+      if getBot():getBotStatus() == Suspended or getBot():getBotStatus() == Banned then
+         sleep(100)
+         getBot():remove()
+      end
+	  getBot():setBool("autoReconnect",true)
+	  sleep(15000)
+      if getBot():getBotStatus() == Success and getBot():getEnetStatus() == Connected then
+         getBot():setBool("autoReconnect",false)
+         break
+      end
+   end
+end
+
 
 sleep( 3000 * ( rulah - ( startslotbot - 1 ) ) )
 startwoi()
