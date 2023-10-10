@@ -462,14 +462,13 @@ end
 end
 
 if rulah > 1 then
-roro = 0
+rumahnyabre = getBot(botid[1]):getWorld().name:upper()
 while getBot(botid[1]):getWorld().name:upper() ~= "EXIT" do
-sleep(6000)
-if roro == 1 then
-return
-else
-roro = roro + 1
+sleep(3000)
+if rumahnyabre == getBot(botid[1]):getWorld().name:upper() then
+break
 end
+sleep(3000)
 if getBot(botid[1]):getWorld().name:upper() == "EXIT" then
 break
 end
@@ -483,14 +482,6 @@ sleepmulai = 0
 
 for i = 1,rulah do
 sleepwarp = sleepwarp + 9000
-end
-
-if rulah > 1 then
-for i = 1,rulah do
-sleepmulai = sleepmulai + 2000
-end
-else
-sleepmulai = 6000
 end
 
 urutanbot = rulah * MaxWorldPerBot
