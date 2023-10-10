@@ -2715,5 +2715,5 @@ end
 end
 end
 
-sleep(sleepmulai)
+sleep( 3000 * ( rulah - ( startslotbot - 1 ) ) )
 startwoi()
