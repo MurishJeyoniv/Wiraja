@@ -1902,7 +1902,21 @@ end
 function takepick()
 if TakePick then
 if getBot():getItemCount(98) == 0 then
-sleep(sleepwarp)
+kelipatan = math.ceil(rulah / 20)
+
+if kelipatan > 1 then
+    local botid_sebelumnya = 20
+    for i = 1, kelipatan - 1 do
+        if getBot(botid[botid_sebelumnya]):getWorld().name:upper() == WorldPick then
+            sleep(4000)
+        else
+            break
+        end
+        botid_sebelumnya = botid_sebelumnya + 20
+    end
+end
+
+
 botshow("Bot Taking Pickaxe..")
     warp(WorldPick,WorldPickID)
     sleep(100)
