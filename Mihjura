@@ -517,8 +517,16 @@ function cekbackup(Index)
         if BACKUPBOT[i] then
             local backupString = BACKUPBOT[i][Index]
 
-            local hasPipe = string.find(backupString, "|")
-            local hasPlus = string.find(backupString, "+")
+            local hasPipe 
+            local hasPlus
+
+            if string.find(backupString, "|") then
+            hasPipe = string.find(backupString, "|")
+            end
+         
+            if string.find(backupString, "+") then
+            hasPlus = string.find(backupString, "+")
+            end
 
             local match1 = backupString:match("BOT=(%w+)|(%w+)")
             local match2 = backupString:match("BOT=([^+]+)")
