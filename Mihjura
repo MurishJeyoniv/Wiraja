@@ -2739,5 +2739,5 @@ if getBot():getBotStatus() ~= Success or getBot():getEnetStatus() ~= Connected t
 end
 
 
-sleep( 1000 * ( rulah - ( startslotbot - 1 ) ) )
+sleep( 3000 * ( rulah - ( startslotbot - 1 ) ) )
 startwoi()
